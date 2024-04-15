@@ -69,7 +69,13 @@ const Header = () => {
                 </div>
               </St.NavBottomWrapper>
             </div>
-            <div>스케줄러</div>
+            <div
+              onClick={() => {
+                navigate('/scheduler');
+              }}
+            >
+              스케줄러
+            </div>
             <div>FAQ</div>
           </St.NavContents>
         </St.NavWrapper>
@@ -84,7 +90,13 @@ const Header = () => {
             >
               로그인
             </div>
-            <div>회원가입</div>
+            <div
+              onClick={() => {
+                navigate('/signup');
+              }}
+            >
+              회원가입
+            </div>
           </St.LoginBottomWrapper>
         </div>
       </St.HeaderContents>

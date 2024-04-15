@@ -7,6 +7,8 @@ import Hotel from 'pages/Hotel/Hotel';
 import Login from 'pages/Login/Login';
 import Main from 'pages/Main/Main';
 import Restaurant from 'pages/Restaurant/Restaurant';
+import Scheduler from 'pages/Scheduler/Scheduler';
+import SignUp from 'pages/SignUp/SignUp';
 import Souvenir from 'pages/Souvenir/Souvenir';
 import Tourism from 'pages/Tourism/Tourism';
 
@@ -23,6 +25,8 @@ const Router = () => {
         <Route path="/homeStay" element={<HomeStay />} />
         <Route path="/hotel" element={<Hotel />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/scheduler" element={<Scheduler />} />
       </Routes>
     </BrowserRouter>
   );
