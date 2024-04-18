@@ -1,4 +1,5 @@
 import React from 'react';
+import * as St from './style';
 
 const SearchCard = () => {
   const defaultValue = [
@@ -28,21 +29,21 @@ const SearchCard = () => {
     },
   ];
   return (
-    <div>
+    <St.SearchCardWrapper>
       {defaultValue.slice(0, 3).map((value, index) => (
-        <div key={index}>
-          <div>{value.title}</div>
-          <div>
-            <div>{value.time}</div>
-            <div>{value.lang}</div>
-            <div>{value.address}</div>
-            <div>{value.phone}</div>
+        <St.SearchInnerWrapper key={index}>
+          <div className="DataTitle">{value.title}</div>
+          <div className="DataContent">
+            <li>{value.time}</li>
+            <li>{value.lang}</li>
+            <li>{value.address}</li>
+            <li>{value.phone}</li>
           </div>
-          <div>{value.url}</div>
+          <St.LinkBtn>홈페이지 바로가기</St.LinkBtn>
           {/* <div><a href=`${value.url}`>홈페이지 바로가기</a></div> */}
-        </div>
+        </St.SearchInnerWrapper>
       ))}
-    </div>
+    </St.SearchCardWrapper>
   );
 };
 
