@@ -2,7 +2,7 @@ import React from 'react';
 import { GoTriangleLeft, GoTriangleRight } from 'react-icons/go';
 import * as St from './style';
 
-const CardList = () => {
+const Card = () => {
   const defaultArray = [
     { id: 1 },
     { id: 2 },
@@ -13,7 +13,7 @@ const CardList = () => {
   ];
   return (
     <St.CardFrame>
-      <GoTriangleLeft size="24" />
+      <GoTriangleLeft size="30" />
       <div className="CardWrapper">
         {defaultArray.slice(0, 3).map((data) => (
           <div key={data.id} className="Card">
@@ -21,9 +21,9 @@ const CardList = () => {
           </div>
         ))}
       </div>
-      <GoTriangleRight size="24" />
+      <GoTriangleRight size="30" />
     </St.CardFrame>
   );
 };
 
-export default CardList;
+export default Card;
