@@ -25,12 +25,12 @@ export const HeaderContents = styled.div`
   justify-content: center;
   width: 95%;
   height: 230px;
+  gap: 100px;
 `;
 export const NavWrapper = styled.nav`
   width: 60%;
   list-style-type: none;
   padding: 0;
-  margin-right: 140px;
 `;
 
 export const NavContents = styled.ul`
