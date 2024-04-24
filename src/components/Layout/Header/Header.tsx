@@ -76,6 +76,13 @@ const Header = () => {
             >
               스케줄러
             </div>
+            <div
+              onClick={() => {
+                navigate('/board');
+              }}
+            >
+              게시판
+            </div>
             <div>FAQ</div>
           </St.NavContents>
         </St.NavWrapper>

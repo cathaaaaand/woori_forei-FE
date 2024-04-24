@@ -1,11 +1,15 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import BestPlace from 'pages/BestPlace/BestPlace';
+import Board from 'pages/Board/Board';
+import Detail from 'pages/Board/Detail/Detail';
+import Write from 'pages/Board/Write/Write';
 import Experience from 'pages/Experience/Experience';
 import HomeStay from 'pages/HomeStay/HomeStay';
 import Hotel from 'pages/Hotel/Hotel';
 import Login from 'pages/Login/Login';
 import Main from 'pages/Main/Main';
+import MyPage from 'pages/MyPage/MyPage';
 import Restaurant from 'pages/Restaurant/Restaurant';
 import Scheduler from 'pages/Scheduler/Scheduler';
 import SignUp from 'pages/SignUp/SignUp';
@@ -27,6 +31,10 @@ const Router = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/scheduler" element={<Scheduler />} />
+        <Route path="/board" element={<Board />} />
+        <Route path="/write" element={<Write />} />
+        <Route path="/detail" element={<Detail />} />
+        <Route path="/mypage" element={<MyPage />} />
       </Routes>
     </BrowserRouter>
   );

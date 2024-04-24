@@ -15,7 +15,6 @@ const Calendar = () => {
   const [date, setDate] = useState<Value>(today);
   const handleDateChange = (newDate: Value) => {
     setDate(newDate);
-    console.log(date);
   };
   const dateString = Array.isArray(date)
     ? date.map((item) => moment(`${item}`).format('YYYY-MM-DD')).join(' ~ ')
