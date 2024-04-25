@@ -83,7 +83,13 @@ const Header = () => {
             >
               게시판
             </div>
-            <div>FAQ</div>
+            <div
+              onClick={() => {
+                navigate('/faq');
+              }}
+            >
+              FAQ
+            </div>
           </St.NavContents>
         </St.NavWrapper>
 
