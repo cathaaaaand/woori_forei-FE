@@ -9,15 +9,6 @@ const FaqWrite = () => {
     imgFile: '',
     createdAt: new Date().toString(),
   };
-  const [defaultValue, setDefaultValue] = useState([
-    {
-      id: 1,
-      title: '안녕하세요~',
-      content: '뉴진스 팬미팅 동행 구합니다!',
-      imgFile: '',
-      createdAt: '24.03.25',
-    },
-  ]);
   const [form, setForm] = useState(initialValue);
   const { title, content, imgFile } = form;
 
@@ -31,8 +22,7 @@ const FaqWrite = () => {
       alert('빈칸을 채워주세요');
       return;
     } else {
-      setDefaultValue((prev) => [...prev, form]);
-      console.log(defaultValue);
+      //      setDefaultValue((prev) => [...prev, form]);
       //alert('등록되었습니다!');
       setForm(initialValue);
       //navigate("/board")
