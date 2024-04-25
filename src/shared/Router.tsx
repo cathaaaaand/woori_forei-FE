@@ -5,6 +5,9 @@ import Board from 'pages/Board/Board';
 import Detail from 'pages/Board/Detail/Detail';
 import Write from 'pages/Board/Write/Write';
 import Experience from 'pages/Experience/Experience';
+import Faq from 'pages/Faq/Faq';
+import FaqDetail from 'pages/Faq/FaqDetail/FaqDetail';
+import FaqWrite from 'pages/Faq/FaqWrite/FaqWrite';
 import HomeStay from 'pages/HomeStay/HomeStay';
 import Hotel from 'pages/Hotel/Hotel';
 import Login from 'pages/Login/Login';
@@ -35,6 +38,9 @@ const Router = () => {
         <Route path="/write" element={<Write />} />
         <Route path="/detail" element={<Detail />} />
         <Route path="/mypage" element={<MyPage />} />
+        <Route path="/faq" element={<Faq />} />
+        <Route path="/faqwrite" element={<FaqWrite />} />
+        <Route path="/faqdetail" element={<FaqDetail />} />
       </Routes>
     </BrowserRouter>
   );
