@@ -70,21 +70,21 @@ const Step = (props: StepPropsStyle) => {
             )}
             <St.CheckBoxGroup>
               <St.CheckBoxFrame>
-                <input type="checkbox" />
+                <input id="serviceCheck" type="checkbox" />
                 <p>서비스 약관에 동의합니다.</p>
                 <St.underLign onClick={contentShowHandler}>
                   내용보기
                 </St.underLign>
               </St.CheckBoxFrame>
               <St.CheckBoxFrame>
-                <input type="checkbox" />
+                <input id="infoCheck" type="checkbox" />
                 <p>개인정보 수집 및 이용에 동의합니다.</p>
                 <St.underLign onClick={contentShowHandler}>
                   내용보기
                 </St.underLign>
               </St.CheckBoxFrame>
               <St.CheckBoxFrame>
-                <input type="checkbox" />
+                <input id="locationCheck" type="checkbox" />
                 <p>위치기반서비스 이용약관에 동의합니다.</p>
                 <St.underLign onClick={contentShowHandler}>
                   내용보기

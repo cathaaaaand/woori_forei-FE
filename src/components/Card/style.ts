@@ -67,3 +67,15 @@ export const LinkBtn = styled.button`
   border: none;
   font-size: 18pt;
 `;
+export const NavTotalLine = styled.div`
+  width: 867px;
+  height: 1px;
+  border: 1px solid #cecece;
+  border-radius: 0.5px;
+`;
+export const NavMovelLine = styled.div`
+  width: 194px;
+  height: 1px;
+  border: 1px solid black;
+  border-radius: 0.5px;
+`;

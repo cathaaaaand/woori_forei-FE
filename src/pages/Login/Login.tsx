@@ -52,7 +52,7 @@ const Login = () => {
                 <button className="LoginButton">애플로 로그인하기</button>
                 <button className="LoginButton">구글로 로그인하기</button>
                 <St.LoginMaintain>
-                  <input type="checkbox" />
+                  <input id="loginMaintain" type="checkbox" />
                   <p>로그인 상태 유지</p>
                 </St.LoginMaintain>
               </>
@@ -75,7 +75,7 @@ const Login = () => {
                   </St.EmailNPasswordFrame>
                 )}
                 <St.LoginMaintain>
-                  <input type="checkbox" />
+                  <input id="loginMaintainAdmin" type="checkbox" />
                   <p>로그인 상태 유지</p>
                 </St.LoginMaintain>
                 <St.LoginBtn onClick={emailLoginHandler}>로그인</St.LoginBtn>
