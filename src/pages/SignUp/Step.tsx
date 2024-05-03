@@ -1,3 +1,4 @@
+import { useMutation } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import { AiOutlineMail, AiOutlineUnlock } from 'react-icons/ai';
 import { IoIosArrowBack } from 'react-icons/io';
@@ -5,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import Complete from './Complete';
 import Modal from './Modal';
 import * as St from './style';
+import { emailCodeConfirmApi, emailCodeSendApi, signUpApi } from 'api/auth';
 
 interface StepPropsStyle {
   emailBackArrowHandler: () => void;
@@ -13,10 +15,97 @@ interface StepPropsStyle {
 const Step = (props: StepPropsStyle) => {
   const { emailBackArrowHandler, adminShow } = props;
   const navigate = useNavigate();
+  const signUpMutation = useMutation({ mutationFn: signUpApi });
+  const emailSendMutation = useMutation({ mutationFn: emailCodeSendApi });
+  const emailConfirmMutation = useMutation({ mutationFn: emailCodeConfirmApi });
   const [step, setStep] = useState(0);
   const [contentShow, setContentShow] = useState(false);
+  const [verificationCode, setVerificationCode] = useState('');
+  const [agree, setAgree] = useState({
+    isService: false,
+    isPersonal: false,
+    isLocation: false,
+  });
+  const checkOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = e.target;
+    setAgree((prev) => ({
+      ...prev,
+      [name]: checked,
+    }));
+  };
+  const [signUpForm, setSignUpForm] = useState({
+    username: '',
+    nickname: '',
+    email: '',
+    password: '',
+    checkPassword: '',
+    introduction: '',
+    mbti: '',
+    birthday: '',
+    nation: '',
+    image: '',
+    isAgreed: false,
+    isAdmin: false,
+    phoneNumber: '',
+    secretCode: '',
+  });
+  const {
+    username,
+    nickname,
+    email,
+    password,
+    checkPassword,
+    introduction,
+    mbti,
+    birthday,
+    nation,
+    phoneNumber,
+    secretCode,
+  } = signUpForm;
+
+  const EmailSendHandler = () => {
+    emailSendMutation.mutate(
+      { email: email },
+      {
+        onSuccess: (data) => {
+          alert(data.message);
+        },
+        onError: (error) => {
+          alert(error);
+        },
+      },
+    );
+  };
   const nextStepHandler = () => {
-    setStep(step + 1);
+    if (step === 0) {
+      const isAllTrue = Object.values(agree).every((value) => value === true);
+      const isPassword = password === checkPassword;
+      const isStep1 = email && password && isPassword && isAllTrue;
+      const code = process.env.REACT_APP_CODE;
+      if (isStep1 && !adminShow) {
+        setSignUpForm((prev) => ({ ...prev, isAgreed: true }));
+        EmailSendHandler();
+        setStep(1);
+      } else {
+        alert('빈값을 채워주세요!');
+      }
+      if (isStep1 && adminShow) {
+        if (secretCode !== code) {
+          alert('관리자 비밀번호를 다시 입력하세요');
+        } else {
+          setSignUpForm((prev) => ({ ...prev, isAdmin: true }));
+          setStep(step + 1);
+        }
+      }
+    }
+    if (step === 1) {
+      alert('인증을 완료해주세요!');
+    }
+    if (step === 2) {
+      const isStep2 = username && nickname && birthday && nation;
+      if (!isStep2) alert('빈값을 채워주세요!');
+      setStep(3);
+    }
   };
   const beforeStepHandler = () => {
     setStep(step - 1);
@@ -24,15 +113,52 @@ const Step = (props: StepPropsStyle) => {
   const contentShowHandler = () => {
     setContentShow(!contentShow);
   };
-  const EmailAgainHandler = () => {
-    console.log('이메일 인증 다시 받기');
+  const submitBtnHandler = () => {
+    if (step === 3) {
+      console.log(signUpForm);
+      signUpMutation.mutate(signUpForm, {
+        onSuccess: (data) => {
+          console.log(data.message);
+          setStep(4);
+        },
+        onError: (error) => {
+          console.log(error);
+        },
+      });
+    }
+    if (step === 4) {
+      setTimeout(() => {
+        navigate('/');
+      }, 1500);
+    }
   };
 
-  if (step === 4) {
-    setTimeout(() => {
-      navigate('/');
-    }, 1500);
-  }
+  const EmailCodeConfirmHandler = () => {
+    emailConfirmMutation.mutate(
+      {
+        email: email,
+        verificationCode,
+      },
+      {
+        onSuccess: (data) => {
+          alert(data.message);
+          setStep(2);
+        },
+        onError: (error) => {
+          alert(error);
+        },
+      },
+    );
+  };
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setSignUpForm((data) => ({
+      ...data,
+      [name]: value,
+    }));
+  };
+
   return (
     <div>
       {step === 0 && (
@@ -43,48 +169,87 @@ const Step = (props: StepPropsStyle) => {
               회원가입 후 함께 서울시를 즐겨봐요!
             </St.SignUpDescription>
           </St.SignUpDescriptionFrame>
+
           <St.InputFrame>
             <St.InputTitle>이메일 주소</St.InputTitle>
             <St.EmailNPasswordFrame>
               <AiOutlineMail className="SignUpIcon" />
-              <input className="SignUpIput" />
+              <input
+                name="email"
+                className="SignUpIput"
+                value={email}
+                onChange={onChange}
+              />
             </St.EmailNPasswordFrame>
             <St.InputTitle>비밀번호</St.InputTitle>
             <St.EmailNPasswordFrame>
               <AiOutlineUnlock className="SignUpIcon" />
-              <input className="SignUpIput" />
+              <input
+                name="password"
+                className="SignUpIput"
+                value={password}
+                onChange={onChange}
+              />
             </St.EmailNPasswordFrame>
             <St.InputTitle>비밀번호 확인</St.InputTitle>
             <St.EmailNPasswordFrame>
               <AiOutlineUnlock className="SignUpIcon" />
-              <input className="SignUpIput" />
+              <input
+                name="checkPassword"
+                className="SignUpIput"
+                value={checkPassword}
+                onChange={onChange}
+              />
             </St.EmailNPasswordFrame>
             {adminShow && (
               <>
                 <St.InputTitle>관리자 비밀번호</St.InputTitle>
                 <St.EmailNPasswordFrame>
                   <AiOutlineUnlock className="SignUpIcon" />
-                  <input className="SignUpIput" />
+                  <input
+                    name="secretCode"
+                    className="SignUpIput"
+                    value={secretCode}
+                    onChange={onChange}
+                  />
                 </St.EmailNPasswordFrame>
               </>
             )}
             <St.CheckBoxGroup>
               <St.CheckBoxFrame>
-                <input id="serviceCheck" type="checkbox" />
+                <input
+                  id="serviceCheck"
+                  name="isService"
+                  type="checkbox"
+                  checked={agree.isService}
+                  onChange={checkOnChange}
+                />
                 <p>서비스 약관에 동의합니다.</p>
                 <St.underLign onClick={contentShowHandler}>
                   내용보기
                 </St.underLign>
               </St.CheckBoxFrame>
               <St.CheckBoxFrame>
-                <input id="infoCheck" type="checkbox" />
+                <input
+                  id="infoCheck"
+                  name="isPersonal"
+                  type="checkbox"
+                  checked={agree.isPersonal}
+                  onChange={checkOnChange}
+                />
                 <p>개인정보 수집 및 이용에 동의합니다.</p>
                 <St.underLign onClick={contentShowHandler}>
                   내용보기
                 </St.underLign>
               </St.CheckBoxFrame>
               <St.CheckBoxFrame>
-                <input id="locationCheck" type="checkbox" />
+                <input
+                  id="locationCheck"
+                  name="isLocation"
+                  type="checkbox"
+                  checked={agree.isLocation}
+                  onChange={checkOnChange}
+                />
                 <p>위치기반서비스 이용약관에 동의합니다.</p>
                 <St.underLign onClick={contentShowHandler}>
                   내용보기
@@ -102,16 +267,42 @@ const Step = (props: StepPropsStyle) => {
             <St.SignUpDescription>이메일을 인증해주세요.</St.SignUpDescription>
           </div>
           <St.MailContentsFrame>
-            <div>
-              abcd1234@naver.com&#40;으&#41;로 보내드린
-              <br /> 인증 메일을 확인해주세요.
-            </div>
-            <div className="mailAgain">
-              <p>인증 메일을 못 받으셨나요?</p>
-              <p className="mailAgainLink" onClick={EmailAgainHandler}>
-                다시 받기
-              </p>
-            </div>
+            {emailSendMutation.isPending ? (
+              <>
+                메일을 전송중입니다.
+                <div id="loading" />
+              </>
+            ) : (
+              <>
+                <div>
+                  {email}&#40;으&#41;로 보내드린
+                  <br /> 인증 메일을 확인해주세요.
+                </div>
+                {emailSendMutation.isPending ? (
+                  <>
+                    인증코드를 확인중입니다.
+                    <div id="loading" />
+                  </>
+                ) : (
+                  <>
+                    <label>인증코드 입력</label>
+                    <input
+                      value={verificationCode}
+                      onChange={(e) => {
+                        setVerificationCode(e.target.value);
+                      }}
+                    />
+                  </>
+                )}
+                <button onClick={EmailCodeConfirmHandler}>인증</button>
+                <div className="mailAgain">
+                  <p>인증 메일을 못 받으셨나요?</p>
+                  <p className="mailAgainLink" onClick={EmailSendHandler}>
+                    다시 받기
+                  </p>
+                </div>
+              </>
+            )}
           </St.MailContentsFrame>
         </St.Step1Frame>
       )}
@@ -124,17 +315,42 @@ const Step = (props: StepPropsStyle) => {
             </St.SignUpDescription>
           </St.SignUpDescriptionFrame>
           <St.InputFrame style={{ marginBottom: '30px' }}>
+            <St.InputTitle>이름</St.InputTitle>
+            <St.EmailNPasswordFrame>
+              <input
+                className="SignUpIputNIcon"
+                name="username"
+                value={username}
+                onChange={onChange}
+              />
+            </St.EmailNPasswordFrame>
             <St.InputTitle>닉네임</St.InputTitle>
             <St.EmailNPasswordFrame>
-              <input className="SignUpIputNIcon" />
+              <input
+                className="SignUpIputNIcon"
+                name="nickname"
+                value={nickname}
+                onChange={onChange}
+              />
             </St.EmailNPasswordFrame>
             <St.InputTitle>생일</St.InputTitle>
             <St.EmailNPasswordFrame>
-              <input className="SignUpIputNIcon" placeholder="YY/MM/DD" />
+              <input
+                className="SignUpIputNIcon"
+                placeholder="YY/MM/DD"
+                name="birthday"
+                value={birthday}
+                onChange={onChange}
+              />
             </St.EmailNPasswordFrame>
             <St.InputTitle>국가</St.InputTitle>
             <St.EmailNPasswordFrame>
-              <input className="SignUpIputNIcon" />
+              <input
+                className="SignUpIputNIcon"
+                onChange={onChange}
+                name="nation"
+                value={nation}
+              />
             </St.EmailNPasswordFrame>
           </St.InputFrame>
         </div>
@@ -144,26 +360,46 @@ const Step = (props: StepPropsStyle) => {
           <St.SignUpDescriptionFrame>
             <IoIosArrowBack onClick={beforeStepHandler} />
             <St.SignUpDescription style={{ transform: 'translate(40px, 0px)' }}>
-              필수정보를 입력해주세요.
+              추가 정보를 적어주세요.
             </St.SignUpDescription>
           </St.SignUpDescriptionFrame>
           <St.InputFrame style={{ marginBottom: '30px' }}>
+            <St.InputTitle>전화번호</St.InputTitle>
+            <St.EmailNPasswordFrame>
+              <input
+                className="SignUpIputNIcon"
+                name="phoneNumber"
+                value={phoneNumber}
+                onChange={onChange}
+              />
+            </St.EmailNPasswordFrame>
             <St.InputTitle>MBTI</St.InputTitle>
             <St.EmailNPasswordFrame>
-              <input className="SignUpIputNIcon" />
+              <input
+                className="SignUpIputNIcon"
+                name="mbti"
+                value={mbti}
+                onChange={onChange}
+              />
             </St.EmailNPasswordFrame>
             <St.InputTitle>한 줄 자기소개</St.InputTitle>
             <St.EmailNPasswordFrame>
               <input
                 className="SignUpIputNIcon"
                 placeholder="최대 50자까지 입력 가능합니다."
+                name="introduction"
+                value={introduction}
+                onChange={onChange}
               />
             </St.EmailNPasswordFrame>
           </St.InputFrame>
         </div>
       )}
       {step === 4 && <Complete />}
-      {step < 4 && <St.StepBtn onClick={nextStepHandler}>다음</St.StepBtn>}
+      {step < 3 && <St.StepBtn onClick={nextStepHandler}>다음</St.StepBtn>}
+      {step === 3 && (
+        <St.StepBtn onClick={submitBtnHandler}>제출하기</St.StepBtn>
+      )}
     </div>
   );
 };

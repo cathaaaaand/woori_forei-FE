@@ -1,14 +1,39 @@
+import { useMutation } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import { AiOutlineMail, AiOutlineUnlock } from 'react-icons/ai';
+import { CiMail } from 'react-icons/ci';
+import { FaApple } from 'react-icons/fa';
 import { IoIosArrowBack } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
+import google from '../../asset/google.png';
 import * as St from './style';
+import { loginApiFn } from 'api/auth';
 
 const Login = () => {
   const navigate = useNavigate();
+  //const [isGoogle, setIsGoogle] = useState(false);
   const [emailCpShow, setEmailCpShow] = useState(true);
   const [passwordFind, setPasswordFind] = useState(false);
   const [adminShow, setAdminShow] = useState(false);
+  const [loginForm, setLoginForm] = useState({ email: '', password: '' });
+  const [loginMaintain, setLoginMaintain] = useState(false);
+  const { loginApi } = loginApiFn(loginMaintain);
+  const { email, password } = loginForm;
+
+  const mutation = useMutation({
+    mutationFn: loginApi,
+  });
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setLoginForm((data) => ({
+      ...data,
+      [name]: value,
+    }));
+  };
+  const LoginMaintainOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLoginMaintain(e.target.checked);
+  };
   const groupToEmailHandler = () => {
     setEmailCpShow(!emailCpShow);
     setAdminShow(false);
@@ -24,50 +49,99 @@ const Login = () => {
   const passwordFindHandler = () => {
     console.log('비밀번호 재설정 링크 보내기!');
   };
-  const defaultIdValue = [
-    {
-      id: 'loginId',
-      password: 'password',
-    },
-  ];
-  const emailLoginHandler = () => {
-    if (defaultIdValue[0].id) {
-      navigate('/');
-    } else {
-      alert('이메일 및 비밀번호가 유효하지 않습니다!');
-    }
+  const googleLoginHandler = async () => {
+    //https://stonesy927.tistory.com/232
+    // window.location.href =
+    //   'https://accounts.google.com/o/oauth2/auth?' +
+    //   'client_id=654758781605-ee938n9j6j0t2lglg34baoa3iil22e5g.apps.googleusercontent.com&' +
+    //   'redirect_uri=http://localhost:3000/login&' +
+    //   'response_type=token&' +
+    //   'scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile';
+    // const params = new URLSearchParams(window.location.search);
+    // const code = params.get('code');
+    // googleLoginApi(code);
+    //googleLoginApi,
+    //https://accounts.google.com/o/oauth2/v2/auth?client_id=654758781605-ee938n9j6j0t2lglg34baoa3iil22e5g.apps.googleusercontent.com&redirect_uri=https://www.wooriforei.info/api/auth/google-login&response_type=code&scope=email profile&access_type=offline
+    // if (!isError) console.log(data);
+    //setIsGoogle(true);
+    // const res = await axios.get(
+    //   'https://www.wooriforei.info/api/auth/google-login',
+    // );
+    // console.log(res);
+  };
+
+  const emailLoginHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    mutation.mutate(
+      { email: email, password: password },
+      {
+        onSuccess: (data) => {
+          alert(data.message);
+          navigate('/');
+        },
+        onError: (error) => {
+          if (email && password) {
+            alert(error.message);
+          } else {
+            alert('이메일 또는 비밀번호 입력해주세요');
+          }
+        },
+      },
+    );
   };
   return (
     <St.LoginWrapper>
       {!passwordFind && (
         <div className="LoginContents">
-          <div className="LoginTitle">로그인</div>
+          <div className="LoginTitle">
+            <St.Circle />
+            <p> 로그인</p>
+          </div>
           <St.LoginDescription>서울시를 즐겨봐요!</St.LoginDescription>
           <div className="LoginBtnFrame">
             {emailCpShow && (
               <>
                 <button className="LoginButton" onClick={groupToEmailHandler}>
+                  <CiMail size="30" />
                   이메일로 로그인하기
                 </button>
-                <button className="LoginButton">애플로 로그인하기</button>
-                <button className="LoginButton">구글로 로그인하기</button>
-                <St.LoginMaintain>
-                  <input id="loginMaintain" type="checkbox" />
-                  <p>로그인 상태 유지</p>
-                </St.LoginMaintain>
+                <button className="LoginButton">
+                  <FaApple size="35" />
+                  애플로 로그인하기
+                </button>
+                <button className="LoginButton" onClick={googleLoginHandler}>
+                  <img alt="구글로고" src={google} />
+                  구글로 로그인하기
+                </button>
               </>
             )}
             {!emailCpShow && (
               <>
                 <IoIosArrowBack onClick={groupToEmailHandler} />
-                <St.EmailNPasswordFrame>
-                  <AiOutlineMail className="LoginIcon" />
-                  <input className="LoginIput" />
-                </St.EmailNPasswordFrame>
-                <St.EmailNPasswordFrame>
-                  <AiOutlineUnlock className="LoginIcon" />
-                  <input className="LoginIput" />
-                </St.EmailNPasswordFrame>
+                <form id="Login" method="post" onSubmit={emailLoginHandler}>
+                  <St.EmailNPasswordFrame>
+                    <AiOutlineMail className="LoginIcon" />
+                    <input
+                      type="text"
+                      className="LoginIput"
+                      placeholder="email @ email.com"
+                      name="email"
+                      value={email}
+                      onChange={onChange}
+                    />
+                  </St.EmailNPasswordFrame>
+                  <St.EmailNPasswordFrame>
+                    <AiOutlineUnlock className="LoginIcon" />
+                    <input
+                      type="password"
+                      className="LoginIput"
+                      placeholder="password"
+                      name="password"
+                      value={password}
+                      onChange={onChange}
+                    />
+                  </St.EmailNPasswordFrame>
+                </form>
                 {adminShow && (
                   <St.EmailNPasswordFrame>
                     <AiOutlineUnlock className="LoginIcon" />
@@ -75,14 +149,22 @@ const Login = () => {
                   </St.EmailNPasswordFrame>
                 )}
                 <St.LoginMaintain>
-                  <input id="loginMaintainAdmin" type="checkbox" />
+                  <input
+                    id="loginMaintainAdmin"
+                    type="checkbox"
+                    checked={loginMaintain}
+                    onChange={LoginMaintainOnChange}
+                  />
                   <p>로그인 상태 유지</p>
                 </St.LoginMaintain>
-                <St.LoginBtn onClick={emailLoginHandler}>로그인</St.LoginBtn>
+                <St.LoginBtn type="submit" form="Login">
+                  로그인
+                </St.LoginBtn>
               </>
             )}
           </div>
           <St.OtherMenu>
+            <div onClick={loginToAdminHandler}>관리자 로그인</div>|
             <div onClick={passwordFindShow}>비밀번호 찾기</div>|
             <div
               onClick={() => {
@@ -91,7 +173,6 @@ const Login = () => {
             >
               회원가입
             </div>
-            |<div onClick={loginToAdminHandler}>관리자 로그인</div>
           </St.OtherMenu>
         </div>
       )}

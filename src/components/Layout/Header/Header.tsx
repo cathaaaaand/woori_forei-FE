@@ -1,9 +1,23 @@
 import React from 'react';
+import { Cookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import * as St from './style';
+import { loginOutApi } from 'api/auth';
 
 const Header = () => {
   const navigate = useNavigate();
+  const cookies = new Cookies();
+
+  const isLogin = () => {
+    const sessionLogin = sessionStorage.getItem('login');
+    const cookieLogin = cookies.get('login');
+    return sessionLogin || cookieLogin ? true : false;
+  };
+  const logOutHandler = () => {
+    loginOutApi();
+    cookies.remove('login');
+  };
+
   return (
     <St.HeaderWrapper>
       <St.HeaderContents>
@@ -95,22 +109,36 @@ const Header = () => {
 
         <div>
           <div>번역</div>
-          <St.LoginBottomWrapper>
-            <div
-              onClick={() => {
-                navigate('/login');
-              }}
-            >
-              로그인
-            </div>
-            <div
-              onClick={() => {
-                navigate('/signup');
-              }}
-            >
-              회원가입
-            </div>
-          </St.LoginBottomWrapper>
+
+          {!isLogin() ? (
+            <St.LoginBottomWrapper>
+              <div
+                onClick={() => {
+                  navigate('/login');
+                }}
+              >
+                로그인
+              </div>
+              <div
+                onClick={() => {
+                  navigate('/signup');
+                }}
+              >
+                회원가입
+              </div>
+            </St.LoginBottomWrapper>
+          ) : (
+            <St.LoginBottomWrapper>
+              <div onClick={logOutHandler}>로그아웃</div>
+              <div
+                onClick={() => {
+                  console.log('마이페이지');
+                }}
+              >
+                마이페이지
+              </div>
+            </St.LoginBottomWrapper>
+          )}
         </div>
       </St.HeaderContents>
     </St.HeaderWrapper>
