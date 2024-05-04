@@ -11,7 +11,10 @@ import { loginApiFn } from 'api/auth';
 
 const Login = () => {
   const navigate = useNavigate();
-  //const [isGoogle, setIsGoogle] = useState(false);
+  // const { data: googleData } = useQuery({
+  //   queryKey: ['google'],
+  //   queryFn: googleLoginApi,
+  // });
   const [emailCpShow, setEmailCpShow] = useState(true);
   const [passwordFind, setPasswordFind] = useState(false);
   const [adminShow, setAdminShow] = useState(false);
@@ -50,24 +53,19 @@ const Login = () => {
     console.log('비밀번호 재설정 링크 보내기!');
   };
   const googleLoginHandler = async () => {
-    //https://stonesy927.tistory.com/232
-    // window.location.href =
-    //   'https://accounts.google.com/o/oauth2/auth?' +
-    //   'client_id=654758781605-ee938n9j6j0t2lglg34baoa3iil22e5g.apps.googleusercontent.com&' +
-    //   'redirect_uri=http://localhost:3000/login&' +
-    //   'response_type=token&' +
-    //   'scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile';
-    // const params = new URLSearchParams(window.location.search);
-    // const code = params.get('code');
-    // googleLoginApi(code);
-    //googleLoginApi,
+    window.location.href =
+      'https://accounts.google.com/o/oauth2/auth?' +
+      'client_id=654758781605-ee938n9j6j0t2lglg34baoa3iil22e5g.apps.googleusercontent.com&' +
+      'redirect_uri=http://localhost:3000/login&' +
+      'response_type=token&' +
+      'scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile';
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get('token');
+    console.log(code);
+    //await googleLoginApi();
     //https://accounts.google.com/o/oauth2/v2/auth?client_id=654758781605-ee938n9j6j0t2lglg34baoa3iil22e5g.apps.googleusercontent.com&redirect_uri=https://www.wooriforei.info/api/auth/google-login&response_type=code&scope=email profile&access_type=offline
     // if (!isError) console.log(data);
     //setIsGoogle(true);
-    // const res = await axios.get(
-    //   'https://www.wooriforei.info/api/auth/google-login',
-    // );
-    // console.log(res);
   };
 
   const emailLoginHandler = (e: React.FormEvent<HTMLFormElement>) => {
@@ -145,7 +143,13 @@ const Login = () => {
                 {adminShow && (
                   <St.EmailNPasswordFrame>
                     <AiOutlineUnlock className="LoginIcon" />
-                    <input className="LoginIput" placeholder="관리자 암호" />
+                    <input
+                      name="admin"
+                      className="LoginIput"
+                      placeholder="관리자 암호"
+                      // value={admin}
+                      // onChange={onChange}
+                    />
                   </St.EmailNPasswordFrame>
                 )}
                 <St.LoginMaintain>

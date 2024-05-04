@@ -46,7 +46,6 @@ const Step = (props: StepPropsStyle) => {
     image: '',
     isAgreed: false,
     isAdmin: false,
-    phoneNumber: '',
     secretCode: '',
   });
   const {
@@ -59,7 +58,6 @@ const Step = (props: StepPropsStyle) => {
     mbti,
     birthday,
     nation,
-    phoneNumber,
     secretCode,
   } = signUpForm;
 
@@ -82,20 +80,17 @@ const Step = (props: StepPropsStyle) => {
       const isPassword = password === checkPassword;
       const isStep1 = email && password && isPassword && isAllTrue;
       const code = process.env.REACT_APP_CODE;
-      if (isStep1 && !adminShow) {
-        setSignUpForm((prev) => ({ ...prev, isAgreed: true }));
-        EmailSendHandler();
-        setStep(1);
-      } else {
-        alert('빈값을 채워주세요!');
-      }
-      if (isStep1 && adminShow) {
-        if (secretCode !== code) {
+      if (isStep1) {
+        if (adminShow && secretCode !== code) {
           alert('관리자 비밀번호를 다시 입력하세요');
         } else {
-          setSignUpForm((prev) => ({ ...prev, isAdmin: true }));
-          setStep(step + 1);
+          setSignUpForm((prev) => ({ ...prev, isAdmin: adminShow }));
+          setSignUpForm((prev) => ({ ...prev, isAgreed: true }));
+          EmailSendHandler();
+          setStep(1);
         }
+      } else {
+        alert('빈값을 채워주세요!');
       }
     }
     if (step === 1) {
@@ -118,18 +113,32 @@ const Step = (props: StepPropsStyle) => {
       console.log(signUpForm);
       signUpMutation.mutate(signUpForm, {
         onSuccess: (data) => {
-          console.log(data.message);
+          alert(data.message);
           setStep(4);
+          setTimeout(() => {
+            navigate('/');
+          }, 1500);
         },
         onError: (error) => {
-          console.log(error);
+          alert(error);
         },
       });
-    }
-    if (step === 4) {
-      setTimeout(() => {
-        navigate('/');
-      }, 1500);
+      setSignUpForm({
+        username: '',
+        nickname: '',
+        email: '',
+        password: '',
+        checkPassword: '',
+        introduction: '',
+        mbti: '',
+        birthday: '',
+        nation: '',
+        image: '',
+        isAgreed: false,
+        isAdmin: false,
+        secretCode: '',
+      });
+      setVerificationCode('');
     }
   };
 
@@ -364,15 +373,6 @@ const Step = (props: StepPropsStyle) => {
             </St.SignUpDescription>
           </St.SignUpDescriptionFrame>
           <St.InputFrame style={{ marginBottom: '30px' }}>
-            <St.InputTitle>전화번호</St.InputTitle>
-            <St.EmailNPasswordFrame>
-              <input
-                className="SignUpIputNIcon"
-                name="phoneNumber"
-                value={phoneNumber}
-                onChange={onChange}
-              />
-            </St.EmailNPasswordFrame>
             <St.InputTitle>MBTI</St.InputTitle>
             <St.EmailNPasswordFrame>
               <input

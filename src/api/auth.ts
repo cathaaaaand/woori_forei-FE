@@ -18,8 +18,7 @@ interface SignUpType {
   image: string;
   isAgreed: boolean;
   isAdmin: boolean;
-  phoneNumber: string;
-  secretCode?: string;
+  secretCode: string;
 }
 interface EmailCodeSendType {
   email: string;
@@ -45,6 +44,7 @@ export const loginApiFn = (LoginMainTain: boolean) => {
             })
           : sessionStorage.setItem('login', accessToken);
         axios.defaults.headers.common['Authorization'] = `${accessToken}`;
+        //get 요청마다 담아보내는 것.
       }
       return res.data;
     } catch (error) {
@@ -79,7 +79,6 @@ export const googleLoginApi = async () => {
   try {
     const res = await axios.get('/api/auth/google-login');
     console.log(res);
-    return res;
   } catch (error) {
     const axiosError = error as AxiosError;
     throw axiosError.response?.data;
@@ -88,8 +87,10 @@ export const googleLoginApi = async () => {
 export const signUpApi = async (SignUp: SignUpType) => {
   try {
     const res = await axios.post('/api/auth/signup', SignUp);
-    if (res.status === 200) return res.data;
+    console.log(res);
+    return res.data;
   } catch (error) {
+    console.log(error);
     const axiosError = error as AxiosError;
     throw axiosError.response?.data;
   }

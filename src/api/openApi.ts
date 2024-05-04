@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 export const informationApi = async () => {
   try {
@@ -7,12 +7,7 @@ export const informationApi = async () => {
     );
     return res.data;
   } catch (error) {
-    // const res = await axios.get(
-    //   'https://www.wooriforei.info/api/openAPI/informations/800/check',
-    //   {
-    //     withCredentials: true,
-    //   },
-    // );
-    console.log(error);
+    const axiosError = error as AxiosError;
+    throw axiosError.response?.data;
   }
 };
