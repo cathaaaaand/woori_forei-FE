@@ -53,7 +53,7 @@ export const SearchCardWrapper = styled.div`
   flex-direction: column;
   gap: 45px;
   width: 1320px;
-  height: 496px;
+  height: 680px;
 `;
 export const SearchInnerWrapper = styled.div`
   display: grid;

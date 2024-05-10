@@ -26,7 +26,10 @@ const Tourism = () => {
             <IoIosSearch size="30px" color="#636363" />
           </St.SearchInputBtn>
         </St.SearchInputFrame>
-        <div className="Title">홈 &gt; 관광 &gt; 검색결과</div>
+        <div className="Title">
+          홈 &gt; 관광 &gt;
+          <p>검색결과</p>
+        </div>
         <div>
           {!isError ? (
             isLoading ? (

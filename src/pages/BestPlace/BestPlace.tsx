@@ -1,30 +1,45 @@
 import { useQuery } from '@tanstack/react-query';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import BtSearchCard from './BtSearchCard';
 import * as St from './style';
-// import { javascriptapi } from 'api/kosat';
 import { landmarksnApi } from 'api/openApi';
 import Map from 'components/Map/KakaoMap';
 
 const BestPlace = () => {
   const [search, setSearch] = useState('');
+  const [mapState, setMapState] = useState(0);
   const { data } = useQuery({
     queryKey: ['landmark'],
-    queryFn: () => landmarksnApi(search),
+    queryFn: landmarksnApi,
   });
   const OnChange = (e: { target: { value: React.SetStateAction<string> } }) => {
     setSearch(e.target.value);
   };
 
+  const filteredData = data?.filter(
+    (item: { postSj: string; address: string }) => {
+      if (item.postSj.includes(search) || item.address.includes(search)) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+  );
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      searchHandler();
+    }
+  };
   const searchHandler = () => {
     if (!search) {
       alert('검색어를 입력해주세요!');
       return;
     }
     console.log(data);
-    console.log(search);
+    setMapState(1);
   };
 
-  useEffect(() => {}, []);
   return (
     <St.BestPlaceWrapper>
       <St.BPWrapper>
@@ -34,12 +49,20 @@ const BestPlace = () => {
             placeholder="위치를 검색하세요."
             onChange={OnChange}
             value={search}
+            onKeyPress={handleKeyPress}
           />
           <St.SearchInputBtn onClick={searchHandler}>검색</St.SearchInputBtn>
         </St.SearchInputFrame>
         <div className="BPTitle">내 주변 명소 </div>
+        <div>
+          <button onClick={() => setMapState(0)}>지도에서 검색하기</button>
+          <button onClick={() => setMapState(1)}>검색결과</button>
+        </div>
         <div className="BPMap">
-          <Map />
+          {mapState === 0 && <Map />}
+          {mapState === 1 && (
+            <BtSearchCard data={filteredData} search={search} />
+          )}
         </div>
       </St.BPWrapper>
     </St.BestPlaceWrapper>

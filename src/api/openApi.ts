@@ -15,23 +15,20 @@ export const informationApi = async () => {
 };
 export const seoulGoodsApi = async () => {
   try {
-    const res = await axios.get('/api/openAPI/seoulgoods/1/check');
+    const res = await axios.get('/api/openAPI/seoulgoods/check');
     return res.data;
   } catch (error) {
     const axiosError = error as AxiosError;
     throw axiosError.response?.data;
   }
 };
-export const activitiesApi = async () => {
+export const activitiePotosApi = async () => {
   try {
     const res = await axios.get('/api/openAPI/activities/check');
-    //const slice = res.data.slice(190, 200);
     const filteredData = res.data.filter((_: unknown, index: number) =>
       [2, 96, 196, 198, 301, 302, 303, 304, 305, 315, 316].includes(index),
     );
-    //console.log(filteredData);
     return filteredData;
-    //return slice;
   } catch (error) {
     const axiosError = error as AxiosError;
     throw axiosError.response?.data;
@@ -54,28 +51,31 @@ export const activitiesMonthApi = async () => {
     throw axiosError.response?.data;
   }
 };
+export const activitiesApi = async () => {
+  try {
+    const res = await axios.get('/api/openAPI/activities/check');
+    const filtered = res.data.filter((item: { svcstatnm: string }) => {
+      return item.svcstatnm === '접수중';
+    });
+    return filtered;
+  } catch (error) {
+    const axiosError = error as AxiosError;
+    throw axiosError.response?.data;
+  }
+};
 export const hotelsnApi = async () => {
   try {
-    const res = await axios.get('/api/openAPI/hotels');
+    const res = await axios.get('/api/openAPI/hotels/check');
     return res.data;
   } catch (error) {
     const axiosError = error as AxiosError;
     throw axiosError.response?.data;
   }
 };
-export const landmarksnApi = async (search: string) => {
+export const landmarksnApi = async () => {
   try {
     const res = await axios.get('/api/openAPI/landmarks/check');
-    const searchData = res.data.filter(
-      (item: { address: string | string[] }) => {
-        if (item.address.includes(search)) {
-          return true;
-        } else {
-          return false;
-        }
-      },
-    );
-    return searchData;
+    return res.data;
   } catch (error) {
     const axiosError = error as AxiosError;
     throw axiosError.response?.data;
@@ -84,7 +84,8 @@ export const landmarksnApi = async (search: string) => {
 export const restaurantsApi = async () => {
   try {
     const res = await axios.get('/api/openAPI/restaurants/check');
-    return res.data;
+    const sliceData = res.data.slice(0, 500);
+    return sliceData;
   } catch (error) {
     const axiosError = error as AxiosError;
     throw axiosError.response?.data;

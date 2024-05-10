@@ -1,18 +1,50 @@
+import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
+import HoSearchCard from './HoSearchCard';
 import * as St from './style';
-import PlaceCard from 'components/Card/PlaceCard';
+import { hotelsnApi } from 'api/openApi';
+import Map from 'components/Map/KakaoMap';
 
 const Hotel = () => {
   const [search, setSearch] = useState('');
+  const [mapState, setMapState] = useState(0);
+  const { data } = useQuery({
+    queryKey: ['hotels'],
+    queryFn: hotelsnApi,
+  });
   const OnChange = (e: { target: { value: React.SetStateAction<string> } }) => {
     setSearch(e.target.value);
   };
-
+  const filteredData = data?.filter(
+    (item: {
+      nameKor: string;
+      hkorCity: string;
+      hkorGu: string;
+      hkorDong: string;
+    }) => {
+      if (
+        item.hkorCity.includes(search) ||
+        item.hkorGu.includes(search) ||
+        item.hkorDong.includes(search) ||
+        item.nameKor.includes(search)
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+  );
   const searchHandler = () => {
     if (!search) {
       alert('검색어를 입력해주세요!');
     }
     console.log(search);
+    setMapState(1);
+  };
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      searchHandler();
+    }
   };
   return (
     <St.BestPlaceWrapper>
@@ -23,16 +55,20 @@ const Hotel = () => {
             placeholder="위치를 검색하세요."
             onChange={OnChange}
             value={search}
+            onKeyPress={handleKeyPress}
           />
           <St.SearchInputBtn onClick={searchHandler}>검색</St.SearchInputBtn>
         </St.SearchInputFrame>
         <div className="BPTitle">내 주변 호텔 </div>
-        <div style={{ textAlign: 'center', fontSize: '22pt' }}>
-          <div style={{ marginBottom: '20px' }}> 현재 내 위치</div>
-          <div> 서울특별시 용산구 이태원로 지하 177</div>
+        <div>
+          <button onClick={() => setMapState(0)}>지도에서 검색하기</button>
+          <button onClick={() => setMapState(1)}>검색결과</button>
         </div>
         <div className="BPMap">
-          <PlaceCard />
+          {mapState === 0 && <Map />}
+          {mapState === 1 && (
+            <HoSearchCard data={filteredData} search={search} />
+          )}
         </div>
       </St.BPWrapper>
     </St.BestPlaceWrapper>

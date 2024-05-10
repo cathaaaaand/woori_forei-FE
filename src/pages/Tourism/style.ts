@@ -14,7 +14,14 @@ export const TourWrapper = styled.div`
   flex-direction: column;
 
   .Title {
-    font-size: 15px;
+    margin-bottom: 35px;
+    display: flex;
+    font-size: 15pt;
+    color: #707070;
+    p {
+      font-weight: bold;
+      color: black;
+    }
   }
 `;
 export const SearchInputFrame = styled.div`
@@ -80,7 +87,7 @@ export const SearchCardWrapper = styled.div`
   flex-direction: column;
   gap: 45px;
   width: 1320px;
-  height: 496px;
+  height: 660px;
 `;
 export const SearchInnerWrapper = styled.div`
   display: grid;
@@ -93,15 +100,20 @@ export const SearchInnerWrapper = styled.div`
     padding-top: 20px;
     padding-right: 30px;
     padding-bottom: 20px;
-    background: #005391;
     border-radius: 10px;
-    color: white;
+    background: white;
+    color: black;
     gap: 70px;
+    &:hover {
+      background: #005391;
+      color: white;
+    }
   }
   .DataTitle {
     display: flex;
     justify-content: center;
     text-align: center;
+    width: 250px;
     padding-left: 45px;
   }
 

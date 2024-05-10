@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
 import simpleLogo from '../../../asset/simpleLogo.png';
 import * as St from './style';
-import { activitiesApi } from 'api/openApi';
+import { activitiePotosApi } from 'api/openApi';
 export interface valueType {
   activityId: number | undefined;
   imgurl: string | undefined;
@@ -13,7 +13,7 @@ export interface valueType {
 const Popular = () => {
   const { data } = useQuery({
     queryKey: ['activity'],
-    queryFn: activitiesApi,
+    queryFn: activitiePotosApi,
   });
 
   const [pageCount, setPageCount] = useState(0);
@@ -87,33 +87,6 @@ const Popular = () => {
           </St.NextBeforeFrame>
         </St.NavFrame>
       </div>
-      {/* {count >= 3 && 
-      <GoTriangleUp
-        size="24"
-        onClick={beforeHandler}
-        style={{ visibility: count >= 3 ? 'visible' : 'hidden' }}
-      />
-      {defaultData.slice(count, count + 3).map((data) => (
-        <div key={data.id} className="Card">
-          {/* <div>
-          <img/>
-        </div> */}
-      {/* <div>
-            {data.id}. {data.place}
-          </div>
-          <St.flexFrame>
-            <div>좋아요 {data.like}</div>
-            <div>혼잡도 {data.traffic}</div>
-          </St.flexFrame>
-        </div>
-      ))}
-      <GoTriangleDown
-        size="24"
-        onClick={afterHandler}
-        style={{
-          visibility: count < defaultData.length - 3 ? 'visible' : 'hidden',
-        }}
-      /> */}
     </St.PopularWrapper>
   );
 };
