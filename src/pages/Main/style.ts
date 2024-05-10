@@ -3,7 +3,6 @@ import { styled } from 'styled-components';
 export const MainWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
   justify-content: center;
   align-content: center;
 
@@ -14,7 +13,6 @@ export const MainWrapper = styled.div`
   }
   .ComponentFrame {
     width: 1440px;
-    border-top: 1px solid #858585;
     padding: 60px;
   }
   .ContentTitle {

@@ -11,14 +11,13 @@ interface SignUpType {
   email: string;
   password: string;
   checkPassword: string;
-  introduction: string;
+  description: string;
   mbti: string;
   birthday: string;
   nation: string;
-  image: string;
   isAgreed: boolean;
   isAdmin: boolean;
-  secretCode: string;
+  secretCode?: string;
 }
 interface EmailCodeSendType {
   email: string;
@@ -27,11 +26,11 @@ interface EmailCodeConfirmType {
   email: string;
   verificationCode: string;
 }
-export const loginApiFn = (LoginMainTain: boolean) => {
-  const cookies = new Cookies();
-  const expireDate = new Date();
-  expireDate.setDate(expireDate.getDate() + 30);
+const cookies = new Cookies();
+const expireDate = new Date();
 
+export const loginApiFn = (LoginMainTain: boolean) => {
+  expireDate.setMonth(expireDate.getMonth() + 1);
   const loginApi = async (Login: LoginType) => {
     try {
       const res = await axios.post('/api/auth/login', Login);
@@ -46,6 +45,15 @@ export const loginApiFn = (LoginMainTain: boolean) => {
         axios.defaults.headers.common['Authorization'] = `${accessToken}`;
         //get 요청마다 담아보내는 것.
       }
+      if (res.data.payload) {
+        const userId = res.data.payload.userId;
+        LoginMainTain
+          ? cookies.set('userId', userId, {
+              path: '/',
+              expires: expireDate,
+            })
+          : sessionStorage.setItem('userId', userId);
+      }
       return res.data;
     } catch (error) {
       const axiosError = error as AxiosError;
@@ -54,27 +62,24 @@ export const loginApiFn = (LoginMainTain: boolean) => {
   };
   return { loginApi };
 };
-export const loginOutApi = () => {
-  sessionStorage.removeItem('login');
-  alert('로그아웃 되었습니다!');
+export const googleLoginPostApi = async (code: string | null) => {
+  try {
+    const res = await axios.post(
+      '/api/auth/google-login',
+      { code },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    const axiosError = error as AxiosError;
+    throw axiosError.response?.data;
+  }
 };
-// export const googleLoginApi = async (data: string | null) => {
-//   try {
-//     const res = await axios.post(
-//       '/api/auth/google-login',
-//       data,
-//     );
-//     const accessToken = res.data.accessToken;
-//     localStorage.setItem('bagtoken', accessToken);
-//     res.data.isExistingMember
-//       ? console.log('이미 가입')
-//       : console.log('처음가입');
-//     return res.data;
-//   } catch (error) {
-//     const axiosError = error as AxiosError;
-//     throw axiosError.response?.data;
-//   }
-// };
 export const googleLoginApi = async () => {
   try {
     const res = await axios.get('/api/auth/google-login');
@@ -87,10 +92,8 @@ export const googleLoginApi = async () => {
 export const signUpApi = async (SignUp: SignUpType) => {
   try {
     const res = await axios.post('/api/auth/signup', SignUp);
-    console.log(res);
     return res.data;
   } catch (error) {
-    console.log(error);
     const axiosError = error as AxiosError;
     throw axiosError.response?.data;
   }

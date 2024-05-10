@@ -1,24 +1,16 @@
 import { useQuery } from '@tanstack/react-query';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { IoIosSearch } from 'react-icons/io';
 import { IoArrowBack } from 'react-icons/io5';
+import TourSearchCard from '../../pages/Tourism/TourSearchCard';
 import * as St from './style';
 import { informationApi } from 'api/openApi';
-import SearchCard from 'components/Card/SearchCard';
 
 const Tourism = () => {
-  const { data, isError, isLoading, isSuccess } = useQuery({
+  const { data, isError, isLoading } = useQuery({
     queryKey: ['info'],
     queryFn: informationApi,
   });
-  useEffect(() => {
-    if (isLoading || isSuccess) {
-      console.log(data);
-    }
-    if (isError) {
-      //console.log(isError);
-    }
-  }, []);
 
   return (
     <St.TourTotalWrapper>
@@ -42,10 +34,10 @@ const Tourism = () => {
                 <div id="loading" />
               </St.LoadingCard>
             ) : (
-              <SearchCard data={data} />
+              <TourSearchCard data={data} />
             )
           ) : (
-            <SearchCard
+            <TourSearchCard
               data={[
                 {
                   id: 1,

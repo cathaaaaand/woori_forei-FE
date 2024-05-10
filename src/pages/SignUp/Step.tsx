@@ -33,33 +33,41 @@ const Step = (props: StepPropsStyle) => {
       [name]: checked,
     }));
   };
+  const [secretCode, setSecretCode] = useState('');
   const [signUpForm, setSignUpForm] = useState({
     username: '',
     nickname: '',
     email: '',
     password: '',
     checkPassword: '',
-    introduction: '',
+    description: '',
     mbti: '',
     birthday: '',
     nation: '',
-    image: '',
     isAgreed: false,
     isAdmin: false,
-    secretCode: '',
   });
+
   const {
     username,
     nickname,
     email,
     password,
     checkPassword,
-    introduction,
+    description,
     mbti,
     birthday,
     nation,
-    secretCode,
+    isAdmin,
   } = signUpForm;
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setSignUpForm((data) => ({
+      ...data,
+      [name]: value,
+    }));
+  };
 
   const EmailSendHandler = () => {
     emailSendMutation.mutate(
@@ -108,39 +116,6 @@ const Step = (props: StepPropsStyle) => {
   const contentShowHandler = () => {
     setContentShow(!contentShow);
   };
-  const submitBtnHandler = () => {
-    if (step === 3) {
-      console.log(signUpForm);
-      signUpMutation.mutate(signUpForm, {
-        onSuccess: (data) => {
-          alert(data.message);
-          setStep(4);
-          setTimeout(() => {
-            navigate('/');
-          }, 1500);
-        },
-        onError: (error) => {
-          alert(error);
-        },
-      });
-      setSignUpForm({
-        username: '',
-        nickname: '',
-        email: '',
-        password: '',
-        checkPassword: '',
-        introduction: '',
-        mbti: '',
-        birthday: '',
-        nation: '',
-        image: '',
-        isAgreed: false,
-        isAdmin: false,
-        secretCode: '',
-      });
-      setVerificationCode('');
-    }
-  };
 
   const EmailCodeConfirmHandler = () => {
     emailConfirmMutation.mutate(
@@ -155,19 +130,32 @@ const Step = (props: StepPropsStyle) => {
         },
         onError: (error) => {
           alert(error);
+          return;
         },
       },
     );
   };
-
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setSignUpForm((data) => ({
-      ...data,
-      [name]: value,
-    }));
+  const submitBtnHandler = () => {
+    if (step === 3) {
+      isAdmin && setSignUpForm((prev) => ({ ...prev, secretCode }));
+      setSignUpForm((prev) => ({ ...prev, description }));
+      signUpMutation.mutate(signUpForm, {
+        onSuccess: (data) => {
+          alert(data.message);
+          const isdescription = description ? true : false;
+          console.log(isdescription);
+          console.log(signUpForm);
+          setStep(4);
+          setTimeout(() => {
+            navigate('/');
+          }, 1500);
+        },
+        onError: (error) => {
+          alert(error);
+        },
+      });
+    }
   };
-
   return (
     <div>
       {step === 0 && (
@@ -216,10 +204,9 @@ const Step = (props: StepPropsStyle) => {
                 <St.EmailNPasswordFrame>
                   <AiOutlineUnlock className="SignUpIcon" />
                   <input
-                    name="secretCode"
                     className="SignUpIput"
                     value={secretCode}
-                    onChange={onChange}
+                    onChange={(e) => setSecretCode(e.target.value)}
                   />
                 </St.EmailNPasswordFrame>
               </>
@@ -387,8 +374,8 @@ const Step = (props: StepPropsStyle) => {
               <input
                 className="SignUpIputNIcon"
                 placeholder="최대 50자까지 입력 가능합니다."
-                name="introduction"
-                value={introduction}
+                name="description"
+                value={description}
                 onChange={onChange}
               />
             </St.EmailNPasswordFrame>

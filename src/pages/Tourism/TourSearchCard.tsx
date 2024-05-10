@@ -1,7 +1,7 @@
 //import { motion } from 'framer-motion';
 import React, { useState } from 'react';
 import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
-import * as St from '../../pages/Tourism/style';
+import * as St from './style';
 export interface CardProps {
   data?:
     | Array<{
@@ -18,7 +18,7 @@ export interface CardProps {
       }>
     | undefined;
 }
-const SearchCard = (props: CardProps) => {
+const TourSearchCard = (props: CardProps) => {
   const { data } = props;
   const [pageCount, setPageCount] = useState(0);
   const arrayLength = data ? data?.length : 20;
@@ -106,4 +106,4 @@ const SearchCard = (props: CardProps) => {
   );
 };
 
-export default SearchCard;
+export default TourSearchCard;

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import * as St from './style';
-import Map from 'components/Map/SGISMap';
+import Map from 'components/Map/KakaoMap';
 
 const Restaurant = () => {
   const [search, setSearch] = useState('');

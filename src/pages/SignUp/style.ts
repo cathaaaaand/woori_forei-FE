@@ -84,9 +84,10 @@ export const StepBtn = styled.button`
   width: 450px;
   height: 75px;
   font-size: 20pt;
-  background-color: white;
-  border: 1px solid #015ffa;
+  background-color: #005391;
+  border: 1px solid #30a8ff;
   border-radius: 10px;
+  color: white;
 `;
 export const SignUpToLogin = styled.div`
   display: flex;

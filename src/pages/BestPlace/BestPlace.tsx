@@ -1,9 +1,16 @@
-import React, { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import React, { useEffect, useState } from 'react';
 import * as St from './style';
-import Map from 'components/Map/SGISMap';
+// import { javascriptapi } from 'api/kosat';
+import { landmarksnApi } from 'api/openApi';
+import Map from 'components/Map/KakaoMap';
 
 const BestPlace = () => {
   const [search, setSearch] = useState('');
+  const { data } = useQuery({
+    queryKey: ['landmark'],
+    queryFn: () => landmarksnApi(search),
+  });
   const OnChange = (e: { target: { value: React.SetStateAction<string> } }) => {
     setSearch(e.target.value);
   };
@@ -11,9 +18,13 @@ const BestPlace = () => {
   const searchHandler = () => {
     if (!search) {
       alert('검색어를 입력해주세요!');
+      return;
     }
+    console.log(data);
     console.log(search);
   };
+
+  useEffect(() => {}, []);
   return (
     <St.BestPlaceWrapper>
       <St.BPWrapper>
