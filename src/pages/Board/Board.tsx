@@ -1,5 +1,6 @@
 import React from 'react';
 import { GoTriangleRight } from 'react-icons/go';
+import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 import * as St from './style';
 
@@ -10,7 +11,10 @@ const Board = () => {
     <St.BoardFrame>
       <St.BoardInnerFrame>
         <St.BoardTitleFrame>
-          <p>게시판</p>
+          <div className="FaTitle">
+            <St.Circle />
+            <p>게시판</p>
+          </div>
           <St.WriteBtn
             onClick={() => {
               navigate('/write');
@@ -33,7 +37,9 @@ const Board = () => {
         </St.BoardContentFrame>
 
         <St.BoardPageFrame>
-          <div>1/108</div>
+          <IoIosArrowBack size="20px" />
+          <div>1 2 3 4</div>
+          <IoIosArrowForward size="20px" />
           <GoTriangleRight size="30" />
         </St.BoardPageFrame>
       </St.BoardInnerFrame>

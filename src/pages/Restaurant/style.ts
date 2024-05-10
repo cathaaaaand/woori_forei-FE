@@ -13,11 +13,37 @@ export const BPWrapper = styled.div`
   display: flex;
   flex-direction: column;
 
+  .BPMainTitle {
+    display: flex;
+    align-items: center;
+    font-size: 24pt;
+    color: black;
+    gap: 15px;
+    margin-bottom: 35px;
+    margin-left: 50px;
+  }
   .BPTitle {
-    font-size: 25px;
+    margin-bottom: 35px;
+    display: flex;
+    gap: 10px;
+    font-size: 15pt;
+    color: #707070;
+    margin-left: 50px;
+    p {
+      font-weight: bold;
+      color: #707070;
+    }
+    .highLight {
+      font-size: 15pt;
+      font-weight: bold;
+      color: black;
+    }
   }
 
   .BPMap {
+    display: flex;
+    flex-direction: column;
+    gap: 45px;
     margin: 50px auto 50px auto;
   }
 `;
@@ -29,11 +55,12 @@ export const SearchInputFrame = styled.div`
 export const SearchInput = styled.input`
   position: relative;
   width: 940px;
-  height: 38px;
-  border: 1px solid black;
+  height: 54px;
+  border: none;
   border-radius: 30px;
   padding-left: 25px;
   font-size: 15pt;
+  background: #f1fbff;
 `;
 export const SearchInputBtn = styled.div`
   position: absolute;
@@ -144,4 +171,11 @@ export const NavFrame = styled.div`
   display: flex;
   align-items: center;
   gap: 30px;
+`;
+export const Circle = styled.div`
+  background: #30a8ff;
+  width: 16px;
+  height: 16px;
+  border: 1px solid transparent;
+  border-radius: 50%;
 `;

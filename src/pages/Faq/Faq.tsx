@@ -1,24 +1,39 @@
 import React from 'react';
-import { GoTriangleRight } from 'react-icons/go';
+import { Cookies } from 'react-cookie';
+import {
+  IoIosArrowDown,
+  IoIosArrowForward,
+  IoIosArrowBack,
+} from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 import * as St from './style';
 
 const Faq = () => {
   const navigate = useNavigate();
+  const cookies = new Cookies();
+  const cookieLogin = cookies.get('login');
   return (
     <St.FaqFrame>
       <St.FaqInnerFrame>
         <St.FaqTitleFrame>
-          <p>FAQ</p>
-          <St.WriteBtn
-            onClick={() => {
-              navigate('/faqwrite');
-            }}
-          >
-            글쓰기
-          </St.WriteBtn>
+          <div className="FaTitle">
+            <St.Circle />
+            <p>FAQ</p>
+          </div>
+          {cookieLogin && (
+            <St.WriteBtn
+              onClick={() => {
+                navigate('/faqwrite');
+              }}
+            >
+              글쓰기
+            </St.WriteBtn>
+          )}
         </St.FaqTitleFrame>
-
+        <div>
+          <p>총 30 건</p>
+          <p>최신글</p>
+        </div>
         <St.ContentFrame>
           <St.Line />
           <St.FaqContentFrame
@@ -26,25 +41,46 @@ const Faq = () => {
               navigate('/faqdetail');
             }}
           >
-            <div>회원가입 시 위치 정보 공유 동의는 왜 필요한가요?</div>
-            <div>24.03.25</div>
+            <div>
+              <p>24.03.25</p>
+              <div>회원가입 시 위치 정보 공유 동의는 왜 필요한가요?</div>
+            </div>
+            <button>
+              <IoIosArrowDown />
+            </button>
           </St.FaqContentFrame>
           <St.FaqContentFrame>
-            <div>회원가입 시 위치 정보 공유 동의는 왜 필요한가요?</div>
-            <div>24.03.25</div>
+            <div>
+              <p>24.03.25</p>
+              <div>회원가입 시 위치 정보 공유 동의는 왜 필요한가요?</div>
+            </div>
+            <button>
+              <IoIosArrowDown />
+            </button>
           </St.FaqContentFrame>
           <St.FaqContentFrame>
-            <div>회원가입 시 위치 정보 공유 동의는 왜 필요한가요?</div>
-            <div>24.03.25</div>
+            <div>
+              <p>24.03.25</p>
+              <div>회원가입 시 위치 정보 공유 동의는 왜 필요한가요?</div>
+            </div>
+            <button>
+              <IoIosArrowDown />
+            </button>
           </St.FaqContentFrame>
           <St.FaqContentFrame>
-            <div>회원가입 시 위치 정보 공유 동의는 왜 필요한가요?</div>
-            <div>24.03.25</div>
+            <div>
+              <p>24.03.25</p>
+              <div>회원가입 시 위치 정보 공유 동의는 왜 필요한가요?</div>
+            </div>
+            <button>
+              <IoIosArrowDown />
+            </button>
           </St.FaqContentFrame>
         </St.ContentFrame>
         <St.FaqPageFrame>
-          <div>1/108</div>
-          <GoTriangleRight size="30" />
+          <IoIosArrowBack size="20px" />
+          <div>1 2 3 4</div>
+          <IoIosArrowForward size="20px" />
         </St.FaqPageFrame>
       </St.FaqInnerFrame>
     </St.FaqFrame>

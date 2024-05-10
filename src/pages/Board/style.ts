@@ -17,14 +17,26 @@ export const BoardInnerFrame = styled.div`
 export const BoardTitleFrame = styled.div`
   display: flex;
   justify-content: space-between;
-  margin: 0 60px -40px 60px;
+  margin: 0 60px -40px 20px;
+  .FaTitle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 10px;
+    p {
+      font-weight: bold;
+      font-size: 35px;
+    }
+  }
 `;
 export const WriteBtn = styled.button`
   border: none;
-  background: #d9d9d9;
+  background: #0084e3;
+  border-radius: 5px;
   width: 100px;
   height: 40px;
   font-size: 18px;
+  color: white;
 `;
 export const ContentTitle = styled.div`
   margin: 90px 0 27px 60px;
@@ -44,4 +56,11 @@ export const BoardPageFrame = styled.div`
   align-items: center;
   justify-content: center;
   margin-top: 85px;
+`;
+export const Circle = styled.div`
+  background: #30a8ff;
+  width: 16px;
+  height: 16px;
+  border: 1px solid transparent;
+  border-radius: 50%;
 `;

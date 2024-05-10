@@ -28,12 +28,12 @@ interface EmailCodeConfirmType {
 }
 const cookies = new Cookies();
 const expireDate = new Date();
-
+const url = process.env.REACT_APP_SERVER;
 export const loginApiFn = (LoginMainTain: boolean) => {
   expireDate.setMonth(expireDate.getMonth() + 1);
   const loginApi = async (Login: LoginType) => {
     try {
-      const res = await axios.post('/api/auth/login', Login);
+      const res = await axios.post(`${url}/api/auth/login`, Login);
       const accessToken = res.headers['authorization'];
       if (accessToken) {
         LoginMainTain
@@ -43,7 +43,6 @@ export const loginApiFn = (LoginMainTain: boolean) => {
             })
           : sessionStorage.setItem('login', accessToken);
         axios.defaults.headers.common['Authorization'] = `${accessToken}`;
-        //get 요청마다 담아보내는 것.
       }
       if (res.data.payload) {
         const userId = res.data.payload.userId;
@@ -65,7 +64,7 @@ export const loginApiFn = (LoginMainTain: boolean) => {
 export const googleLoginPostApi = async (code: string | null) => {
   try {
     const res = await axios.post(
-      '/api/auth/google-login',
+      `${url}/api/auth/google-login`,
       { code },
       {
         headers: {
@@ -82,8 +81,8 @@ export const googleLoginPostApi = async (code: string | null) => {
 };
 export const googleLoginApi = async () => {
   try {
-    const res = await axios.get('/api/auth/google-login');
-    console.log(res);
+    const res = await axios.get(`${url}/api/auth/google-login`);
+    return res.data;
   } catch (error) {
     const axiosError = error as AxiosError;
     throw axiosError.response?.data;
@@ -100,7 +99,10 @@ export const signUpApi = async (SignUp: SignUpType) => {
 };
 export const emailCodeSendApi = async (Email: EmailCodeSendType) => {
   try {
-    const res = await axios.post('/api/auth/send-verification-email', Email);
+    const res = await axios.post(
+      `${url}/api/auth/send-verification-email`,
+      Email,
+    );
     if (res.status === 200) return res.data;
   } catch (error) {
     const axiosError = error as AxiosError;
@@ -109,7 +111,7 @@ export const emailCodeSendApi = async (Email: EmailCodeSendType) => {
 };
 export const emailCodeConfirmApi = async (Confrim: EmailCodeConfirmType) => {
   try {
-    const res = await axios.post('/api/auth/verify-email', Confrim);
+    const res = await axios.post(`${url}/api/auth/verify-email`, Confrim);
     if (res.status === 200) return res.data;
   } catch (error) {
     const axiosError = error as AxiosError;

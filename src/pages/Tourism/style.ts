@@ -13,11 +13,22 @@ export const TourWrapper = styled.div`
   display: flex;
   flex-direction: column;
 
+  .MainTitle {
+    margin-bottom: 35px;
+    display: flex;
+    align-items: center;
+    font-size: 24pt;
+    color: black;
+    gap: 15px;
+    margin-left: 50px;
+  }
   .Title {
     margin-bottom: 35px;
     display: flex;
+    gap: 10px;
     font-size: 15pt;
     color: #707070;
+    margin-left: 50px;
     p {
       font-weight: bold;
       color: black;
@@ -87,7 +98,7 @@ export const SearchCardWrapper = styled.div`
   flex-direction: column;
   gap: 45px;
   width: 1320px;
-  height: 660px;
+  height: 550px;
 `;
 export const SearchInnerWrapper = styled.div`
   display: grid;
@@ -166,4 +177,11 @@ export const NavFrame = styled.div`
   display: flex;
   align-items: center;
   gap: 30px;
+`;
+export const Circle = styled.div`
+  background: #30a8ff;
+  width: 16px;
+  height: 16px;
+  border: 1px solid transparent;
+  border-radius: 50%;
 `;

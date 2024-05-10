@@ -15,6 +15,7 @@ interface ProfilePatchType {
   image: null;
 }
 axios.defaults.withCredentials = true;
+const url = process.env.REACT_APP_SERVER;
 export const userProfileApi = async () => {
   try {
     const cookies = new Cookies();
@@ -23,7 +24,7 @@ export const userProfileApi = async () => {
     const userId = cookieLogin
       ? cookies.get('userId')
       : sessionStorage.getItem('userId');
-    const res = await axios.get(`/api/users/${userId}`, {
+    const res = await axios.get(`${url}/api/users/${userId}`, {
       headers: {
         Authorization: token,
       },
@@ -44,7 +45,7 @@ export const ProfileUpdataApi = async (PatchData: ProfilePatchType) => {
     const userId = cookieLogin
       ? cookies.get('userId')
       : sessionStorage.getItem('userId');
-    const res = await axios.patch(`/api/users/${userId}`, PatchData, {
+    const res = await axios.patch(`${url}/api/users/${userId}`, PatchData, {
       headers: {
         Authorization: token,
         'Content-Type': 'application/json',

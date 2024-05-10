@@ -1,5 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
+import { IoIosSearch } from 'react-icons/io';
+import { IoArrowBack } from 'react-icons/io5';
 import SoSearchCard from './SoSearchCard';
 import * as St from './style';
 import { seoulGoodsApi } from 'api/openApi';
@@ -34,11 +36,16 @@ const Souvenir = () => {
       searchHandler();
     }
   };
-  console.log(data);
   return (
     <St.BestPlaceWrapper>
       <St.BPWrapper>
-        <div className="BPTitle">서울시 기념품 판매점 </div>
+        <div className="BPTitle">
+          <IoArrowBack />홈 &gt; 관광 &gt;<p>명소</p>
+        </div>
+        <div className="BPMainTitle">
+          <St.Circle />
+          서울 기념품
+        </div>
         <St.SearchInputFrame>
           <St.SearchInput
             placeholder="위치를 검색하세요."
@@ -46,9 +53,13 @@ const Souvenir = () => {
             value={search}
             onKeyPress={handleKeyPress}
           />
-          <St.SearchInputBtn onClick={searchHandler}>검색</St.SearchInputBtn>
+          <St.SearchInputBtn onClick={searchHandler}>
+            <IoIosSearch size="30px" color="#636363" />
+          </St.SearchInputBtn>
         </St.SearchInputFrame>
-        <div className="BPTitle">내 주변 기념품 판매점</div>
+        <div className="BPTitle">
+          홈 &gt; 관광 &gt;맛집&gt;<p className="highLight">검색결과</p>
+        </div>
         <div>
           <button onClick={() => setMapState(0)}>지도에서 검색하기</button>
           <button onClick={() => setMapState(1)}>검색결과</button>

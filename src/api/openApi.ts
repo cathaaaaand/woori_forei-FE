@@ -4,9 +4,10 @@ export interface CultureType {
   placenm: string | undefined;
   svcnm: string | undefined;
 }
+const url = process.env.REACT_APP_SERVER;
 export const informationApi = async () => {
   try {
-    const res = await axios.get('/api/openAPI/informations/check');
+    const res = await axios.get(`${url}/api/openAPI/informations/check`);
     return res.data;
   } catch (error) {
     const axiosError = error as AxiosError;
@@ -15,7 +16,7 @@ export const informationApi = async () => {
 };
 export const seoulGoodsApi = async () => {
   try {
-    const res = await axios.get('/api/openAPI/seoulgoods/check');
+    const res = await axios.get(`${url}/api/openAPI/seoulgoods/check`);
     return res.data;
   } catch (error) {
     const axiosError = error as AxiosError;
@@ -24,7 +25,7 @@ export const seoulGoodsApi = async () => {
 };
 export const activitiePotosApi = async () => {
   try {
-    const res = await axios.get('/api/openAPI/activities/check');
+    const res = await axios.get(`${url}/api/openAPI/activities/check`);
     const filteredData = res.data.filter((_: unknown, index: number) =>
       [2, 96, 196, 198, 301, 302, 303, 304, 305, 315, 316].includes(index),
     );
@@ -36,7 +37,7 @@ export const activitiePotosApi = async () => {
 };
 export const activitiesMonthApi = async () => {
   try {
-    const res = await axios.get('/api/openAPI/activities/check');
+    const res = await axios.get(`${url}/api/openAPI/activities/check`);
     const slice = res.data.slice(0, 100);
     const today = new Date();
     const filtered2 = await slice.filter(
@@ -53,7 +54,7 @@ export const activitiesMonthApi = async () => {
 };
 export const activitiesApi = async () => {
   try {
-    const res = await axios.get('/api/openAPI/activities/check');
+    const res = await axios.get(`${url}/api/openAPI/activities/check`);
     const filtered = res.data.filter((item: { svcstatnm: string }) => {
       return item.svcstatnm === '접수중';
     });
@@ -65,7 +66,7 @@ export const activitiesApi = async () => {
 };
 export const hotelsnApi = async () => {
   try {
-    const res = await axios.get('/api/openAPI/hotels/check');
+    const res = await axios.get(`${url}/api/openAPI/hotels/check`);
     return res.data;
   } catch (error) {
     const axiosError = error as AxiosError;
@@ -74,7 +75,7 @@ export const hotelsnApi = async () => {
 };
 export const landmarksnApi = async () => {
   try {
-    const res = await axios.get('/api/openAPI/landmarks/check');
+    const res = await axios.get(`${url}/api/openAPI/landmarks/check`);
     return res.data;
   } catch (error) {
     const axiosError = error as AxiosError;
@@ -83,7 +84,7 @@ export const landmarksnApi = async () => {
 };
 export const restaurantsApi = async () => {
   try {
-    const res = await axios.get('/api/openAPI/restaurants/check');
+    const res = await axios.get(`${url}/api/openAPI/restaurants/check`);
     const sliceData = res.data.slice(0, 500);
     return sliceData;
   } catch (error) {

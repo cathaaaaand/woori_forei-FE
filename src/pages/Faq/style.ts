@@ -7,6 +7,7 @@ export const FaqFrame = styled.div`
   flex-wrap: wrap;
   align-content: center;
   font-size: 20pt;
+  padding: 30px;
 `;
 export const FaqInnerFrame = styled.div`
   display: flex;
@@ -23,14 +24,27 @@ export const Line = styled.div`
 export const FaqTitleFrame = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 0 70px 0 70px;
+  padding-right: 20px;
+  margin-bottom: 20px;
+  .FaTitle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 10px;
+    p {
+      font-weight: bold;
+      font-size: 35px;
+    }
+  }
 `;
 export const WriteBtn = styled.button`
   border: none;
-  background: #d9d9d9;
+  background: #0084e3;
+  border-radius: 5px;
   width: 100px;
   height: 40px;
   font-size: 18px;
+  color: white;
 `;
 export const FaqContentFrame = styled.div`
   display: flex;
@@ -46,4 +60,11 @@ export const FaqPageFrame = styled.div`
   align-items: center;
   justify-content: center;
   margin-top: 50px;
+`;
+export const Circle = styled.div`
+  background: #30a8ff;
+  width: 16px;
+  height: 16px;
+  border: 1px solid transparent;
+  border-radius: 50%;
 `;
