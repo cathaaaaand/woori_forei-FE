@@ -22,7 +22,9 @@ const SignUp = () => {
   };
   return (
     <St.SignUpWrapper>
-      <div className="SignUpTitle">회원가입</div>
+      <div className="SignUpTitle">
+        {adminShow ? '관리자 회원가입' : '회원가입'}
+      </div>
 
       {!show && (
         <>
@@ -41,7 +43,6 @@ const SignUp = () => {
               <button className="SignUpButton" onClick={SignUpEmailHandler}>
                 이메일로 가입하기
               </button>
-              <button className="SignUpButton">애플로 가입하기</button>
               <button className="SignUpButton">구글로 가입하기</button>
               <St.SignUpToLogin>
                 <div>이미 계정이 있으신가요?</div>

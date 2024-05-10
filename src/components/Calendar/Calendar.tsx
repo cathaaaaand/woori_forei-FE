@@ -7,10 +7,11 @@ import * as St from './style';
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
-const Calendar = () => {
-  // view로 확인한 버전과 날짜 선택 버전으로.
-  // const initialValue = { startDate: '', endDate: '' };
-  // const { startDate, endDate } = value;
+// view로 확인한 버전과 날짜 선택 버전으로.
+// const initialValue = { startDate: '', endDate: '' };
+// const { startDate, endDate } = value;
+
+export const ChooseCalendar = () => {
   const today = new Date();
   const [date, setDate] = useState<Value>(today);
   const handleDateChange = (newDate: Value) => {
@@ -29,16 +30,56 @@ const Calendar = () => {
           minDate={new Date()}
           onChange={handleDateChange}
           formatDay={(locale, date) => moment(date).format('D')}
-          formatYear={(locale, date) => moment(date).format('YYYY')} // 네비게이션 눌렀을때 숫자 년도만 보이게
-          formatMonthYear={(locale, date) => moment(date).format('YYYY. MM')} // 네비게이션에서 2023. 12 이렇게 보이도록 설정
-          calendarType="gregory" // 일요일 부터 시작
-          next2Label={null} // +1년 & +10년 이동 버튼 숨기기
-          prev2Label={null} // -1년 & -10년 이동 버튼 숨기기
-          minDetail="year" // 10년단위 년도 숨기기
+          formatYear={(locale, date) => moment(date).format('YYYY')}
+          formatMonthYear={(locale, date) => moment(date).format('YYYY. MM')}
+          calendarType="gregory"
+          next2Label={null}
+          prev2Label={null}
+          minDetail="year"
           selectRange={true}
         />
       </St.CalendarWrapper>
     </>
   );
 };
-export default Calendar;
+interface SimpleCalendarType {
+  programDate?: Array<Date>;
+}
+export const SimpleCalendar = (props: SimpleCalendarType) => {
+  const { programDate } = props;
+  const today = new Date();
+  const [date, setDate] = useState<Value>(today);
+  const handleDateChange = (newDate: Value) => {
+    setDate(newDate);
+  };
+
+  return (
+    <>
+      <St.CalendarSimpleWrapper>
+        <CustomCalendar
+          value={date}
+          minDate={new Date()}
+          onChange={handleDateChange}
+          formatDay={(locale, date) => moment(date).format('D')}
+          formatYear={(locale, date) => moment(date).format('YYYY')}
+          formatMonthYear={(locale, date) => moment(date).format('YYYY. MM')}
+          calendarType="gregory"
+          next2Label={null}
+          prev2Label={null}
+          minDetail="year"
+          tileClassName={({ date }) => {
+            if (
+              programDate &&
+              moment(programDate[0]).format('YYYY-MM-DD') <=
+                moment(date).format('YYYY-MM-DD') &&
+              moment(programDate[1]).format('YYYY-MM-DD') >
+                moment(date).format('YYYY-MM-DD')
+            ) {
+              return 'highlight';
+            }
+          }}
+        />
+      </St.CalendarSimpleWrapper>
+    </>
+  );
+};

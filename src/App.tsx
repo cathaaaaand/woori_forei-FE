@@ -1,11 +1,18 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import React from 'react';
+import { OverlayProvider } from './components/Common/Overlay.context';
 import Router from 'shared/Router';
 
 function App() {
+  const queryClient = new QueryClient();
   return (
-    <div>
-      <Router />
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={false} />
+      <OverlayProvider>
+        <Router />
+      </OverlayProvider>
+    </QueryClientProvider>
   );
 }
 

@@ -12,9 +12,14 @@ export const LoginWrapper = styled.div`
   padding: 80px;
 
   .LoginTitle {
+    display: flex;
     font-size: 25pt;
     margin-bottom: 30px;
     color: black;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    transform: translate(-10px, 0);
   }
 
   .LoginContents {
@@ -29,6 +34,10 @@ export const LoginWrapper = styled.div`
   }
 
   .LoginButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
     font-size: 20pt;
     border-radius: 10px;
     width: 465px;
@@ -54,6 +63,7 @@ export const OtherMenu = styled.div`
   width: 525px;
   margin-top: 20px;
   padding-top: 35px;
+  color: #444444;
 `;
 
 export const EmailNPasswordFrame = styled.div`
@@ -80,9 +90,10 @@ const BtnStyle = `
 width: 450px;
 height: 75px;
 font-size: 20pt;
-background-color: white;
-border: 1px solid #015ffa;
+background: #005391;
+border: 1px solid #30a8ff;
 border-radius: 10px;
+color:white;
 `;
 export const LoginBtn = styled.button`
   ${BtnStyle}
@@ -108,4 +119,11 @@ export const InputDescriptionFrame = styled.div`
   display: flex;
   padding-left: 29px;
   gap: 105px;
+`;
+export const Circle = styled.div`
+  background: #30a8ff;
+  width: 16px;
+  height: 16px;
+  border: 1px solid transparent;
+  border-radius: 50%;
 `;

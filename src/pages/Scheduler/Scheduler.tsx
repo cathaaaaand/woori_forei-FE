@@ -3,12 +3,13 @@ import { IoIosArrowBack } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 import Card from '../../components/Card/Card';
 import * as St from './style';
-import Calendar from 'components/Calendar/Calendar';
+import { ChooseCalendar } from 'components/Calendar/Calendar';
 import SearchCard from 'components/Card/SearchCard';
 
 const Scheduler = () => {
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
+
   const nextStepHandler = () => {
     // if (step >= 4) {
     //   console.log(4);
@@ -45,7 +46,7 @@ const Scheduler = () => {
         {step === 1 && (
           <>
             <div className="Title">날짜를 선택해주세요.</div>
-            <Calendar />
+            <ChooseCalendar />
           </>
         )}
         {step === 2 && (
