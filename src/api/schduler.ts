@@ -8,10 +8,13 @@ interface SchedulerCreateType {
   memberEmails: Array<string>;
 }
 interface SchedulerPutType {
-  schedulerName: string;
-  startDate: string;
-  endDate: string;
-  memberEmails: [];
+  schedulerData: {
+    schedulerName: string;
+    startDate: string;
+    endDate: string;
+    memberEmails: Array<string | undefined>;
+  };
+  schedulerId: number;
 }
 
 const url = process.env.REACT_APP_SERVER;
@@ -26,7 +29,6 @@ export const schedulerCreateApi = async (
     const res = await axios.post(`${url}/api/schedulers`, schedulerData, {
       headers: {
         Authorization: token,
-        'Content-Type': 'application/json',
       },
     });
     return res.data;
@@ -36,20 +38,21 @@ export const schedulerCreateApi = async (
     throw axiosError.response?.data;
   }
 };
-export const schedulerGet1Api = async () => {
+export const schedulerGet1Api = async (schedulerId: number) => {
   try {
     const cookies = new Cookies();
     const cookieLogin = cookies.get('login');
     const token = cookieLogin ? cookieLogin : sessionStorage.getItem('login');
-    const userId = cookieLogin
-      ? cookies.get('userId')
-      : sessionStorage.getItem('userId');
-    const res = await axios.get(`${url}/api/schedulers/${userId}`, {
-      headers: {
-        Authorization: token,
-      },
-    });
-    return res.data;
+    if (schedulerId > 0) {
+      const res = await axios.get(`${url}/api/schedulers/${schedulerId}`, {
+        headers: {
+          Authorization: token,
+        },
+      });
+      return res.data;
+    } else {
+      return '데이터가 없습니다.';
+    }
   } catch (error) {
     const axiosError = error as AxiosError;
     throw axiosError.response?.data;
@@ -71,17 +74,15 @@ export const schedulerGetTotalApi = async () => {
     throw axiosError.response?.data;
   }
 };
-export const schedulerPuteApi = async (schedulerData: SchedulerPutType) => {
+export const schedulerPutApi = async (Data: SchedulerPutType) => {
   try {
     const cookies = new Cookies();
     const cookieLogin = cookies.get('login');
     const token = cookieLogin ? cookieLogin : sessionStorage.getItem('login');
-    const userId = cookieLogin
-      ? cookies.get('userId')
-      : sessionStorage.getItem('userId');
-    const res = await axios.post(
-      `${url}/api/schedulers/${userId}`,
-      schedulerData,
+    if (Data.schedulerId > 0) return;
+    const res = await axios.put(
+      `${url}/api/schedulers/${Data.schedulerId}`,
+      Data.schedulerData,
       {
         headers: {
           Authorization: token,
@@ -96,188 +97,175 @@ export const schedulerPuteApi = async (schedulerData: SchedulerPutType) => {
     throw axiosError.response?.data;
   }
 };
-export const schedulerDeleteApi = async () => {
+export const schedulerDeleteApi = async (schedulerId: number) => {
   try {
     const cookies = new Cookies();
     const cookieLogin = cookies.get('login');
     const token = cookieLogin ? cookieLogin : sessionStorage.getItem('login');
-    const userId = cookieLogin
-      ? cookies.get('userId')
-      : sessionStorage.getItem('userId');
-    const res = await axios.delete(`${url}/api/schedulers/${userId}`, {
-      headers: {
-        Authorization: token,
-      },
-    });
-    return res.data;
+    if (schedulerId > 0) {
+      const res = await axios.delete(`${url}/api/schedulers/${schedulerId}`, {
+        headers: {
+          Authorization: token,
+        },
+      });
+      return res.data;
+    }
   } catch (error) {
     const axiosError = error as AxiosError;
     throw axiosError.response?.data;
   }
 };
 interface ActivitiesType {
-  activityId: number;
-  visitStart: string;
-  visitEnd: string;
+  Activities: { activityId: number; visitStart: string; visitEnd: string };
+  schedulerId: number;
 }
 export const schedulerActivitiesApi = async (Data: ActivitiesType) => {
   try {
     const cookies = new Cookies();
     const cookieLogin = cookies.get('login');
     const token = cookieLogin ? cookieLogin : sessionStorage.getItem('login');
-    const userId = cookieLogin
-      ? cookies.get('userId')
-      : sessionStorage.getItem('userId');
-    const res = await axios.post(
-      `${url}/api/schedulers/${userId}/activities`,
-      Data,
-      {
-        headers: {
-          Authorization: token,
+    if (Data.schedulerId > 0) {
+      const res = await axios.post(
+        `${url}/api/schedulers/${Data.schedulerId}/activities`,
+        Data.Activities,
+        {
+          headers: {
+            Authorization: token,
+          },
         },
-      },
-    );
-    return res.data;
+      );
+      return res.data;
+    }
   } catch (error) {
     const axiosError = error as AxiosError;
     throw axiosError.response?.data;
   }
 };
 interface HotelsType {
-  hotelsId: number;
-  stayStart: string;
-  stayEnd: string;
+  Hotels: { hotelId: number; stayStart: string; stayEnd: string };
+  schedulerId: number;
 }
 export const schedulerHotelsApi = async (Data: HotelsType) => {
   try {
     const cookies = new Cookies();
     const cookieLogin = cookies.get('login');
     const token = cookieLogin ? cookieLogin : sessionStorage.getItem('login');
-    const userId = cookieLogin
-      ? cookies.get('userId')
-      : sessionStorage.getItem('userId');
-    const res = await axios.post(
-      `${url}/api/schedulers/${userId}/hotels`,
-      Data,
-      {
-        headers: {
-          Authorization: token,
+    if (Data.schedulerId > 0) {
+      const res = await axios.post(
+        `${url}/api/schedulers/${Data.schedulerId}/hotels`,
+        Data.Hotels,
+        {
+          headers: {
+            Authorization: token,
+          },
         },
-      },
-    );
-    return res.data;
+      );
+      return res.data;
+    }
   } catch (error) {
     const axiosError = error as AxiosError;
     throw axiosError.response?.data;
   }
 };
 interface InformationType {
-  informationId: number;
-  visitStart: string;
-  visitEnd: string;
+  Information: { informationId: number; visitStart: string; visitEnd: string };
+  schedulerId: number;
 }
 export const schedulerInformationApi = async (Data: InformationType) => {
   try {
     const cookies = new Cookies();
     const cookieLogin = cookies.get('login');
     const token = cookieLogin ? cookieLogin : sessionStorage.getItem('login');
-    const userId = cookieLogin
-      ? cookies.get('userId')
-      : sessionStorage.getItem('userId');
-    const res = await axios.post(
-      `${url}/api/schedulers/${userId}/information`,
-      Data,
-      {
-        headers: {
-          Authorization: token,
+    if (Data.schedulerId > 0) {
+      const res = await axios.post(
+        `${url}/api/schedulers/${Data.schedulerId}/information`,
+        Data.Information,
+        {
+          headers: {
+            Authorization: token,
+          },
         },
-      },
-    );
-    return res.data;
+      );
+      return res.data;
+    }
   } catch (error) {
     const axiosError = error as AxiosError;
     throw axiosError.response?.data;
   }
 };
 interface LandmarksType {
-  landmarkId: number;
-  visitStart: string;
-  visitEnd: string;
+  Landmarks: { landmarkId: number; visitStart: string; visitEnd: string };
+  schedulerId: number;
 }
-export const schedulerIlandmarksApi = async (Data: LandmarksType) => {
+export const schedulerLandmarksApi = async (Data: LandmarksType) => {
   try {
     const cookies = new Cookies();
     const cookieLogin = cookies.get('login');
     const token = cookieLogin ? cookieLogin : sessionStorage.getItem('login');
-    const userId = cookieLogin
-      ? cookies.get('userId')
-      : sessionStorage.getItem('userId');
-    const res = await axios.post(
-      `${url}/api/schedulers/${userId}/landmarks`,
-      Data,
-      {
-        headers: {
-          Authorization: token,
+    if (Data.schedulerId > 0) {
+      const res = await axios.post(
+        `${url}/api/schedulers/${Data.schedulerId}/landmarks`,
+        Data.Landmarks,
+        {
+          headers: {
+            Authorization: token,
+          },
         },
-      },
-    );
-    return res.data;
+      );
+      return res.data;
+    }
   } catch (error) {
     const axiosError = error as AxiosError;
     throw axiosError.response?.data;
   }
 };
 interface RestaurantsType {
-  restaurantId: number;
-  visitStart: string;
-  visitEnd: string;
+  Restaurants: { restaurantId: number; visitStart: string; visitEnd: string };
+  schedulerId: number;
 }
 export const schedulerRestaurantsApi = async (Data: RestaurantsType) => {
   try {
     const cookies = new Cookies();
     const cookieLogin = cookies.get('login');
     const token = cookieLogin ? cookieLogin : sessionStorage.getItem('login');
-    const userId = cookieLogin
-      ? cookies.get('userId')
-      : sessionStorage.getItem('userId');
-    const res = await axios.post(
-      `${url}/api/schedulers/${userId}/restaurants`,
-      Data,
-      {
-        headers: {
-          Authorization: token,
+    if (Data.schedulerId > 0) {
+      const res = await axios.post(
+        `${url}/api/schedulers/${Data.schedulerId}/restaurants`,
+        Data.Restaurants,
+        {
+          headers: {
+            Authorization: token,
+          },
         },
-      },
-    );
-    return res.data;
+      );
+      return res.data;
+    }
   } catch (error) {
     const axiosError = error as AxiosError;
     throw axiosError.response?.data;
   }
 };
 interface SeoulgoodsType {
-  goodsId: number;
-  visitStart: string;
-  visitEnd: string;
+  Seoulgoods: { goodsId: number; visitStart: string; visitEnd: string };
+  schedulerId: number;
 }
 export const schedulerSeoulgoodsApi = async (Data: SeoulgoodsType) => {
   try {
     const cookies = new Cookies();
     const cookieLogin = cookies.get('login');
     const token = cookieLogin ? cookieLogin : sessionStorage.getItem('login');
-    const userId = cookieLogin
-      ? cookies.get('userId')
-      : sessionStorage.getItem('userId');
-    const res = await axios.post(
-      `${url}/api/schedulers/${userId}/seoul-goods`,
-      Data,
-      {
-        headers: {
-          Authorization: token,
+    if (Data.schedulerId > 0) {
+      const res = await axios.post(
+        `${url}/api/schedulers/${Data.schedulerId}/seoul-goods`,
+        Data.Seoulgoods,
+        {
+          headers: {
+            Authorization: token,
+          },
         },
-      },
-    );
-    return res.data;
+      );
+      return res.data;
+    }
   } catch (error) {
     const axiosError = error as AxiosError;
     throw axiosError.response?.data;

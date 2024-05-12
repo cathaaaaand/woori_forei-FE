@@ -2,8 +2,8 @@ import React from 'react';
 import { Cookies } from 'react-cookie';
 import {
   IoIosArrowDown,
-  IoIosArrowForward,
-  IoIosArrowBack,
+  // IoIosArrowForward,
+  // IoIosArrowBack,
 } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 import * as St from './style';
@@ -41,7 +41,7 @@ const Faq = () => {
               navigate('/faqdetail');
             }}
           >
-            <div>
+            <div style={{ display: 'flex', gap: '10px' }}>
               <p>24.03.25</p>
               <div>회원가입 시 위치 정보 공유 동의는 왜 필요한가요?</div>
             </div>
@@ -50,7 +50,7 @@ const Faq = () => {
             </button>
           </St.FaqContentFrame>
           <St.FaqContentFrame>
-            <div>
+            <div style={{ display: 'flex', gap: '10px' }}>
               <p>24.03.25</p>
               <div>회원가입 시 위치 정보 공유 동의는 왜 필요한가요?</div>
             </div>
@@ -59,7 +59,7 @@ const Faq = () => {
             </button>
           </St.FaqContentFrame>
           <St.FaqContentFrame>
-            <div>
+            <div style={{ display: 'flex', gap: '10px' }}>
               <p>24.03.25</p>
               <div>회원가입 시 위치 정보 공유 동의는 왜 필요한가요?</div>
             </div>
@@ -68,7 +68,7 @@ const Faq = () => {
             </button>
           </St.FaqContentFrame>
           <St.FaqContentFrame>
-            <div>
+            <div style={{ display: 'flex', gap: '10px' }}>
               <p>24.03.25</p>
               <div>회원가입 시 위치 정보 공유 동의는 왜 필요한가요?</div>
             </div>
@@ -77,11 +77,11 @@ const Faq = () => {
             </button>
           </St.FaqContentFrame>
         </St.ContentFrame>
-        <St.FaqPageFrame>
+        {/* <St.FaqPageFrame>
           <IoIosArrowBack size="20px" />
           <div>1 2 3 4</div>
           <IoIosArrowForward size="20px" />
-        </St.FaqPageFrame>
+        </St.FaqPageFrame> */}
       </St.FaqInnerFrame>
     </St.FaqFrame>
   );

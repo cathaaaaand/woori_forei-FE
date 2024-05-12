@@ -33,8 +33,15 @@ export const loginApiFn = (LoginMainTain: boolean) => {
   expireDate.setMonth(expireDate.getMonth() + 1);
   const loginApi = async (Login: LoginType) => {
     try {
-      const res = await axios.post(`${url}/api/auth/login`, Login);
+      const res = await axios.post(`${url}/api/auth/login`, Login, {
+        withCredentials: true,
+        headers: {
+          'Content-type': 'application/json ',
+        },
+        responseType: 'json',
+      });
       const accessToken = res.headers['authorization'];
+      console.log(res);
       if (accessToken) {
         LoginMainTain
           ? cookies.set('login', accessToken, {
@@ -90,7 +97,7 @@ export const googleLoginApi = async () => {
 };
 export const signUpApi = async (SignUp: SignUpType) => {
   try {
-    const res = await axios.post('/api/auth/signup', SignUp);
+    const res = await axios.post(`${url}/api/auth/signup`, SignUp);
     return res.data;
   } catch (error) {
     const axiosError = error as AxiosError;

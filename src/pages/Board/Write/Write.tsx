@@ -1,61 +1,85 @@
+import { useMutation } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import * as St from './style';
+import { boardCreateApi, boardPatchApi } from 'api/board';
 
 const Write = () => {
-  const initialValue = {
-    id: 1,
-    title: '',
-    content: '',
-    imgFile: '',
-    createdAt: new Date().toString(),
-  };
-  const [defaultValue, setDefaultValue] = useState([
-    {
-      id: 1,
-      title: '안녕하세요~',
-      content: '뉴진스 팬미팅 동행 구합니다!',
-      imgFile: '',
-      createdAt: '24.03.25',
-    },
-  ]);
-  const [form, setForm] = useState(initialValue);
-  const { title, content, imgFile } = form;
+  // const [form, setForm] = useState({
+  //   title: '',
+  //   content: '',
+  // });
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [imgFile, setImgFile] = useState<File | null>(null);
+  // const [imgPreview, setImgPreview] = useState('');
+  // const { title, content } = form;
+  const boardCreateMutation = useMutation({ mutationFn: boardCreateApi });
+  const boardPatchMutation = useMutation({ mutationFn: boardPatchApi });
 
-  const onChange = (e: { target: { name: string; value: unknown } }) => {
-    const { name, value } = e.target;
-    setForm((form) => ({ ...form, [name]: value }));
-  };
+  // const onChange = (e: { target: { name: string; value: unknown } }) => {
+  //   const { name, value } = e.target;
+  //   setForm((form) => ({ ...form, [name]: value }));
+  // };
+  const imgOnChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    if (e.target.files) {
+      const file = e.target.files?.[0];
+      setImgFile(file);
+    }
+    // const reader = new FileReader();
 
+    // reader.onload = () => {
+    //   const result = reader.result as ArrayBuffer;
+    //   const blob = new Blob([result], { type: file.type });
+    //   const blobUrl = URL.createObjectURL(blob);
+    //   setImgPreview(blobUrl);
+    // };
+    // reader.readAsArrayBuffer(file);
+  };
+  const boardPatchHandler = () => {
+    const formData = new FormData();
+    // const transfrom = JSON.stringify({ title, content });
+    // const blob1 = new Blob([transfrom], { type: 'application/json' });
+    formData.append('request', title);
+    formData.append('request', content);
+    if (imgFile) {
+      formData.append('images', imgFile);
+    }
+    boardPatchMutation.mutate(formData, {
+      onSuccess: (data) => {
+        alert(data.message);
+      },
+      onError: (error) => {
+        alert(error);
+        return;
+      },
+    });
+  };
   const submitHandelr = () => {
-    if (!title || !content) {
+    if (!title || !content || !imgFile) {
       alert('빈칸을 채워주세요');
       return;
     } else {
-      setDefaultValue((prev) => [...prev, form]);
-      console.log(defaultValue);
-      //alert('등록되었습니다!');
-      setForm(initialValue);
-      //navigate("/board")
+      const formData = new FormData();
+      formData.append('images', imgFile);
+
+      const transfrom = JSON.stringify({ title: title, content: content });
+      const blob1 = new Blob([transfrom], { type: 'application/json' });
+      formData.append('request', blob1);
+      console.log(...formData);
+
+      boardCreateMutation.mutate(formData, {
+        onSuccess: (data) => {
+          alert(data.message);
+        },
+        onError: (error) => {
+          alert(error);
+          return;
+        },
+      });
     }
   };
 
-  const imgUploadHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) {
-      alert('유효한 파일이 아닙니다');
-      return;
-    }
-    const file = e.target.files[0];
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      const result = reader.result as ArrayBuffer;
-      const blob = new Blob([result], { type: file.type });
-      const blobUrl = URL.createObjectURL(blob);
-      setForm((form) => ({ ...form, imgFile: blobUrl }));
-    };
-
-    reader.readAsArrayBuffer(file);
-  };
   return (
     <St.WriteFrame>
       <St.WriteInnerFrame>
@@ -64,7 +88,7 @@ const Write = () => {
           <St.TitleInputFrame>
             <St.WriteTitleInput
               name="title"
-              onChange={onChange}
+              onChange={(e) => setTitle(e.target.value)}
               placeholder="제목은 최대 20자까지 작성 가능합니다."
               value={title}
             />
@@ -72,24 +96,27 @@ const Write = () => {
           </St.TitleInputFrame>
           <St.WriteContentInput
             name="content"
-            onChange={onChange}
+            onChange={(e) => setContent(e.target.value)}
             placeholder="글을 작성해주세요."
             value={content}
           />
           <St.WriteImgFrame>
-            {imgFile ? (
-              <img src={imgFile} alt="이미지 업로드" />
-            ) : (
-              <>
-                <label htmlFor="inputImg">이미지 추가하기</label>
-                <input
-                  id="inputImg"
-                  type="file"
-                  accept="image/png, image/jpeg, image/jpg"
-                  onChange={imgUploadHandler}
-                />
-              </>
-            )}
+            {/* {imgPreview ? (
+              <img src={imgPreview} alt="이미지 업로드" />
+            ) : ( */}
+            <>
+              <label htmlFor="inputImg">이미지 추가하기</label>
+              <input
+                id="inputImg"
+                type="file"
+                accept="image/png, image/jpeg, image/jpg"
+                onChange={imgOnChangeHandler}
+              />
+            </>
+            <St.WriteTitleBtn type="button" onClick={boardPatchHandler}>
+              수정
+            </St.WriteTitleBtn>
+            {/* )} */}
           </St.WriteImgFrame>
         </div>
       </St.WriteInnerFrame>

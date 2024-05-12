@@ -10,9 +10,11 @@ export const boardCreateApi = async (Data: FormData) => {
     const token = cookieLogin ? cookieLogin : sessionStorage.getItem('login');
     const res = await axios.post(`${url}/api/communities`, Data, {
       headers: {
-        Authorization: token,
         'Content-Type': 'multipart/form-data',
+        Authorization: token,
+        accept: 'multipart/form-data',
       },
+      transformRequest: (Data) => Data,
     });
     return res.data;
   } catch (error) {
@@ -56,6 +58,7 @@ export const boardSingleApi = async () => {
     throw axiosError.response?.data;
   }
 };
+//게시글 id로 변경 필요!
 export const boardPatchApi = async (Data: FormData) => {
   try {
     const cookies = new Cookies();
@@ -77,15 +80,12 @@ export const boardPatchApi = async (Data: FormData) => {
   }
 };
 
-export const boardDeleteApi = async () => {
+export const boardDeleteApi = async (id: number) => {
   try {
     const cookies = new Cookies();
     const cookieLogin = cookies.get('login');
     const token = cookieLogin ? cookieLogin : sessionStorage.getItem('login');
-    const userId = cookieLogin
-      ? cookies.get('userId')
-      : sessionStorage.getItem('userId');
-    const res = await axios.delete(`${url}/api/communities/${userId}`, {
+    const res = await axios.delete(`${url}/api/communities/${id}`, {
       headers: {
         Authorization: token,
       },
@@ -115,15 +115,12 @@ export const boardMyWritingApi = async () => {
   }
 };
 //좋아요 기능은 뭘 보내는 것이 없는데 어떻게 포스트가 되는지?
-export const boardLikeApi = async () => {
+export const boardLikeApi = async (id: number) => {
   try {
     const cookies = new Cookies();
     const cookieLogin = cookies.get('login');
     const token = cookieLogin ? cookieLogin : sessionStorage.getItem('login');
-    const userId = cookieLogin
-      ? cookies.get('userId')
-      : sessionStorage.getItem('userId');
-    const res = await axios.post(`${url}/api/communities/${userId}/like`, {
+    const res = await axios.post(`${url}/api/communities/${id}/like`, {
       headers: {
         Authorization: token,
       },

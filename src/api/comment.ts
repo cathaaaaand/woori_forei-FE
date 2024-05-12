@@ -3,7 +3,7 @@ import { Cookies } from 'react-cookie';
 
 const url = process.env.REACT_APP_SERVER;
 
-export const commentCreateApi = async (Data: string) => {
+export const commentCreateApi = async (Data: { commentContent: string }) => {
   try {
     const cookies = new Cookies();
     const cookieLogin = cookies.get('login');
@@ -64,14 +64,9 @@ export const commentPatchApi = async (Data: CommentDataType) => {
     throw axiosError.response?.data;
   }
 };
-export const commentDeleteApi = async () => {
+export const commentDeleteApi = async (id: number) => {
   try {
-    const cookies = new Cookies();
-    const cookieLogin = cookies.get('login');
-    const userId = cookieLogin
-      ? cookies.get('userId')
-      : sessionStorage.getItem('userId');
-    const res = await axios.delete(`${url}/api/comments/${userId}`, {
+    const res = await axios.delete(`${url}/api/comments/${id}`, {
       headers: {
         'Content-Type': 'application/json',
       },
