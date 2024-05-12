@@ -15,13 +15,10 @@ export const SchedulerWrapper = styled.div`
   align-items: center;
 
   .Title {
+    display: flex;
+    gap: 20px;
     font-size: 30px;
-  }
-
-  .BeforeArrow {
-    position: absolute;
-    top: 50px;
-    left: 305px;
+    margin-bottom: 30px;
   }
 `;
 export const SearchInputFrame = styled.div`
@@ -59,4 +56,27 @@ export const StepBtn = styled.button`
 
 export const FinalTitle = styled.div`
   margin-top: 30px;
+`;
+export const ListWrapper = styled.div`
+  display: flex;
+  gap: 21px;
+`;
+export const CardWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+
+  .Card {
+    width: 334px;
+    height: 435px;
+    border: 1px solid #b9b9b9;
+    border-radius: 5px;
+  }
+`;
+export const CardNumber = styled.div`
+  width: 40px;
+  height: 35px;
+  border: none;
+  background: #30a8ff;
+  border-radius: 50%;
 `;

@@ -94,6 +94,7 @@ export const CardTitleFrame = styled.div`
     font-weight: bold;
   }
 `;
+
 export const CultureCardTitleFrame = styled.div`
   display: flex;
   justify-content: center;

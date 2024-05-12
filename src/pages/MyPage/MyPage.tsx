@@ -5,6 +5,8 @@ import { GiPlainCircle } from 'react-icons/gi';
 import { RxTriangleDown } from 'react-icons/rx';
 import * as St from './style';
 import UpdateProfile from './UpdateProfile';
+import { boardMyWritingApi } from 'api/board';
+import { commentMineApi } from 'api/comment';
 import { userProfileApi } from 'api/user';
 import { useModal } from 'components/Common/Modal/Modal.hooks';
 
@@ -14,7 +16,16 @@ const MyPage = () => {
     queryKey: ['myPage'],
     queryFn: userProfileApi,
   });
-
+  const { data: boardData } = useQuery({
+    queryKey: ['myboard'],
+    queryFn: boardMyWritingApi,
+  });
+  const { data: commentData } = useQuery({
+    queryKey: ['mycomment'],
+    queryFn: commentMineApi,
+  });
+  console.log(boardData);
+  console.log(commentData);
   const updateProfileHandler = () => {
     mount('updateProfile', <UpdateProfile data={data} />);
   };

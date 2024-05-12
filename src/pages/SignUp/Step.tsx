@@ -19,6 +19,7 @@ const Step = (props: StepPropsStyle) => {
   const emailSendMutation = useMutation({ mutationFn: emailCodeSendApi });
   const emailConfirmMutation = useMutation({ mutationFn: emailCodeConfirmApi });
   const [step, setStep] = useState(0);
+  const [contentState, setContentState] = useState('');
   const [contentShow, setContentShow] = useState(false);
   const [verificationCode, setVerificationCode] = useState('');
   const [agree, setAgree] = useState({
@@ -113,8 +114,9 @@ const Step = (props: StepPropsStyle) => {
   const beforeStepHandler = () => {
     setStep(step - 1);
   };
-  const contentShowHandler = () => {
+  const contentShowHandler = (state: string) => {
     setContentShow(!contentShow);
+    setContentState(state);
   };
 
   const EmailCodeConfirmHandler = () => {
@@ -142,9 +144,6 @@ const Step = (props: StepPropsStyle) => {
       signUpMutation.mutate(signUpForm, {
         onSuccess: (data) => {
           alert(data.message);
-          const isdescription = description ? true : false;
-          console.log(isdescription);
-          console.log(signUpForm);
           setStep(4);
           setTimeout(() => {
             navigate('/');
@@ -221,7 +220,7 @@ const Step = (props: StepPropsStyle) => {
                   onChange={checkOnChange}
                 />
                 <p>서비스 약관에 동의합니다.</p>
-                <St.underLign onClick={contentShowHandler}>
+                <St.underLign onClick={() => contentShowHandler('service')}>
                   내용보기
                 </St.underLign>
               </St.CheckBoxFrame>
@@ -234,7 +233,7 @@ const Step = (props: StepPropsStyle) => {
                   onChange={checkOnChange}
                 />
                 <p>개인정보 수집 및 이용에 동의합니다.</p>
-                <St.underLign onClick={contentShowHandler}>
+                <St.underLign onClick={() => contentShowHandler('personal')}>
                   내용보기
                 </St.underLign>
               </St.CheckBoxFrame>
@@ -247,12 +246,17 @@ const Step = (props: StepPropsStyle) => {
                   onChange={checkOnChange}
                 />
                 <p>위치기반서비스 이용약관에 동의합니다.</p>
-                <St.underLign onClick={contentShowHandler}>
+                <St.underLign onClick={() => contentShowHandler('location')}>
                   내용보기
                 </St.underLign>
               </St.CheckBoxFrame>
             </St.CheckBoxGroup>
-            {contentShow && <Modal contentShowHandler={contentShowHandler} />}
+            {contentShow && (
+              <Modal
+                contentShowHandler={contentShowHandler}
+                contentState={contentState}
+              />
+            )}
           </St.InputFrame>
         </div>
       )}
