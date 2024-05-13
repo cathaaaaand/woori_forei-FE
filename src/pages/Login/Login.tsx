@@ -77,6 +77,7 @@ const Login = () => {
       });
     }
   }, [location]);
+
   const emailLoginHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     mutation.mutate(

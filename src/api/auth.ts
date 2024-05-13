@@ -26,22 +26,18 @@ interface EmailCodeConfirmType {
   email: string;
   verificationCode: string;
 }
-const cookies = new Cookies();
-const expireDate = new Date();
 const url = process.env.REACT_APP_SERVER;
 export const loginApiFn = (LoginMainTain: boolean) => {
-  expireDate.setMonth(expireDate.getMonth() + 1);
+  const cookies = new Cookies();
+  const expireDate = new Date();
+  expireDate.setDate(expireDate.getDate() + 30);
   const loginApi = async (Login: LoginType) => {
     try {
       const res = await axios.post(`${url}/api/auth/login`, Login, {
         withCredentials: true,
-        headers: {
-          'Content-type': 'application/json ',
-        },
-        responseType: 'json',
       });
       const accessToken = res.headers['authorization'];
-      console.log(res);
+      console.log(accessToken);
       if (accessToken) {
         LoginMainTain
           ? cookies.set('login', accessToken, {
@@ -50,15 +46,6 @@ export const loginApiFn = (LoginMainTain: boolean) => {
             })
           : sessionStorage.setItem('login', accessToken);
         axios.defaults.headers.common['Authorization'] = `${accessToken}`;
-      }
-      if (res.data.payload) {
-        const userId = res.data.payload.userId;
-        LoginMainTain
-          ? cookies.set('userId', userId, {
-              path: '/',
-              expires: expireDate,
-            })
-          : sessionStorage.setItem('userId', userId);
       }
       return res.data;
     } catch (error) {
