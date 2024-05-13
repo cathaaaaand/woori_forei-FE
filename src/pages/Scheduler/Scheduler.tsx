@@ -2,6 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
 //import { useNavigate } from 'react-router-dom';
 import { LuPlus } from 'react-icons/lu';
+import { useRecoilState } from 'recoil';
 import Card from '../../components/Card/Card';
 import * as St from './style';
 import {
@@ -18,6 +19,7 @@ import {
 } from 'api/schduler';
 import { ChooseCalendar } from 'components/Calendar/Calendar';
 import SearchCard from 'components/Card/SearchCard';
+import { dateState } from 'recoil/dataState';
 
 interface SchedulerCreateType {
   schedulerId: number;
@@ -44,6 +46,9 @@ interface SchedulerCreateType {
 }
 const Scheduler = () => {
   //const navigate = useNavigate();
+  const [dateSave] = useRecoilState(dateState);
+  console.log(dateSave);
+
   const [nameForm, setNameForm] = useState({
     schedulerName: '',
     memberEmails: [],
@@ -91,25 +96,33 @@ const Scheduler = () => {
   });
 
   const schedulerCreateHandler = () => {
-    schedulerCreateMutation.mutate(
-      {
-        schedulerName: schedulerName,
-        startDate: '2024-05-26T11:30:00',
-        endDate: '2024-06-29T11:30:00',
-        memberEmails: memberEmails,
-      },
-      {
-        onSuccess: async (data) => {
-          alert(data.message);
-          setSchedulerId(data.payload.schedulerId);
-          await refetch();
-          setStep(3);
+    if (schedulerName && memberEmails) {
+      schedulerCreateMutation.mutate(
+        {
+          schedulerName: schedulerName,
+          startDate: 'startDate',
+          endDate: 'endDate',
+          memberEmails: memberEmails,
         },
-        onError: (error) => {
-          alert(error);
+        {
+          onSuccess: async (data) => {
+            alert(data.message);
+            setSchedulerId(data.payload.schedulerId);
+            await refetch();
+            setStep(3);
+          },
+          onError: (error) => {
+            alert(error);
+          },
         },
-      },
-    );
+      );
+    }
+    // console.log({
+    //   schedulerName: schedulerName,
+    //   startDate: startDate,
+    //   endDate: endDate,
+    //   memberEmails: memberEmails,
+    // });
   };
   const schedulerDeleteHandler = (id: number) => {
     schedulerDeleteMutation.mutate(id, {
