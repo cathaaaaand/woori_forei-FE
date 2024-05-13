@@ -12,7 +12,7 @@ export const boardCreateApi = async (Data: FormData) => {
       headers: {
         'Content-Type': 'multipart/form-data',
         Authorization: token,
-        accept: 'multipart/form-data',
+        accept: 'application/json,text/html',
       },
       transformRequest: (Data) => Data,
     });
