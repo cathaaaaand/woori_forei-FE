@@ -41,11 +41,6 @@ const SignUp = () => {
         {!show && (
           <>
             <St.SignUpDescriptionFrame>
-              {/* <IoIosArrowBack
-                onClick={() => {
-                  navigate(-1);
-                }}
-              /> */}
               <St.SignUpDescription>서울시를 즐겨봐요!</St.SignUpDescription>
             </St.SignUpDescriptionFrame>
             <div>

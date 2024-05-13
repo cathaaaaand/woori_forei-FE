@@ -2,7 +2,6 @@ import { useMutation } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
 import { AiOutlineMail, AiOutlineUnlock } from 'react-icons/ai';
 import { CiMail } from 'react-icons/ci';
-import { IoIosArrowBack } from 'react-icons/io';
 import { useLocation, useNavigate } from 'react-router-dom';
 import google from '../../asset/google.png';
 import * as St from './style';
@@ -111,7 +110,6 @@ const Login = () => {
           )}
           {!emailCpShow && (
             <>
-              <IoIosArrowBack onClick={groupToEmailHandler} />
               <form id="Login" method="post" onSubmit={emailLoginHandler}>
                 <St.EmailNPasswordFrame>
                   <AiOutlineMail className="LoginIcon" />
