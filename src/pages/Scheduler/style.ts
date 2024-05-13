@@ -44,16 +44,6 @@ export const SearchInputBtn = styled.div`
   font-size: 15pt;
 `;
 
-export const StepBtn = styled.button`
-  width: 450px;
-  height: 75px;
-  font-size: 20pt;
-  background-color: white;
-  border: 1px solid #015ffa;
-  border-radius: 10px;
-  margin-top: 60px;
-`;
-
 export const FinalTitle = styled.div`
   margin-top: 30px;
 `;
@@ -79,4 +69,30 @@ export const CardNumber = styled.div`
   border: none;
   background: #30a8ff;
   border-radius: 50%;
+`;
+export const Circle = styled.div`
+  background: #b2b2b2;
+  width: 30px;
+  height: 30px;
+  border: 1px solid transparent;
+  border-radius: 50%;
+`;
+export const SInput = styled.input`
+  width: 356px;
+  height: 58px;
+  border: 1px solid #4a4a4a;
+`;
+export const InputBtn = styled.div`
+  width: 356px;
+  height: 58px;
+  border: 1px solid #4a4a4a;
+`;
+export const StepBtn = styled.button`
+  width: 450px;
+  height: 75px;
+  font-size: 20pt;
+  background-color: white;
+  border: 1px solid #015ffa;
+  border-radius: 10px;
+  margin-top: 60px;
 `;

@@ -75,22 +75,24 @@ export const EmailNPasswordFrame = styled.div`
   color: black;
 
   .LoginIput {
-    width: 450px;
-    height: 75px;
+    width: 356px;
+    height: 58px;
     border: 1px solid #d2d2d2;
     border-radius: 10px;
     padding-left: 80px;
-    font-size: 20pt;
+    margin-bottom: 18px;
+    font-size: 16pt;
   }
 
   .LoginIcon {
     position: absolute;
     left: 25px;
+    top: 19px;
   }
 `;
 const BtnStyle = `
-width: 450px;
-height: 75px;
+width: 356px;
+height: 58px;
 font-size: 20pt;
 background: #005391;
 border: 1px solid #30a8ff;

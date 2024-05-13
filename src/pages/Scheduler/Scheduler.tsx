@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
 //import { useNavigate } from 'react-router-dom';
+import { LuPlus } from 'react-icons/lu';
 import Card from '../../components/Card/Card';
 import * as St from './style';
 import {
@@ -261,7 +262,7 @@ const Scheduler = () => {
         )}
         {step === 1 && (
           <>
-            <div className="Title">스케줄러 정보를 작성해주세요.</div>
+            <div className="Title">일정의 이름, 멤버를 입력해주세요.</div>
             <button
               onClick={() => {
                 setStep(0);
@@ -269,18 +270,23 @@ const Scheduler = () => {
             >
               스케줄러 목록으로 이동
             </button>
-            스케줄러 이름:
-            <input
+            일정의 이름:
+            <St.SInput
               value={schedulerName}
               name="schedulerName"
               onChange={onChange}
             />
-            스케줄러에서 함께할 멤버
-            <input
+            함께할 멤버 입력
+            <St.SInput
               value={memberEmails}
               name="memberEmails"
               onChange={onChange}
             />
+            <button>
+              <St.Circle>
+                <LuPlus color="white" size="30" />
+              </St.Circle>
+            </button>
             <St.StepBtn onClick={() => setStep(2)}>다음</St.StepBtn>
           </>
         )}
