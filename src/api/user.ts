@@ -14,7 +14,6 @@ interface ProfilePatchType {
   commentId: null;
   image: null;
 }
-axios.defaults.withCredentials = true;
 const url = process.env.REACT_APP_SERVER;
 export const userProfileApi = async () => {
   try {

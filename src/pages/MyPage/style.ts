@@ -209,8 +209,8 @@ export const ValueFrame = styled.div`
   }
 
   .ValueIput {
-    width: 465px;
-    height: 60px;
+    width: 356px;
+    height: 58px;
     border: 1px solid #d2d2d2;
     border-radius: 10px;
     padding-left: 80px;
