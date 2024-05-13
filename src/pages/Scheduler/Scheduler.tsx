@@ -46,7 +46,7 @@ const Scheduler = () => {
   //const navigate = useNavigate();
   const [nameForm, setNameForm] = useState({
     schedulerName: '',
-    memberEmails: '',
+    memberEmails: [],
   });
   const onChange = (e: { target: { name: string; value: unknown } }) => {
     const { name, value } = e.target;
@@ -93,10 +93,10 @@ const Scheduler = () => {
   const schedulerCreateHandler = () => {
     schedulerCreateMutation.mutate(
       {
-        schedulerName: '??와의 여행',
+        schedulerName: schedulerName,
         startDate: '2024-05-26T11:30:00',
         endDate: '2024-06-29T11:30:00',
-        memberEmails: ['visepa4726@mfyax.com'],
+        memberEmails: memberEmails,
       },
       {
         onSuccess: async (data) => {
@@ -262,31 +262,33 @@ const Scheduler = () => {
         )}
         {step === 1 && (
           <>
-            <div className="Title">일정의 이름, 멤버를 입력해주세요.</div>
-            <button
-              onClick={() => {
-                setStep(0);
-              }}
-            >
-              스케줄러 목록으로 이동
-            </button>
-            일정의 이름:
-            <St.SInput
-              value={schedulerName}
-              name="schedulerName"
-              onChange={onChange}
-            />
-            함께할 멤버 입력
-            <St.SInput
-              value={memberEmails}
-              name="memberEmails"
-              onChange={onChange}
-            />
-            <button>
-              <St.Circle>
+            <div className="STitle">
+              <St.Circle />
+              <p>일정의 이름, 멤버를 입력해주세요.</p>
+            </div>
+            <St.InputBtnFrame>
+              <div>
+                <label>일정의 이름</label>
+                <St.SInput
+                  value={schedulerName}
+                  name="schedulerName"
+                  onChange={onChange}
+                />
+              </div>
+              <div>
+                <label>함께할 멤버 입력</label>
+                <St.SInput
+                  value={memberEmails}
+                  name="memberEmails"
+                  onChange={onChange}
+                />
+              </div>
+            </St.InputBtnFrame>
+            <St.InputBtn>
+              <St.GCircle>
                 <LuPlus color="white" size="30" />
-              </St.Circle>
-            </button>
+              </St.GCircle>
+            </St.InputBtn>
             <St.StepBtn onClick={() => setStep(2)}>다음</St.StepBtn>
           </>
         )}
