@@ -77,6 +77,26 @@ export const ImaCardFrame = styled.div`
       transform: translate(10px, -35px);
     }
   }
+  .ImgCardSquare4 {
+    width: 500px;
+    height: 500px;
+    border-radius: 5px;
+    background: #f7f7f7;
+    color: transparent;
+    img {
+      width: 500px;
+      height: 500px;
+      background-position: center;
+      border-radius: 5px;
+    }
+    &:hover {
+      color: white;
+    }
+    p {
+      text-align: center;
+      transform: translate(10px, -35px);
+    }
+  }
   .Flex {
     display: flex;
     gap: 28px;

@@ -4,9 +4,9 @@ import blossom from '../../asset/blossom.jpg';
 import gangnam from '../../asset/gangnam.jpg';
 import hanok2 from '../../asset/hanok2.jpg';
 import mainScheduler from '../../asset/mainScheduler.png';
-// import palace from '../../asset/palace.jpg';
+import palace from '../../asset/palace.jpg';
 import simpleLogo from '../../asset/simpleLogo.png';
-// import tower from '../../asset/tower.jpg';
+import tower from '../../asset/tower.jpg';
 import CultureCard from './MainComponents/CultureCard';
 import Popular from './MainComponents/Popular';
 import * as St from './style';
@@ -35,27 +35,9 @@ const Main = () => {
             <p>사진으로 보는 서울</p>
           </div>
           <div className="Flex">
-            <div>
-              <div className="Flex">
-                <div className="ImgCardSquare">
-                  <img src={hanok2} alt="한옥마을" />
-                  <p>ⓒ한국관광공사 포토코리아-박근형</p>
-                </div>
-                <div className="ImgCardSquare">
-                  <img src={blossom} alt="벚꽃" />
-                  <p>ⓒ한국관광공사 포토코리아-한국관광공사 김지호</p>
-                </div>
-              </div>
-              <div className="Flex">
-                <div className="ImgCardSquare">
-                  <img src={gangnam} alt="강남" />
-                  <p>ⓒ한국관광공사 포토코리아-한국관광공사 김미숙</p>
-                </div>
-                <div className="ImgCardSquare">
-                  <img src={blossom} alt="벚꽃" />
-                  <p>ⓒ한국관광공사 포토코리아-한국관광공사 김지호</p>
-                </div>
-              </div>
+            <div className="ImgCardSquare4">
+              <img src={tower} alt="타워" />
+              <p>ⓒ한국관광공사 포토코리아-박근형</p>
             </div>
             <div>
               <div className="Flex">
@@ -74,7 +56,7 @@ const Main = () => {
                   <p>ⓒ한국관광공사 포토코리아-한국관광공사 김미숙</p>
                 </div>
                 <div className="ImgCardSquare">
-                  <img src={blossom} alt="벚꽃" />
+                  <img src={palace} alt="벚꽃" />
                   <p>ⓒ한국관광공사 포토코리아-한국관광공사 김지호</p>
                 </div>
               </div>
