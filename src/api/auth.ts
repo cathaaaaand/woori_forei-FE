@@ -27,17 +27,15 @@ interface EmailCodeConfirmType {
   verificationCode: string;
 }
 const url = process.env.REACT_APP_SERVER;
+
 export const loginApiFn = (LoginMainTain: boolean) => {
   const cookies = new Cookies();
   const expireDate = new Date();
   expireDate.setDate(expireDate.getDate() + 30);
   const loginApi = async (Login: LoginType) => {
     try {
-      const res = await axios.post(`${url}/api/auth/login`, Login, {
-        withCredentials: true,
-      });
+      const res = await axios.post(`${url}/api/auth/login`, Login);
       const accessToken = res.headers['authorization'];
-      console.log(accessToken);
       if (accessToken) {
         LoginMainTain
           ? cookies.set('login', accessToken, {
@@ -45,7 +43,6 @@ export const loginApiFn = (LoginMainTain: boolean) => {
               expires: expireDate,
             })
           : sessionStorage.setItem('login', accessToken);
-        axios.defaults.headers.common['Authorization'] = `${accessToken}`;
       }
       return res.data;
     } catch (error) {

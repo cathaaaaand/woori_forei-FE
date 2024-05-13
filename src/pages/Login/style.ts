@@ -20,6 +20,7 @@ export const LoginWrapper = styled.div`
     justify-content: center;
     gap: 20px;
     transform: translate(-10px, 0);
+    font-weight: bold;
   }
 
   .LoginContents {
@@ -38,15 +39,15 @@ export const LoginWrapper = styled.div`
     align-items: center;
     justify-content: center;
     gap: 25px;
-    font-size: 20pt;
+    font-size: 16pt;
     border-radius: 10px;
-    width: 465px;
-    height: 85px;
+    width: 356px;
+    height: 58px;
     background-color: white;
   }
 `;
 export const LoginDescription = styled.div`
-  font-size: 20pt;
+  font-size: 16pt;
   margin-bottom: 20px;
 `;
 
@@ -58,12 +59,13 @@ export const LoginMaintain = styled.div`
 
 export const OtherMenu = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 40px;
   border-top: 1px solid #d2d2d2;
-  width: 525px;
   margin-top: 20px;
   padding-top: 35px;
   color: #444444;
+  transform: translate(-10px, 0);
 `;
 
 export const EmailNPasswordFrame = styled.div`

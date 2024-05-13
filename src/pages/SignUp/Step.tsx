@@ -1,7 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import { AiOutlineMail, AiOutlineUnlock } from 'react-icons/ai';
-import { IoIosArrowBack } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 import Complete from './Complete';
 import Modal from './Modal';
@@ -9,11 +8,10 @@ import * as St from './style';
 import { emailCodeConfirmApi, emailCodeSendApi, signUpApi } from 'api/auth';
 
 interface StepPropsStyle {
-  emailBackArrowHandler: () => void;
   adminShow: boolean;
 }
 const Step = (props: StepPropsStyle) => {
-  const { emailBackArrowHandler, adminShow } = props;
+  const { adminShow } = props;
   const navigate = useNavigate();
   const signUpMutation = useMutation({ mutationFn: signUpApi });
   const emailSendMutation = useMutation({ mutationFn: emailCodeSendApi });
@@ -111,9 +109,6 @@ const Step = (props: StepPropsStyle) => {
       setStep(3);
     }
   };
-  const beforeStepHandler = () => {
-    setStep(step - 1);
-  };
   const contentShowHandler = (state: string) => {
     setContentShow(!contentShow);
     setContentState(state);
@@ -160,10 +155,7 @@ const Step = (props: StepPropsStyle) => {
       {step === 0 && (
         <div>
           <St.SignUpDescriptionFrame>
-            <IoIosArrowBack onClick={emailBackArrowHandler} />
-            <St.SignUpDescription>
-              회원가입 후 함께 서울시를 즐겨봐요!
-            </St.SignUpDescription>
+            <St.SignUpDescription>서울시를 즐겨봐요!</St.SignUpDescription>
           </St.SignUpDescriptionFrame>
 
           <St.InputFrame>
@@ -220,9 +212,9 @@ const Step = (props: StepPropsStyle) => {
                   onChange={checkOnChange}
                 />
                 <p>서비스 약관에 동의합니다.</p>
-                <St.underLign onClick={() => contentShowHandler('service')}>
+                <St.LigntoText onClick={() => contentShowHandler('service')}>
                   내용보기
-                </St.underLign>
+                </St.LigntoText>
               </St.CheckBoxFrame>
               <St.CheckBoxFrame>
                 <input
@@ -233,9 +225,9 @@ const Step = (props: StepPropsStyle) => {
                   onChange={checkOnChange}
                 />
                 <p>개인정보 수집 및 이용에 동의합니다.</p>
-                <St.underLign onClick={() => contentShowHandler('personal')}>
+                <St.LigntoText onClick={() => contentShowHandler('personal')}>
                   내용보기
-                </St.underLign>
+                </St.LigntoText>
               </St.CheckBoxFrame>
               <St.CheckBoxFrame>
                 <input
@@ -246,9 +238,9 @@ const Step = (props: StepPropsStyle) => {
                   onChange={checkOnChange}
                 />
                 <p>위치기반서비스 이용약관에 동의합니다.</p>
-                <St.underLign onClick={() => contentShowHandler('location')}>
+                <St.LigntoText onClick={() => contentShowHandler('location')}>
                   내용보기
-                </St.underLign>
+                </St.LigntoText>
               </St.CheckBoxFrame>
             </St.CheckBoxGroup>
             {contentShow && (
@@ -262,10 +254,7 @@ const Step = (props: StepPropsStyle) => {
       )}
       {step === 1 && (
         <St.Step1Frame>
-          <div className="mailDescritionFrame">
-            <IoIosArrowBack onClick={beforeStepHandler} />
-            <St.SignUpDescription>이메일을 인증해주세요.</St.SignUpDescription>
-          </div>
+          <St.SignUpDescription>이메일을 인증해주세요.</St.SignUpDescription>
           <St.MailContentsFrame>
             {emailSendMutation.isPending ? (
               <>
@@ -285,16 +274,19 @@ const Step = (props: StepPropsStyle) => {
                   </>
                 ) : (
                   <>
-                    <label>인증코드 입력</label>
-                    <input
-                      value={verificationCode}
-                      onChange={(e) => {
-                        setVerificationCode(e.target.value);
-                      }}
-                    />
+                    <label className="valueLabel">인증 번호 입력</label>
+                    <St.ValueFrame>
+                      <input
+                        className="ValueIput"
+                        value={verificationCode}
+                        onChange={(e) => {
+                          setVerificationCode(e.target.value);
+                        }}
+                      />
+                    </St.ValueFrame>
                   </>
                 )}
-                <button onClick={EmailCodeConfirmHandler}>인증</button>
+                <St.StepBtn onClick={EmailCodeConfirmHandler}>인증</St.StepBtn>
                 <div className="mailAgain">
                   <p>인증 메일을 못 받으셨나요?</p>
                   <p className="mailAgainLink" onClick={EmailSendHandler}>
@@ -309,7 +301,6 @@ const Step = (props: StepPropsStyle) => {
       {step === 2 && (
         <div>
           <St.SignUpDescriptionFrame>
-            <IoIosArrowBack onClick={beforeStepHandler} />
             <St.SignUpDescription style={{ transform: 'translate(40px, 0px)' }}>
               필수정보를 입력해주세요.
             </St.SignUpDescription>
@@ -358,7 +349,6 @@ const Step = (props: StepPropsStyle) => {
       {step === 3 && (
         <div>
           <St.SignUpDescriptionFrame>
-            <IoIosArrowBack onClick={beforeStepHandler} />
             <St.SignUpDescription style={{ transform: 'translate(40px, 0px)' }}>
               추가 정보를 적어주세요.
             </St.SignUpDescription>
@@ -387,7 +377,9 @@ const Step = (props: StepPropsStyle) => {
         </div>
       )}
       {step === 4 && <Complete />}
-      {step < 3 && <St.StepBtn onClick={nextStepHandler}>다음</St.StepBtn>}
+      {step !== 1 && step < 3 && (
+        <St.StepBtn onClick={nextStepHandler}>다음</St.StepBtn>
+      )}
       {step === 3 && (
         <St.StepBtn onClick={submitBtnHandler}>제출하기</St.StepBtn>
       )}
