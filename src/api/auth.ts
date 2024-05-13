@@ -34,7 +34,9 @@ export const loginApiFn = (LoginMainTain: boolean) => {
   expireDate.setDate(expireDate.getDate() + 30);
   const loginApi = async (Login: LoginType) => {
     try {
-      const res = await axios.post(`${url}/api/auth/login`, Login);
+      const res = await axios.post(`${url}/api/auth/login`, Login, {
+        withCredentials: true,
+      });
       const accessToken = res.headers['authorization'];
       if (accessToken) {
         LoginMainTain
@@ -43,6 +45,7 @@ export const loginApiFn = (LoginMainTain: boolean) => {
               expires: expireDate,
             })
           : sessionStorage.setItem('login', accessToken);
+        axios.defaults.headers.common['Authorization'] = `${accessToken}`;
       }
       return res.data;
     } catch (error) {
