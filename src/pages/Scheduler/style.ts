@@ -16,9 +16,20 @@ export const SchedulerWrapper = styled.div`
 
   .Title {
     display: flex;
+    align-items: center;
     gap: 20px;
     font-size: 30px;
     margin-bottom: 30px;
+  }
+  .STitle {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+    p {
+      font-size: 18pt;
+      font-weight: bold;
+    }
   }
 `;
 export const SearchInputFrame = styled.div`
@@ -71,6 +82,13 @@ export const CardNumber = styled.div`
   border-radius: 50%;
 `;
 export const Circle = styled.div`
+  background: #30a8ff;
+  width: 16px;
+  height: 16px;
+  border: 1px solid transparent;
+  border-radius: 50%;
+`;
+export const GCircle = styled.div`
   background: #b2b2b2;
   width: 30px;
   height: 30px;
@@ -81,18 +99,38 @@ export const SInput = styled.input`
   width: 356px;
   height: 58px;
   border: 1px solid #4a4a4a;
+  border-radius: 10px;
 `;
 export const InputBtn = styled.div`
   width: 356px;
   height: 58px;
   border: 1px solid #4a4a4a;
+  border-radius: 10px;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+`;
+export const InputBtnFrame = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 68px;
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: 17px;
+    font-size: 20pt;
+  }
+  label {
+    font-size: 18pt;
+  }
 `;
 export const StepBtn = styled.button`
-  width: 450px;
-  height: 75px;
+  width: 356px;
+  height: 58px;
   font-size: 20pt;
   background-color: white;
-  border: 1px solid #015ffa;
+  border: 1px solid #595959;
   border-radius: 10px;
   margin-top: 60px;
 `;
