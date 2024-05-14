@@ -74,7 +74,6 @@ export const ImaCardFrame = styled.div`
     }
     p {
       text-align: center;
-      transform: translate(10px, -35px);
     }
   }
   .ImgCardSquare4 {

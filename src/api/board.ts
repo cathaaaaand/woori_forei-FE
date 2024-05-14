@@ -5,16 +5,11 @@ const url = process.env.REACT_APP_SERVER;
 
 export const boardCreateApi = async (Data: FormData) => {
   try {
-    const cookies = new Cookies();
-    const cookieLogin = cookies.get('login');
-    const token = cookieLogin ? cookieLogin : sessionStorage.getItem('login');
     const res = await axios.post(`${url}/api/communities`, Data, {
       headers: {
         'Content-Type': 'multipart/form-data',
-        Authorization: token,
         accept: 'application/json,text/html',
       },
-      transformRequest: (Data) => Data,
     });
     return res.data;
   } catch (error) {
@@ -25,14 +20,7 @@ export const boardCreateApi = async (Data: FormData) => {
 };
 export const boardRecentApi = async () => {
   try {
-    const cookies = new Cookies();
-    const cookieLogin = cookies.get('login');
-    const token = cookieLogin ? cookieLogin : sessionStorage.getItem('login');
-    const res = await axios.get(`${url}/api/communities`, {
-      headers: {
-        Authorization: token,
-      },
-    });
+    const res = await axios.get(`${url}/api/communities`);
     return res.data;
   } catch (error) {
     const axiosError = error as AxiosError;

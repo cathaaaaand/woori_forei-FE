@@ -65,13 +65,13 @@ const ExSearchCard = (props: CardProps) => {
                 <li>장소 : {voidData(value.placenm)}</li>
               </p>
             </div>
-            <div className="DataUrl">
+            {/* <div className="DataUrl">
               {value.svcurl === '' ? (
                 voidData(value.svcurl)
               ) : (
                 <a href={value.svcurl}>{voidData(value.svcurl)}</a>
               )}
-            </div>
+            </div> */}
           </St.SearchInnerWrapper>
         ))}
       </St.SearchCardWrapper>

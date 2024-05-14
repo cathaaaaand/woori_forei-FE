@@ -75,9 +75,6 @@ export const IconFrame = styled.div`
   }
 `;
 export const IntroduceFrame = styled.div`
-  width: max-content;
-  max-width: 600px;
-  word-break: break-all;
   height: 50px;
   overflow-y: auto;
   font-size: 20px;

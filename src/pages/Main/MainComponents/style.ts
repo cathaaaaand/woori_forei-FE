@@ -75,6 +75,11 @@ export const CardFrame = styled.div`
     height: 480px;
     background-color: #d9d9d9;
   }
+  .DataContent {
+    width: max-content;
+    max-width: 308px;
+    word-break: break-all;
+  }
 `;
 export const CardDateFrame = styled.div`
   display: flex;

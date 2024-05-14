@@ -16,17 +16,20 @@ type Value = ValuePiece | [ValuePiece, ValuePiece];
 export const ChooseCalendar = () => {
   const today = new Date();
   const [date, setDate] = useState<Value>(today);
-  const [dateSave, setDateSave] = useRecoilState(dateState);
+  const [dateSave, setDateSave] = useRecoilState<string[]>(dateState);
   const handleDateChange = (newDate: Value) => {
     setDate(newDate);
+    if (newDate && Array.isArray(newDate)) {
+      const dateTrans = [
+        `${newDate[0]?.toISOString()}`,
+        `${newDate[1]?.toISOString()}`,
+      ];
+      setDateSave(dateTrans);
+    }
   };
-  console.log(dateSave);
   const dateString = Array.isArray(date)
-    ? date.map((item) => moment(`${item}`).format('YYYY-MM-DD')).join(' ~ ')
+    ? dateSave.map((item) => moment(`${item}`).format('YYYY-MM-DD')).join(' ~ ')
     : moment(`${today}`).format('YYYY-MM-DD');
-  const handleDayClick = () => {
-    setDateSave(dateString);
-  };
   return (
     <>
       <St.DateShow>{dateString}</St.DateShow>
@@ -44,7 +47,6 @@ export const ChooseCalendar = () => {
           prev2Label={null}
           minDetail="year"
           selectRange={true}
-          onClickDay={handleDayClick}
         />
       </St.CalendarWrapper>
     </>

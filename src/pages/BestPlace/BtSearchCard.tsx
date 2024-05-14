@@ -48,22 +48,21 @@ const BtSearchCard = (props: CardProps) => {
         <div>{search ? '검색결과:' + search : '전체결과'}</div>
         {data?.slice(pageCount, pageCount + 3).map((value) => (
           <St.SearchInnerWrapper key={value.postSj}>
-            <div className="BlueFocusBefore">
-              <p className="DataTitle">{value.postSj}</p>
-              <p className="DataContent">
-                <li>서비스시간 :{' ' + voidData(value.cmmnUseTime)}</li>
-                <li>휴무일 :{' ' + voidData(value.cmmnRstde)}</li>
-                <li>주소 : {voidData(value.address)}</li>
-                <li>전화 : {voidData(value.cmmnTelno)}</li>
-              </p>
-            </div>
-            <div className="DataUrl">
-              {value.cmmnHmpgUrl === '' ? (
-                voidData(value.cmmnHmpgUrl)
-              ) : (
-                <a href={value.cmmnHmpgUrl}>{voidData(value.cmmnHmpgUrl)}</a>
-              )}
-            </div>
+            {value.cmmnHmpgUrl !== '' && (
+              <div>
+                <a href={value.cmmnHmpgUrl} style={{ textDecoration: 'none' }}>
+                  <div className="BlueFocusBefore">
+                    <p className="DataTitle">{value.postSj}</p>
+                    <p className="DataContent">
+                      <li>서비스시간 :{' ' + voidData(value.cmmnUseTime)}</li>
+                      <li>휴무일 :{' ' + voidData(value.cmmnRstde)}</li>
+                      <li>주소 : {voidData(value.address)}</li>
+                      <li>전화 : {voidData(value.cmmnTelno)}</li>
+                    </p>
+                  </div>
+                </a>
+              </div>
+            )}
           </St.SearchInnerWrapper>
         ))}
       </St.SearchCardWrapper>

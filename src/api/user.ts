@@ -15,19 +15,12 @@ interface ProfilePatchType {
   image: null;
 }
 const url = process.env.REACT_APP_SERVER;
+
 export const userProfileApi = async () => {
   try {
-    const cookies = new Cookies();
-    const cookieLogin = cookies.get('login');
-    const token = cookieLogin ? cookieLogin : sessionStorage.getItem('login');
-    const userId = cookieLogin
-      ? cookies.get('userId')
-      : sessionStorage.getItem('userId');
-    const res = await axios.get(`${url}/api/users/${userId}`, {
-      headers: {
-        Authorization: token,
-      },
-    });
+    const userId = localStorage.get('userId');
+    console.log(userId);
+    const res = await axios.get(`${url}/api/users/${userId}`);
 
     return res.data.payload;
   } catch (error) {
@@ -39,14 +32,9 @@ export const userProfileApi = async () => {
 export const ProfileUpdataApi = async (PatchData: ProfilePatchType) => {
   try {
     const cookies = new Cookies();
-    const cookieLogin = cookies.get('login');
-    const token = cookieLogin ? cookieLogin : sessionStorage.getItem('login');
-    const userId = cookieLogin
-      ? cookies.get('userId')
-      : sessionStorage.getItem('userId');
+    const userId = cookies.get('userId');
     const res = await axios.patch(`${url}/api/users/${userId}`, PatchData, {
       headers: {
-        Authorization: token,
         'Content-Type': 'application/json',
       },
     });

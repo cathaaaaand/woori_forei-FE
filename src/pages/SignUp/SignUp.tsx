@@ -36,7 +36,7 @@ const SignUp = () => {
         </div>
         <div className="SignUpTitle">
           <St.Circle />
-          {adminShow ? '관리자 회원가입' : '회원가입'}
+          {adminShow ? '관리자 회원가입' : '회원 가입'}
         </div>
         {!show && (
           <>

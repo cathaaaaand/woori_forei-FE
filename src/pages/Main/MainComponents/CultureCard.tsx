@@ -5,55 +5,55 @@ import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 import simpleLogo from '../../../asset/simpleLogo.png';
 import * as St from './style';
-import { activitiesMonthApi } from 'api/openApi';
-import { SimpleCalendar } from 'components/Calendar/Calendar';
+import { landmarksFilternApi } from 'api/openApi';
 
-export interface CultureType {
-  rcptbgndt: Date;
-  rcptenddt: Date;
-  activityId: number | undefined;
-  placenm: string | undefined;
-  svcnm: string | undefined;
+export interface CardType {
+  id: number;
+  postSj: string;
+  cmmnUseTime: string;
+  cmmnRstde: string;
+  cmmnTelno: string;
+  address: string;
+  cmmnHmpgUrl: string;
 }
 const CultureCard = () => {
-  const [programDate, SetProgramDate] = useState<Array<Date>>();
   const { data } = useQuery({
-    queryKey: ['activityMonth'],
-    queryFn: activitiesMonthApi,
+    queryKey: ['top10'],
+    queryFn: landmarksFilternApi,
   });
   const navigate = useNavigate();
-  const ProgramClick = (Date: Array<Date>) => {
-    SetProgramDate(Date);
-  };
   const [pageCount, setPageCount] = useState(0);
   const arrayLength = data ? data?.length : 10;
   const pageNavigationNum =
     pageCount + 5 > arrayLength
       ? `${arrayLength} / ${arrayLength}`
       : `${pageCount + 5} / ${arrayLength}`;
-  const pagelinenum = (pageCount + 5) / arrayLength;
+  const pagelinenum = (pageCount + 1) / arrayLength;
 
   const pageBeforeBtnHandler = () => {
     if (pageCount < 1) {
       alert('첫 번째 페이지입니다!');
       return;
     }
-    setPageCount(pageCount - 5);
+    setPageCount(pageCount - 1);
   };
   const pageNextBtnHandler = () => {
     if (pageCount >= arrayLength - 1) {
       alert('마지막 페이지입니다!');
       return;
     }
-    setPageCount(pageCount + 5);
+    setPageCount(pageCount + 1);
+  };
+  const voidData = (value: string) => {
+    return value === '' ? '없음' : value;
   };
   return (
     <St.CardFrame>
       <div className="CardColumnWrapper">
         <St.CultureCardTitleFrame>
           <div className="CultureTitle">
-            <img alt="금주 문화체험 프로그램 로고" src={simpleLogo} />
-            <p>금주 문화체험 프로그램</p>
+            <img alt="추천 명소 top 10 로고" src={simpleLogo} />
+            <p>추천 명소 top 10</p>
           </div>
           <St.PlusBtn onClick={() => navigate('/experience')}>
             <FiPlus size="45px" />
@@ -61,26 +61,21 @@ const CultureCard = () => {
         </St.CultureCardTitleFrame>
 
         <div className="CardFlexWrapper">
-          <SimpleCalendar programDate={programDate} />
           <div className="CardColumnWrapper">
             <div className="CardMapnWrapper">
-              <St.BlueLine />
-              {data
-                ?.slice(pageCount, pageCount + 5)
-                .map((value: CultureType) => (
-                  <div
-                    key={value.activityId}
-                    onClick={() =>
-                      ProgramClick([value.rcptbgndt, value.rcptenddt])
-                    }
-                  >
-                    <St.CardDateFrame style={{ display: 'flex' }}>
-                      <p className="Bold">{value.svcnm}</p>
-                      <p className="Descript">{value.placenm}</p>
-                    </St.CardDateFrame>
-                    <St.BlueLine />
+              {data?.slice(pageCount, pageCount + 1).map((value: CardType) => (
+                <div key={value.postSj}>
+                  <div className="BlueFocusBefore">
+                    <p className="DataTitle">{value.postSj}</p>
+                    <p className="DataContent">
+                      <li>서비스시간 :{' ' + voidData(value.cmmnUseTime)}</li>
+                      <li>휴무일 :{' ' + voidData(value.cmmnRstde)}</li>
+                      <li>주소 : {voidData(value.address)}</li>
+                      <li>전화 : {voidData(value.cmmnTelno)}</li>
+                    </p>
                   </div>
-                ))}
+                </div>
+              ))}
             </div>
             <St.NavFrame>
               <St.NavTotalLine />

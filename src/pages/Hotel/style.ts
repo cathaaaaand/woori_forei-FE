@@ -122,11 +122,6 @@ export const SearchInnerWrapper = styled.div`
   }
   .DataUrl {
     padding-top: 20px;
-    a {
-      width: max-content;
-      max-width: 308px;
-      word-break: break-all;
-    }
   }
 `;
 export const LinkBtn = styled.button`

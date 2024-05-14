@@ -37,13 +37,15 @@ const Main = () => {
           <div className="Flex">
             <div className="ImgCardSquare4">
               <img src={tower} alt="타워" />
-              <p>ⓒ한국관광공사 포토코리아-박근형</p>
+              <p>ⓒ한국관광공사 포토코리아-전형준</p>
             </div>
             <div>
               <div className="Flex">
                 <div className="ImgCardSquare">
                   <img src={hanok2} alt="한옥마을" />
-                  <p>ⓒ한국관광공사 포토코리아-박근형</p>
+                  <p style={{ marginLeft: '5px' }}>
+                    ⓒ한국관광공사 포토코리아-박근형
+                  </p>
                 </div>
                 <div className="ImgCardSquare">
                   <img src={blossom} alt="벚꽃" />
@@ -56,8 +58,8 @@ const Main = () => {
                   <p>ⓒ한국관광공사 포토코리아-한국관광공사 김미숙</p>
                 </div>
                 <div className="ImgCardSquare">
-                  <img src={palace} alt="벚꽃" />
-                  <p>ⓒ한국관광공사 포토코리아-한국관광공사 김지호</p>
+                  <img src={palace} alt="한복" />
+                  <p>ⓒ한국관광공사 포토코리아-한국관광공사 Pham Tuyen</p>
                 </div>
               </div>
             </div>

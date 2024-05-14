@@ -68,3 +68,11 @@ export const Circle = styled.div`
   border: 1px solid transparent;
   border-radius: 50%;
 `;
+export const AccordionBtn = styled.button`
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border: 1px solid #b2b2b2;
+  display: flex;
+  align-items: center;
+`;

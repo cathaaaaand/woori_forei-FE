@@ -59,13 +59,13 @@ const ReSearchCard = (props: CardProps) => {
                 <li>지하철 정보 : {value.subwayInfo}</li>
               </p>
             </div>
-            <div className="DataUrl">
+            {/* <div className="DataUrl">
               {value.cmmnHmpgUrl === '' ? (
                 voidData(value.cmmnHmpgUrl)
               ) : (
                 <a href={value.cmmnHmpgUrl}>{voidData(value.cmmnHmpgUrl)}</a>
               )}
-            </div>
+            </div> */}
           </St.SearchInnerWrapper>
         ))}
       </St.SearchCardWrapper>

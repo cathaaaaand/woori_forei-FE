@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import * as St from './style';
-import { boardCreateApi, boardPatchApi } from 'api/board';
+import { boardCreateApi } from 'api/board';
 
 const Write = () => {
   // const [form, setForm] = useState({
@@ -14,7 +14,7 @@ const Write = () => {
   // const [imgPreview, setImgPreview] = useState('');
   // const { title, content } = form;
   const boardCreateMutation = useMutation({ mutationFn: boardCreateApi });
-  const boardPatchMutation = useMutation({ mutationFn: boardPatchApi });
+  // const boardPatchMutation = useMutation({ mutationFn: boardPatchApi });
 
   // const onChange = (e: { target: { name: string; value: unknown } }) => {
   //   const { name, value } = e.target;
@@ -36,25 +36,25 @@ const Write = () => {
     // };
     // reader.readAsArrayBuffer(file);
   };
-  const boardPatchHandler = () => {
-    const formData = new FormData();
-    // const transfrom = JSON.stringify({ title, content });
-    // const blob1 = new Blob([transfrom], { type: 'application/json' });
-    formData.append('request', title);
-    formData.append('request', content);
-    if (imgFile) {
-      formData.append('images', imgFile);
-    }
-    boardPatchMutation.mutate(formData, {
-      onSuccess: (data) => {
-        alert(data.message);
-      },
-      onError: (error) => {
-        alert(error);
-        return;
-      },
-    });
-  };
+  // const boardPatchHandler = () => {
+  //   const formData = new FormData();
+  //   // const transfrom = JSON.stringify({ title, content });
+  //   // const blob1 = new Blob([transfrom], { type: 'application/json' });
+  //   formData.append('request', title);
+  //   formData.append('request', content);
+  //   if (imgFile) {
+  //     formData.append('images', imgFile);
+  //   }
+  //   boardPatchMutation.mutate(formData, {
+  //     onSuccess: (data) => {
+  //       alert(data.message);
+  //     },
+  //     onError: (error) => {
+  //       alert(error);
+  //       return;
+  //     },
+  //   });
+  // };
   const submitHandelr = () => {
     if (!title || !content || !imgFile) {
       alert('빈칸을 채워주세요');
@@ -113,9 +113,9 @@ const Write = () => {
                 onChange={imgOnChangeHandler}
               />
             </>
-            <St.WriteTitleBtn type="button" onClick={boardPatchHandler}>
+            {/* <St.WriteTitleBtn type="button" onClick={boardPatchHandler}>
               수정
-            </St.WriteTitleBtn>
+            </St.WriteTitleBtn> */}
             {/* )} */}
           </St.WriteImgFrame>
         </div>

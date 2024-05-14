@@ -45,36 +45,36 @@ const Faq = () => {
               <p>24.03.25</p>
               <div>회원가입 시 위치 정보 공유 동의는 왜 필요한가요?</div>
             </div>
-            <button>
-              <IoIosArrowDown />
-            </button>
+            <St.AccordionBtn>
+              <IoIosArrowDown size="20px" />
+            </St.AccordionBtn>
           </St.FaqContentFrame>
           <St.FaqContentFrame>
             <div style={{ display: 'flex', gap: '10px' }}>
               <p>24.03.25</p>
               <div>회원가입 시 위치 정보 공유 동의는 왜 필요한가요?</div>
             </div>
-            <button>
-              <IoIosArrowDown />
-            </button>
+            <St.AccordionBtn>
+              <IoIosArrowDown size="20px" />
+            </St.AccordionBtn>
           </St.FaqContentFrame>
           <St.FaqContentFrame>
             <div style={{ display: 'flex', gap: '10px' }}>
               <p>24.03.25</p>
               <div>회원가입 시 위치 정보 공유 동의는 왜 필요한가요?</div>
             </div>
-            <button>
-              <IoIosArrowDown />
-            </button>
+            <St.AccordionBtn>
+              <IoIosArrowDown size="20px" />
+            </St.AccordionBtn>
           </St.FaqContentFrame>
           <St.FaqContentFrame>
             <div style={{ display: 'flex', gap: '10px' }}>
               <p>24.03.25</p>
               <div>회원가입 시 위치 정보 공유 동의는 왜 필요한가요?</div>
             </div>
-            <button>
-              <IoIosArrowDown />
-            </button>
+            <St.AccordionBtn>
+              <IoIosArrowDown size="20px" />
+            </St.AccordionBtn>
           </St.FaqContentFrame>
         </St.ContentFrame>
         {/* <St.FaqPageFrame>
