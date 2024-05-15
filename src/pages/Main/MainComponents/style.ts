@@ -75,8 +75,12 @@ export const CardFrame = styled.div`
     background-color: #d9d9d9;
   }
   .DataTitle {
-    font-weight: bold;
     font-size: 19px;
+    display: flex;
+    gap: 5px;
+    p {
+      font-weight: bold;
+    }
   }
   .DataContent {
     width: max-content;
@@ -116,7 +120,7 @@ export const CultureCardTitleFrame = styled.div`
     font-weight: bold;
   }
   .CultureTitle {
-    transform: translate(-35px, -60px);
+    transform: translate(-35px, -30px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -200,13 +204,13 @@ export const DramaWrapper = styled.div`
   }
 `;
 export const NavTotalLine = styled.div`
-  width: 164px;
+  width: 250px;
   border-top: 1px solid #cecece;
   border-radius: 0.5px;
 `;
 export const NavMovelLine = styled.div<{ $pagelinenum: number }>`
   width: ${({ $pagelinenum }) =>
-    $pagelinenum < 1 ? `${164 * $pagelinenum}px` : '164px'};
+    $pagelinenum < 1 ? `${250 * $pagelinenum}px` : '250px'};
   transition: width 0.3s ease;
   border-top: 1px solid black;
   border-radius: 0.5px;
@@ -215,7 +219,7 @@ export const NavMovelLine = styled.div<{ $pagelinenum: number }>`
 export const NextBeforeBtn = styled.button`
   width: 30px;
   height: 30px;
-  background: transparent;
+  background: white;
   border: 1px solid #b2b2b2;
   display: flex;
   align-items: center;
@@ -245,7 +249,8 @@ export const BlueLine = styled.div`
 `;
 export const ImaCardFrame = styled.div`
   display: flex;
-  gap: 50px;
+  width: 950px;
+  gap: 110px;
 
   .ImgCardSquare4 {
     width: 400px;
@@ -276,5 +281,5 @@ export const ImaCardFrame = styled.div`
 export const NavLocation = styled.div`
   position: absolute;
   right: 550px;
-  transform: translate(10px, 180px);
+  transform: translate(30px, 160px);
 `;
