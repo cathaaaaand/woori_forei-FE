@@ -67,6 +67,7 @@ const CultureCard = () => {
   const voidData = (value: string) => {
     return value === '' ? '없음' : value;
   };
+  const rank = pageCount + 1 + '위';
   return (
     <St.CardFrame>
       <div className="CardColumnWrapper">
@@ -91,7 +92,10 @@ const CultureCard = () => {
                     alt="사진"
                   />
                   <div className="BlueFocusBefore">
-                    <p className="DataTitle">{value.postSj}</p>
+                    <div className="DataTitle">
+                      <p> {rank}</p>
+                      <p> {value.postSj}</p>
+                    </div>
                     <p className="DataContent">
                       <li>서비스시간 :{' ' + voidData(value.cmmnUseTime)}</li>
                       <li>휴무일 :{' ' + voidData(value.cmmnRstde)}</li>

@@ -75,8 +75,12 @@ export const CardFrame = styled.div`
     background-color: #d9d9d9;
   }
   .DataTitle {
-    font-weight: bold;
     font-size: 19px;
+    display: flex;
+    gap: 5px;
+    p {
+      font-weight: bold;
+    }
   }
   .DataContent {
     width: max-content;
@@ -245,8 +249,8 @@ export const BlueLine = styled.div`
 `;
 export const ImaCardFrame = styled.div`
   display: flex;
-  width: 860px;
-  gap: 50px;
+  width: 950px;
+  gap: 110px;
 
   .ImgCardSquare4 {
     width: 400px;
