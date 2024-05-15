@@ -91,8 +91,8 @@ const Scheduler = () => {
     if (schedulerName && Array.isArray(dateSave)) {
       const value = {
         schedulerName: '다은이와의 여행',
-        startDate: `2024-05-19T11:30:00`,
-        endDate: `2024-05-30T8:30:00`,
+        startDate: new Date('2024-05-19T11:30:00').toISOString(),
+        endDate: new Date('2024-05-30T11:30:00').toISOString(),
         memberEmails: ['niweci1387@facais.com'],
       };
       console.log(value);

@@ -3,7 +3,16 @@ import React, { useState } from 'react';
 import { FiPlus } from 'react-icons/fi';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
+import deoksugung from '../../../asset/deoksugung.jpg';
+import eunpeong from '../../../asset/eunpeong.jpg';
+import hanoktown from '../../../asset/hanoktown.jpg';
+import koex from '../../../asset/koex.jpg';
+import Ltower from '../../../asset/Ltower.jpg';
+import meongdong from '../../../asset/meongdong.jpg';
+import palace from '../../../asset/palace.jpg';
 import simpleLogo from '../../../asset/simpleLogo.png';
+import tower from '../../../asset/tower.jpg';
+import yongsan from '../../../asset/yongsan.jpg';
 import * as St from './style';
 import { landmarksFilternApi } from 'api/openApi';
 
@@ -24,10 +33,21 @@ const CultureCard = () => {
   const navigate = useNavigate();
   const [pageCount, setPageCount] = useState(0);
   const arrayLength = data ? data?.length : 10;
+  const photoArray = [
+    palace,
+    Ltower,
+    deoksugung,
+    meongdong,
+    hanoktown,
+    tower,
+    yongsan,
+    eunpeong,
+    koex,
+  ];
   const pageNavigationNum =
-    pageCount + 5 > arrayLength
+    pageCount + 1 > arrayLength
       ? `${arrayLength} / ${arrayLength}`
-      : `${pageCount + 5} / ${arrayLength}`;
+      : `${pageCount + 1} / ${arrayLength}`;
   const pagelinenum = (pageCount + 1) / arrayLength;
 
   const pageBeforeBtnHandler = () => {
@@ -64,7 +84,12 @@ const CultureCard = () => {
           <div className="CardColumnWrapper">
             <div className="CardMapnWrapper">
               {data?.slice(pageCount, pageCount + 1).map((value: CardType) => (
-                <div key={value.postSj}>
+                <St.ImaCardFrame key={value.postSj}>
+                  <img
+                    className="ImgCardSquare4"
+                    src={photoArray[pageCount]}
+                    alt="사진"
+                  />
                   <div className="BlueFocusBefore">
                     <p className="DataTitle">{value.postSj}</p>
                     <p className="DataContent">
@@ -74,22 +99,30 @@ const CultureCard = () => {
                       <li>전화 : {voidData(value.cmmnTelno)}</li>
                     </p>
                   </div>
-                </div>
+                </St.ImaCardFrame>
               ))}
             </div>
-            <St.NavFrame>
-              <St.NavTotalLine />
-              <St.NavMovelLine $pagelinenum={pagelinenum} />
-              <div>{pageNavigationNum}</div>
-              <St.NextBeforeFrame>
-                <St.NextBeforeBtn>
-                  <IoIosArrowBack onClick={pageBeforeBtnHandler} size="20px" />
-                </St.NextBeforeBtn>
-                <St.NextBeforeBtn>
-                  <IoIosArrowForward onClick={pageNextBtnHandler} size="20px" />
-                </St.NextBeforeBtn>
-              </St.NextBeforeFrame>
-            </St.NavFrame>
+            <St.NavLocation>
+              <St.NavFrame>
+                <St.NavTotalLine />
+                <St.NavMovelLine $pagelinenum={pagelinenum} />
+                <div>{pageNavigationNum}</div>
+                <St.NextBeforeFrame>
+                  <St.NextBeforeBtn>
+                    <IoIosArrowBack
+                      onClick={pageBeforeBtnHandler}
+                      size="20px"
+                    />
+                  </St.NextBeforeBtn>
+                  <St.NextBeforeBtn>
+                    <IoIosArrowForward
+                      onClick={pageNextBtnHandler}
+                      size="20px"
+                    />
+                  </St.NextBeforeBtn>
+                </St.NextBeforeFrame>
+              </St.NavFrame>
+            </St.NavLocation>
           </div>
         </div>
       </div>

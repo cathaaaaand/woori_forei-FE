@@ -1,12 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import blossom from '../../asset/blossom.jpg';
-import gangnam from '../../asset/gangnam.jpg';
-import hanok2 from '../../asset/hanok2.jpg';
+import bibimbap from '../../asset/bibimbap.jpeg';
+import chickenSoup from '../../asset/chickenSoup.jpeg';
+import koreanFood from '../../asset/koreanFood.jpeg';
 import mainScheduler from '../../asset/mainScheduler.png';
-import palace from '../../asset/palace.jpg';
+import porkbelly from '../../asset/porkbelly.jpeg';
 import simpleLogo from '../../asset/simpleLogo.png';
-import tower from '../../asset/tower.jpg';
+import tteokppoki from '../../asset/tteokppoki.jpeg';
 import CultureCard from './MainComponents/CultureCard';
 import Popular from './MainComponents/Popular';
 import * as St from './style';
@@ -32,36 +32,34 @@ const Main = () => {
         <St.ImaCardFrame>
           <div className="CultureTitle">
             <img alt="금주 문화체험 프로그램 로고" src={simpleLogo} />
-            <p>사진으로 보는 서울</p>
+            <p>Best 음식 추천</p>
           </div>
           <div className="Flex">
-            <div className="ImgCardSquare4">
-              <img src={tower} alt="타워" />
-              <p>ⓒ한국관광공사 포토코리아-전형준</p>
-            </div>
             <div>
               <div className="Flex">
                 <div className="ImgCardSquare">
-                  <img src={hanok2} alt="한옥마을" />
-                  <p style={{ marginLeft: '5px' }}>
-                    ⓒ한국관광공사 포토코리아-박근형
-                  </p>
+                  <img src={tteokppoki} alt="분식" />
+                  <p style={{ marginLeft: '5px' }}>ⓒ한국관광공사 포토코리아</p>
                 </div>
                 <div className="ImgCardSquare">
-                  <img src={blossom} alt="벚꽃" />
-                  <p>ⓒ한국관광공사 포토코리아-한국관광공사 김지호</p>
+                  <img src={chickenSoup} alt="삼계탕" />
+                  <p>ⓒ한국관광공사 포토코리아</p>
                 </div>
               </div>
               <div className="Flex">
                 <div className="ImgCardSquare">
-                  <img src={gangnam} alt="강남" />
-                  <p>ⓒ한국관광공사 포토코리아-한국관광공사 김미숙</p>
+                  <img src={bibimbap} alt="비빔밥" />
+                  <p>ⓒ한국관광공사 포토코리아</p>
                 </div>
                 <div className="ImgCardSquare">
-                  <img src={palace} alt="한복" />
-                  <p>ⓒ한국관광공사 포토코리아-한국관광공사 Pham Tuyen</p>
+                  <img src={koreanFood} alt="한식" />
+                  <p>ⓒ한국관광공사 포토코리아</p>
                 </div>
               </div>
+            </div>
+            <div className="ImgCardSquare4">
+              <img src={porkbelly} alt="삼겹살" />
+              <p>ⓒ한국관광공사 포토코리아</p>
             </div>
           </div>
         </St.ImaCardFrame>
