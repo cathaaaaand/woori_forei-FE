@@ -82,6 +82,19 @@ export const landmarksnApi = async () => {
     throw axiosError.response?.data;
   }
 };
+export const landmarksFilternApi = async () => {
+  try {
+    const res = await axios.get(`${url}/api/openAPI/landmarks/check`);
+    const filteredData = res.data.filter((_: unknown, index: number) =>
+      [36, 40, 44, 52, 87, 149, 255, 269, 321].includes(index),
+    );
+    console.log(res.data);
+    return filteredData;
+  } catch (error) {
+    const axiosError = error as AxiosError;
+    throw axiosError.response?.data;
+  }
+};
 export const restaurantsApi = async () => {
   try {
     const res = await axios.get(`${url}/api/openAPI/restaurants/check`);

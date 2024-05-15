@@ -79,13 +79,13 @@ const TourSearchCard = (props: CardProps) => {
                 <li>전화 : {value.guidancephonenumber.replace(/-/, ') ')}</li>
               </p>
             </div>
-            <div className="DataUrl">
+            {/* <div className="DataUrl">
               {value.homepageurl === '' ? (
                 voidData(value.homepageurl)
               ) : (
                 <a href={value.homepageurl}>{voidData(value.homepageurl)}</a>
               )}
-            </div>
+            </div> */}
           </St.SearchInnerWrapper>
         ))}
       </St.SearchCardWrapper>

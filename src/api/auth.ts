@@ -1,5 +1,4 @@
 import axios, { AxiosError } from 'axios';
-import { Cookies } from 'react-cookie';
 
 interface LoginType {
   email: string;
@@ -28,32 +27,17 @@ interface EmailCodeConfirmType {
 }
 const url = process.env.REACT_APP_SERVER;
 
-export const loginApiFn = (LoginMainTain: boolean) => {
-  const cookies = new Cookies();
-  const expireDate = new Date();
-  expireDate.setDate(expireDate.getDate() + 30);
-  const loginApi = async (Login: LoginType) => {
-    try {
-      const res = await axios.post(`${url}/api/auth/login`, Login, {
-        withCredentials: true,
-      });
-      const accessToken = res.headers['authorization'];
-      if (accessToken) {
-        LoginMainTain
-          ? cookies.set('login', accessToken, {
-              path: '/',
-              expires: expireDate,
-            })
-          : sessionStorage.setItem('login', accessToken);
-        axios.defaults.headers.common['Authorization'] = `${accessToken}`;
-      }
+export const loginApi = async (Login: LoginType) => {
+  try {
+    const res = await axios.post(`${url}/api/auth/login`, Login);
+    if (res.status === 200) {
+      localStorage.setItem('userId', res.data.payload);
       return res.data;
-    } catch (error) {
-      const axiosError = error as AxiosError;
-      throw axiosError.response?.data;
     }
-  };
-  return { loginApi };
+  } catch (error) {
+    const axiosError = error as AxiosError;
+    throw axiosError.response?.data;
+  }
 };
 export const googleLoginPostApi = async (code: string | null) => {
   try {

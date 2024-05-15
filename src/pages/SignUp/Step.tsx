@@ -105,8 +105,11 @@ const Step = (props: StepPropsStyle) => {
     }
     if (step === 2) {
       const isStep2 = username && nickname && birthday && nation;
-      if (!isStep2) alert('빈값을 채워주세요!');
-      setStep(3);
+      if (isStep2) {
+        setStep(3);
+      } else {
+        alert('빈값을 채워주세요!');
+      }
     }
   };
   const contentShowHandler = (state: string) => {
@@ -202,54 +205,54 @@ const Step = (props: StepPropsStyle) => {
                 </St.EmailNPasswordFrame>
               </>
             )}
-            <St.CheckBoxGroup>
-              <St.CheckBoxFrame>
-                <input
-                  id="serviceCheck"
-                  name="isService"
-                  type="checkbox"
-                  checked={agree.isService}
-                  onChange={checkOnChange}
-                />
-                <p>서비스 약관에 동의합니다.</p>
-                <St.LigntoText onClick={() => contentShowHandler('service')}>
-                  내용보기
-                </St.LigntoText>
-              </St.CheckBoxFrame>
-              <St.CheckBoxFrame>
-                <input
-                  id="infoCheck"
-                  name="isPersonal"
-                  type="checkbox"
-                  checked={agree.isPersonal}
-                  onChange={checkOnChange}
-                />
-                <p>개인정보 수집 및 이용에 동의합니다.</p>
-                <St.LigntoText onClick={() => contentShowHandler('personal')}>
-                  내용보기
-                </St.LigntoText>
-              </St.CheckBoxFrame>
-              <St.CheckBoxFrame>
-                <input
-                  id="locationCheck"
-                  name="isLocation"
-                  type="checkbox"
-                  checked={agree.isLocation}
-                  onChange={checkOnChange}
-                />
-                <p>위치기반서비스 이용약관에 동의합니다.</p>
-                <St.LigntoText onClick={() => contentShowHandler('location')}>
-                  내용보기
-                </St.LigntoText>
-              </St.CheckBoxFrame>
-            </St.CheckBoxGroup>
-            {contentShow && (
-              <Modal
-                contentShowHandler={contentShowHandler}
-                contentState={contentState}
-              />
-            )}
           </St.InputFrame>
+          <St.CheckBoxGroup>
+            <St.CheckBoxFrame>
+              <input
+                id="serviceCheck"
+                name="isService"
+                type="checkbox"
+                checked={agree.isService}
+                onChange={checkOnChange}
+              />
+              <p>서비스 약관에 동의합니다.</p>
+              <St.LigntoText onClick={() => contentShowHandler('service')}>
+                내용보기
+              </St.LigntoText>
+            </St.CheckBoxFrame>
+            <St.CheckBoxFrame>
+              <input
+                id="infoCheck"
+                name="isPersonal"
+                type="checkbox"
+                checked={agree.isPersonal}
+                onChange={checkOnChange}
+              />
+              <p>개인정보 수집 및 이용에 동의합니다.</p>
+              <St.LigntoText onClick={() => contentShowHandler('personal')}>
+                내용보기
+              </St.LigntoText>
+            </St.CheckBoxFrame>
+            <St.CheckBoxFrame>
+              <input
+                id="locationCheck"
+                name="isLocation"
+                type="checkbox"
+                checked={agree.isLocation}
+                onChange={checkOnChange}
+              />
+              <p>위치기반서비스 이용약관에 동의합니다.</p>
+              <St.LigntoText onClick={() => contentShowHandler('location')}>
+                내용보기
+              </St.LigntoText>
+            </St.CheckBoxFrame>
+          </St.CheckBoxGroup>
+          {contentShow && (
+            <Modal
+              contentShowHandler={contentShowHandler}
+              contentState={contentState}
+            />
+          )}
         </div>
       )}
       {step === 1 && (
@@ -301,7 +304,7 @@ const Step = (props: StepPropsStyle) => {
       {step === 2 && (
         <div>
           <St.SignUpDescriptionFrame>
-            <St.SignUpDescription style={{ transform: 'translate(40px, 0px)' }}>
+            <St.SignUpDescription>
               필수정보를 입력해주세요.
             </St.SignUpDescription>
           </St.SignUpDescriptionFrame>
@@ -349,11 +352,9 @@ const Step = (props: StepPropsStyle) => {
       {step === 3 && (
         <div>
           <St.SignUpDescriptionFrame>
-            <St.SignUpDescription style={{ transform: 'translate(40px, 0px)' }}>
-              추가 정보를 적어주세요.
-            </St.SignUpDescription>
+            <St.SignUpDescription>추가 정보를 적어주세요.</St.SignUpDescription>
           </St.SignUpDescriptionFrame>
-          <St.InputFrame style={{ marginBottom: '30px' }}>
+          <St.InputFrame>
             <St.InputTitle>MBTI</St.InputTitle>
             <St.EmailNPasswordFrame>
               <input

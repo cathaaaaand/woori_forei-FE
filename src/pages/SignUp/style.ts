@@ -83,14 +83,12 @@ export const EmailNPasswordFrame = styled.div`
   display: flex;
   align-items: center;
   color: black;
-
   .SignUpIput {
     width: 356px;
     height: 58px;
     border: 1px solid #d2d2d2;
     border-radius: 10px;
     padding-left: 80px;
-    font-size: 20pt;
   }
 
   .SignUpIputNIcon {
@@ -99,7 +97,7 @@ export const EmailNPasswordFrame = styled.div`
     border: 1px solid #d2d2d2;
     border-radius: 10px;
     padding-left: 20px;
-    font-size: 20pt;
+    font-size: 16pt;
   }
 
   .SignUpIcon {
@@ -135,8 +133,7 @@ export const InputFrame = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 20px;
-  padding: 30px 30px 0px 30px;
-  transform: translate(50px, 0px);
+  padding: 30px 30px 30px 30px;
 `;
 export const InputDescriptionFrame = styled.div`
   display: flex;
@@ -149,7 +146,8 @@ export const CheckBoxGroup = styled.div`
   align-items: flex-start;
   gap: 26px;
   padding: 20px 0 20px 0;
-  font-size: 16pt;
+  font-size: 18px;
+  padding-left: 30px;
 `;
 export const CheckBoxFrame = styled.div`
   display: flex;
@@ -191,7 +189,7 @@ export const ValueFrame = styled.div`
     height: 60px;
     border: 1px solid #444444;
     border-radius: 10px;
-    padding-left: 80px;
+    padding-left: 20px;
     font-size: 20pt;
   }
 `;

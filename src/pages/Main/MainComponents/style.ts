@@ -28,7 +28,7 @@ export const CardFrame = styled.div`
   ${flexF}
   margin-top: 60px;
   background: #f1f7ff;
-  height: 487px;
+  height: 550px;
 
   .CardWrapper {
     ${flexF}
@@ -46,7 +46,6 @@ export const CardFrame = styled.div`
     flex-wrap: wrap;
     align-items: center;
     gap: 21px;
-    height: 302px;
   }
   .CardFlexWrapper {
     ${flexF}
@@ -75,6 +74,19 @@ export const CardFrame = styled.div`
     height: 480px;
     background-color: #d9d9d9;
   }
+  .DataTitle {
+    font-weight: bold;
+    font-size: 19px;
+  }
+  .DataContent {
+    width: max-content;
+    max-width: 410px;
+    word-break: break-all;
+    li {
+      font-size: 18px;
+      margin-top: 15px;
+    }
+  }
 `;
 export const CardDateFrame = styled.div`
   display: flex;
@@ -99,12 +111,12 @@ export const CultureCardTitleFrame = styled.div`
   display: flex;
   justify-content: center;
   gap: 721px;
-  width: 1440px;
 
   p {
     font-weight: bold;
   }
   .CultureTitle {
+    transform: translate(-35px, -60px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -230,4 +242,39 @@ export const PlusBtn = styled.button`
 export const BlueLine = styled.div`
   width: 600px;
   border-top: 1px solid #1985da;
+`;
+export const ImaCardFrame = styled.div`
+  display: flex;
+  gap: 50px;
+
+  .ImgCardSquare4 {
+    width: 400px;
+    height: 400px;
+    border-radius: 5px;
+    background: #f7f7f7;
+    color: transparent;
+    img {
+      width: 500px;
+      height: 500px;
+      background-position: center;
+      border-radius: 5px;
+    }
+    &:hover {
+      color: white;
+    }
+    p {
+      text-align: center;
+      transform: translate(10px, -35px);
+    }
+  }
+  .Flex {
+    display: flex;
+    gap: 28px;
+    margin-bottom: 28px;
+  }
+`;
+export const NavLocation = styled.div`
+  position: absolute;
+  right: 550px;
+  transform: translate(10px, 180px);
 `;

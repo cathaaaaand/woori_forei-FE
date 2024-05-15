@@ -94,7 +94,7 @@ const BtnStyle = `
 width: 356px;
 height: 58px;
 font-size: 20pt;
-background: #005391;
+background: #0D84DA;
 border: 1px solid #30a8ff;
 border-radius: 10px;
 color:white;

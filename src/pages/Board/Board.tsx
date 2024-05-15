@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
-import { GoTriangleRight } from 'react-icons/go';
 import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 import * as St from './style';
@@ -8,7 +7,7 @@ import { boardLikeGetApi, boardRecentApi } from 'api/board';
 
 const Board = () => {
   const navigate = useNavigate();
-  const { data, isLoading } = useQuery({
+  const { data } = useQuery({
     queryKey: ['boardRecent'],
     queryFn: boardRecentApi,
   });
@@ -16,10 +15,7 @@ const Board = () => {
     queryKey: ['boardLikeGet'],
     queryFn: boardLikeGetApi,
   });
-  if (isLoading) {
-    console.log(data);
-    console.log(boardLikeData);
-  }
+  console.log(data, boardLikeData);
   // const schedulerDeleteMutation = useMutation({
   //   mutationFn: boardDeleteApi,
   // });
@@ -80,7 +76,6 @@ const Board = () => {
           <IoIosArrowBack size="20px" />
           <div>1 2 3 4</div>
           <IoIosArrowForward size="20px" />
-          <GoTriangleRight size="30" />
         </St.BoardPageFrame>
       </St.BoardInnerFrame>
     </St.BoardFrame>

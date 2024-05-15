@@ -2,7 +2,9 @@ import moment from 'moment';
 import React, { useState } from 'react';
 import { Calendar as CustomCalendar } from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+import { useRecoilState } from 'recoil';
 import * as St from './style';
+import { dateState } from 'recoil/dataState';
 
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
@@ -14,11 +16,19 @@ type Value = ValuePiece | [ValuePiece, ValuePiece];
 export const ChooseCalendar = () => {
   const today = new Date();
   const [date, setDate] = useState<Value>(today);
+  const [dateSave, setDateSave] = useRecoilState<string[]>(dateState);
   const handleDateChange = (newDate: Value) => {
     setDate(newDate);
+    if (newDate && Array.isArray(newDate)) {
+      const dateTrans = [
+        `${newDate[0]?.toISOString()}`,
+        `${newDate[1]?.toISOString()}`,
+      ];
+      setDateSave(dateTrans);
+    }
   };
   const dateString = Array.isArray(date)
-    ? date.map((item) => moment(`${item}`).format('YYYY-MM-DD')).join(' ~ ')
+    ? dateSave.map((item) => moment(`${item}`).format('YYYY-MM-DD')).join(' ~ ')
     : moment(`${today}`).format('YYYY-MM-DD');
   return (
     <>

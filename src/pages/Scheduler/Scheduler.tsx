@@ -1,50 +1,59 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
-import React, { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
+import React, { useRef, useState } from 'react';
 //import { useNavigate } from 'react-router-dom';
 import { LuPlus } from 'react-icons/lu';
+import { useRecoilState } from 'recoil';
 import Card from '../../components/Card/Card';
 import * as St from './style';
 import {
   schedulerActivitiesApi,
   schedulerCreateApi,
-  schedulerDeleteApi,
-  schedulerGetTotalApi,
   schedulerHotelsApi,
   schedulerLandmarksApi,
-  // schedulerInformationApi,
-  schedulerPutApi,
   schedulerRestaurantsApi,
   schedulerSeoulgoodsApi,
 } from 'api/schduler';
 import { ChooseCalendar } from 'components/Calendar/Calendar';
 import SearchCard from 'components/Card/SearchCard';
+import { dateState } from 'recoil/dataState';
 
-interface SchedulerCreateType {
-  schedulerId: number;
+interface InputItem {
+  id: number;
+  title: string;
+}
+interface stringArray {
   schedulerName: string;
-  startDate: string;
-  endDate: string;
-  createdAt: string;
-  modifiedAt: string;
-  members: [
-    {
-      userId: number;
-      username: string;
-      nickname: string;
-      userEmail: string;
-    },
-  ];
-  openAPIs?: [
-    {
-      id: number;
-      name: string;
-      type: string;
-    },
-  ];
+  memberEmails: Array<string>;
 }
 const Scheduler = () => {
   //const navigate = useNavigate();
-  const [nameForm, setNameForm] = useState({
+  const nextId = useRef<number>(1);
+  const [inputItems, setInputItems] = useState<InputItem[]>([
+    { id: 0, title: '' },
+  ]);
+  const addInput = () => {
+    const input = {
+      id: nextId.current,
+      title: '',
+    };
+    setInputItems([...inputItems, input]);
+    nextId.current += 1;
+  };
+  // const deleteInput = (index: number) => {
+  //   setInputItems(inputItems.filter((item) => item.id !== index));
+  // };
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number,
+  ) => {
+    if (index > inputItems.length) return;
+    const inputItemsCopy: InputItem[] = JSON.parse(JSON.stringify(inputItems));
+    inputItemsCopy[index].title = e.target.value;
+    setInputItems(inputItemsCopy);
+  };
+
+  const [dateSave] = useRecoilState(dateState);
+  const [nameForm, setNameForm] = useState<stringArray>({
     schedulerName: '',
     memberEmails: [],
   });
@@ -53,7 +62,7 @@ const Scheduler = () => {
     setNameForm((form) => ({ ...form, [name]: value }));
   };
 
-  const { schedulerName, memberEmails } = nameForm;
+  const { schedulerName } = nameForm;
   const [step, setStep] = useState(1);
   const [schedulerId, setSchedulerId] = useState(0);
   // const [isScheduler, setIsSchedulerId] = useState(false);
@@ -61,19 +70,13 @@ const Scheduler = () => {
   const schedulerCreateMutation = useMutation({
     mutationFn: schedulerCreateApi,
   });
-  const { data: TotalData, refetch } = useQuery({
-    queryKey: ['schedulerGetTotal'],
-    queryFn: schedulerGetTotalApi,
-  });
+
   const activitiesMutation = useMutation({
     mutationFn: schedulerActivitiesApi,
   });
   const hotelsCreateMutation = useMutation({
     mutationFn: schedulerHotelsApi,
   });
-  // const informationCreateMutation = useMutation({
-  //   mutationFn: schedulerInformationApi,
-  // });
   const landmarksMutation = useMutation({
     mutationFn: schedulerLandmarksApi,
   });
@@ -83,61 +86,30 @@ const Scheduler = () => {
   const seoulGoodsMutation = useMutation({
     mutationFn: schedulerSeoulgoodsApi,
   });
-  const schedulerPutMutation = useMutation({
-    mutationFn: schedulerPutApi,
-  });
-  const schedulerDeleteMutation = useMutation({
-    mutationFn: schedulerDeleteApi,
-  });
 
   const schedulerCreateHandler = () => {
-    schedulerCreateMutation.mutate(
-      {
-        schedulerName: schedulerName,
-        startDate: '2024-05-26T11:30:00',
-        endDate: '2024-06-29T11:30:00',
-        memberEmails: memberEmails,
-      },
-      {
+    if (schedulerName && Array.isArray(dateSave)) {
+      const value = {
+        schedulerName: '다은이와의 여행',
+        startDate: new Date('2024-05-19T11:30:00').toISOString(),
+        endDate: new Date('2024-05-30T11:30:00').toISOString(),
+        memberEmails: ['niweci1387@facais.com'],
+      };
+      console.log(value);
+      schedulerCreateMutation.mutate(value, {
         onSuccess: async (data) => {
           alert(data.message);
           setSchedulerId(data.payload.schedulerId);
-          await refetch();
           setStep(3);
         },
         onError: (error) => {
+          console.log(dateSave[0]);
           alert(error);
         },
-      },
-    );
+      });
+    }
   };
-  const schedulerDeleteHandler = (id: number) => {
-    schedulerDeleteMutation.mutate(id, {
-      onSuccess: (data) => {
-        alert(data.message);
-        refetch();
-      },
-    });
-  };
-  const schedulerPutHandler = (id: number) => {
-    schedulerPutMutation.mutate(
-      {
-        schedulerData: {
-          schedulerName: '업데이트된 프로젝트 기획 회의',
-          startDate: '2024-05-28T15:00:00',
-          endDate: '2024-05-29T18:00:00',
-          memberEmails: ['c47da4c77bf6@drmail.in'],
-        },
-        schedulerId: id,
-      },
-      {
-        onSuccess: (data) => {
-          alert(data.message);
-          refetch();
-        },
-      },
-    );
-  };
+
   const landmarkHandler = () => {
     landmarksMutation.mutate({
       Landmarks: {
@@ -183,17 +155,6 @@ const Scheduler = () => {
     });
     setStep(7);
   };
-  // const informationHandler = () => {
-  //   informationCreateMutation.mutate({
-  //     Information: {
-  //       informationId: 2,
-  //       visitStart: '2024-05-29T15:00:00',
-  //       visitEnd: '2024-05-29T11:00:00',
-  //     },
-  //     schedulerId: schedulerId,
-  //   });
-  // };
-
   const seoulGoodsHandler = () => {
     seoulGoodsMutation.mutate({
       Seoulgoods: {
@@ -205,61 +166,16 @@ const Scheduler = () => {
     });
     setStep(8);
   };
+
+  const nextIdStep = () => {
+    const member = inputItems.map((item) => item.title);
+    setNameForm({ ...nameForm, memberEmails: member });
+    setStep(2);
+  };
+
   return (
     <St.SchedulerTotalWrapper>
       <St.SchedulerWrapper>
-        {step === 0 && (
-          <>
-            <div className="Title">
-              <p>스케줄러 목록</p>
-              <button onClick={() => setStep(1)}>+</button>
-            </div>
-
-            <St.ListWrapper>
-              {TotalData &&
-                TotalData.payload
-                  .slice(0, 3)
-                  .map((value: SchedulerCreateType) => (
-                    <St.CardWrapper key={value.schedulerId}>
-                      <div>{value.schedulerName}</div>
-                      <div className="Card">
-                        <button
-                          onClick={() =>
-                            schedulerDeleteHandler(value.schedulerId)
-                          }
-                        >
-                          스케줄러 삭제
-                        </button>
-                        <button
-                          onClick={() => schedulerPutHandler(value.schedulerId)}
-                        >
-                          스케줄러 수정
-                        </button>
-                        <div>
-                          {value.members.map((member) => (
-                            <div key={member.userEmail}>{member.userEmail}</div>
-                          ))}
-                        </div>
-                        <div>
-                          여행 기간:{value.startDate}~{value.endDate}
-                        </div>
-                        <div>생성 날짜:{value.createdAt}</div>
-                        <div>수정 날짜:{value.modifiedAt}</div>
-                        <div>
-                          {value?.openAPIs?.map((api, idx: number) => (
-                            <div key={idx}>
-                              <St.CardNumber>{idx}</St.CardNumber>
-                              <div>{api.name}</div>
-                              <div>{api.type}</div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </St.CardWrapper>
-                  ))}
-            </St.ListWrapper>
-          </>
-        )}
         {step === 1 && (
           <>
             <div className="STitle">
@@ -277,19 +193,23 @@ const Scheduler = () => {
               </div>
               <div>
                 <label>함께할 멤버 입력</label>
-                <St.SInput
-                  value={memberEmails}
-                  name="memberEmails"
-                  onChange={onChange}
-                />
+
+                {inputItems.map((item, index) => (
+                  <St.SInput
+                    key={index}
+                    className={`title-${index}`}
+                    onChange={(e) => handleChange(e, index)}
+                    value={item.title}
+                  />
+                ))}
               </div>
             </St.InputBtnFrame>
-            <St.InputBtn>
+            <St.InputBtn onClick={addInput}>
               <St.GCircle>
                 <LuPlus color="white" size="30" />
               </St.GCircle>
             </St.InputBtn>
-            <St.StepBtn onClick={() => setStep(2)}>다음</St.StepBtn>
+            <St.StepBtn onClick={nextIdStep}>다음</St.StepBtn>
           </>
         )}
         {step === 2 && (

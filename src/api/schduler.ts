@@ -23,14 +23,7 @@ export const schedulerCreateApi = async (
   schedulerData: SchedulerCreateType,
 ) => {
   try {
-    const cookies = new Cookies();
-    const cookieLogin = cookies.get('login');
-    const token = cookieLogin ? cookieLogin : sessionStorage.getItem('login');
-    const res = await axios.post(`${url}/api/schedulers`, schedulerData, {
-      headers: {
-        Authorization: token,
-      },
-    });
+    const res = await axios.post(`${url}/api/schedulers`, schedulerData);
     return res.data;
   } catch (error) {
     console.log(error);
@@ -40,15 +33,8 @@ export const schedulerCreateApi = async (
 };
 export const schedulerGet1Api = async (schedulerId: number) => {
   try {
-    const cookies = new Cookies();
-    const cookieLogin = cookies.get('login');
-    const token = cookieLogin ? cookieLogin : sessionStorage.getItem('login');
     if (schedulerId > 0) {
-      const res = await axios.get(`${url}/api/schedulers/${schedulerId}`, {
-        headers: {
-          Authorization: token,
-        },
-      });
+      const res = await axios.get(`${url}/api/schedulers/${schedulerId}`);
       return res.data;
     } else {
       return '데이터가 없습니다.';
@@ -60,14 +46,7 @@ export const schedulerGet1Api = async (schedulerId: number) => {
 };
 export const schedulerGetTotalApi = async () => {
   try {
-    const cookies = new Cookies();
-    const cookieLogin = cookies.get('login');
-    const token = cookieLogin ? cookieLogin : sessionStorage.getItem('login');
-    const res = await axios.get(`${url}/api/schedulers`, {
-      headers: {
-        Authorization: token,
-      },
-    });
+    const res = await axios.get(`${url}/api/schedulers`);
     return res.data;
   } catch (error) {
     const axiosError = error as AxiosError;
@@ -76,16 +55,12 @@ export const schedulerGetTotalApi = async () => {
 };
 export const schedulerPutApi = async (Data: SchedulerPutType) => {
   try {
-    const cookies = new Cookies();
-    const cookieLogin = cookies.get('login');
-    const token = cookieLogin ? cookieLogin : sessionStorage.getItem('login');
     if (Data.schedulerId > 0) return;
     const res = await axios.put(
       `${url}/api/schedulers/${Data.schedulerId}`,
       Data.schedulerData,
       {
         headers: {
-          Authorization: token,
           'Content-Type': 'application/json',
         },
       },
@@ -99,15 +74,8 @@ export const schedulerPutApi = async (Data: SchedulerPutType) => {
 };
 export const schedulerDeleteApi = async (schedulerId: number) => {
   try {
-    const cookies = new Cookies();
-    const cookieLogin = cookies.get('login');
-    const token = cookieLogin ? cookieLogin : sessionStorage.getItem('login');
     if (schedulerId > 0) {
-      const res = await axios.delete(`${url}/api/schedulers/${schedulerId}`, {
-        headers: {
-          Authorization: token,
-        },
-      });
+      const res = await axios.delete(`${url}/api/schedulers/${schedulerId}`);
       return res.data;
     }
   } catch (error) {
@@ -147,18 +115,10 @@ interface HotelsType {
 }
 export const schedulerHotelsApi = async (Data: HotelsType) => {
   try {
-    const cookies = new Cookies();
-    const cookieLogin = cookies.get('login');
-    const token = cookieLogin ? cookieLogin : sessionStorage.getItem('login');
     if (Data.schedulerId > 0) {
       const res = await axios.post(
         `${url}/api/schedulers/${Data.schedulerId}/hotels`,
         Data.Hotels,
-        {
-          headers: {
-            Authorization: token,
-          },
-        },
       );
       return res.data;
     }
@@ -173,18 +133,10 @@ interface InformationType {
 }
 export const schedulerInformationApi = async (Data: InformationType) => {
   try {
-    const cookies = new Cookies();
-    const cookieLogin = cookies.get('login');
-    const token = cookieLogin ? cookieLogin : sessionStorage.getItem('login');
     if (Data.schedulerId > 0) {
       const res = await axios.post(
         `${url}/api/schedulers/${Data.schedulerId}/information`,
         Data.Information,
-        {
-          headers: {
-            Authorization: token,
-          },
-        },
       );
       return res.data;
     }
@@ -199,18 +151,10 @@ interface LandmarksType {
 }
 export const schedulerLandmarksApi = async (Data: LandmarksType) => {
   try {
-    const cookies = new Cookies();
-    const cookieLogin = cookies.get('login');
-    const token = cookieLogin ? cookieLogin : sessionStorage.getItem('login');
     if (Data.schedulerId > 0) {
       const res = await axios.post(
         `${url}/api/schedulers/${Data.schedulerId}/landmarks`,
         Data.Landmarks,
-        {
-          headers: {
-            Authorization: token,
-          },
-        },
       );
       return res.data;
     }
@@ -225,18 +169,10 @@ interface RestaurantsType {
 }
 export const schedulerRestaurantsApi = async (Data: RestaurantsType) => {
   try {
-    const cookies = new Cookies();
-    const cookieLogin = cookies.get('login');
-    const token = cookieLogin ? cookieLogin : sessionStorage.getItem('login');
     if (Data.schedulerId > 0) {
       const res = await axios.post(
         `${url}/api/schedulers/${Data.schedulerId}/restaurants`,
         Data.Restaurants,
-        {
-          headers: {
-            Authorization: token,
-          },
-        },
       );
       return res.data;
     }
@@ -251,18 +187,10 @@ interface SeoulgoodsType {
 }
 export const schedulerSeoulgoodsApi = async (Data: SeoulgoodsType) => {
   try {
-    const cookies = new Cookies();
-    const cookieLogin = cookies.get('login');
-    const token = cookieLogin ? cookieLogin : sessionStorage.getItem('login');
     if (Data.schedulerId > 0) {
       const res = await axios.post(
         `${url}/api/schedulers/${Data.schedulerId}/seoul-goods`,
         Data.Seoulgoods,
-        {
-          headers: {
-            Authorization: token,
-          },
-        },
       );
       return res.data;
     }
