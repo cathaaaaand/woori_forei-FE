@@ -88,7 +88,6 @@ export const landmarksFilternApi = async () => {
     const filteredData = res.data.filter((_: unknown, index: number) =>
       [36, 40, 44, 52, 87, 149, 255, 269, 321].includes(index),
     );
-    console.log(res.data);
     return filteredData;
   } catch (error) {
     const axiosError = error as AxiosError;
