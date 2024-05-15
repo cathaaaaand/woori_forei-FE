@@ -1,62 +1,62 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+// import { useMutation, useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import { IoPersonOutline } from 'react-icons/io5';
 import * as St from './style';
-import {
-  commentCreateApi,
-  commentDeleteApi,
-  commentPatchApi,
-  commentTotalApi,
-} from 'api/comment';
+// import {
+//   commentCreateApi,
+//   commentDeleteApi,
+//   commentPatchApi,
+//   commentTotalApi,
+// } from 'api/comment';
 
 const Detail = () => {
   const [commentContent, setCommentContent] = useState('');
-  const { data: commentTotalData } = useQuery({
-    queryKey: ['commentTotal'],
-    queryFn: commentTotalApi,
-  });
-  const commentPatchMutation = useMutation({ mutationFn: commentPatchApi });
-  commentPatchMutation.mutate(
-    {
-      commentContent,
-    },
-    {
-      onSuccess: (data) => {
-        alert(data.message);
-      },
-      onError: (error) => {
-        alert(error);
-        return;
-      },
-    },
-  );
-  const id = 3;
-  const commentDeleteMutation = useMutation({ mutationFn: commentDeleteApi });
-  commentDeleteMutation.mutate(id, {
-    onSuccess: (data) => {
-      alert(data.message);
-    },
-    onError: (error) => {
-      alert(error);
-      return;
-    },
-  });
-  const commentCreateMutation = useMutation({ mutationFn: commentCreateApi });
-  commentCreateMutation.mutate(
-    {
-      commentContent,
-    },
-    {
-      onSuccess: (data) => {
-        alert(data.message);
-      },
-      onError: (error) => {
-        alert(error);
-        return;
-      },
-    },
-  );
-  console.log(commentTotalData);
+  // const { data: commentTotalData } = useQuery({
+  //   queryKey: ['commentTotal'],
+  //   queryFn: commentTotalApi,
+  // });
+  // const commentPatchMutation = useMutation({ mutationFn: commentPatchApi });
+  // commentPatchMutation.mutate(
+  //   {
+  //     commentContent,
+  //   },
+  //   {
+  //     onSuccess: (data) => {
+  //       alert(data.message);
+  //     },
+  //     onError: (error) => {
+  //       alert(error);
+  //       return;
+  //     },
+  //   },
+  // );
+  // const id = 3;
+  // const commentDeleteMutation = useMutation({ mutationFn: commentDeleteApi });
+  // commentDeleteMutation.mutate(id, {
+  //   onSuccess: (data) => {
+  //     alert(data.message);
+  //   },
+  //   onError: (error) => {
+  //     alert(error);
+  //     return;
+  //   },
+  // });
+  // const commentCreateMutation = useMutation({ mutationFn: commentCreateApi });
+  // commentCreateMutation.mutate(
+  //   {
+  //     commentContent,
+  //   },
+  //   {
+  //     onSuccess: (data) => {
+  //       alert(data.message);
+  //     },
+  //     onError: (error) => {
+  //       alert(error);
+  //       return;
+  //     },
+  //   },
+  // );
+  // console.log(commentTotalData);
   return (
     <St.DetailFrame>
       <St.DetailInnerFrame>

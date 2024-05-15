@@ -3,11 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { AiOutlineMail, AiOutlineUnlock } from 'react-icons/ai';
 import { CiMail } from 'react-icons/ci';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
 import google from '../../asset/google.png';
 import * as St from './style';
 import { googleLoginPostApi, loginApi } from 'api/auth';
-import { loginState } from 'recoil/loginState';
 
 const Login = () => {
   const location = useLocation();
@@ -15,7 +13,6 @@ const Login = () => {
   const googleLoginMutation = useMutation({
     mutationFn: googleLoginPostApi,
   });
-  const [isLogin, setIsLogin] = useRecoilState(loginState);
   const [emailCpShow, setEmailCpShow] = useState(true);
   const [adminShow, setAdminShow] = useState(false);
   const [loginForm, setLoginForm] = useState({ email: '', password: '' });
@@ -73,10 +70,8 @@ const Login = () => {
       { email: email, password: password },
       {
         onSuccess: (data) => {
-          setIsLogin(true);
           alert(data.message);
           navigate('/');
-          console.log(isLogin);
         },
         onError: (error) => {
           if (email && password) {

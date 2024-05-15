@@ -15,6 +15,8 @@ type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 export const ChooseCalendar = () => {
   const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
   const [date, setDate] = useState<Value>(today);
   const [dateSave, setDateSave] = useRecoilState<string[]>(dateState);
   const handleDateChange = (newDate: Value) => {
@@ -37,7 +39,7 @@ export const ChooseCalendar = () => {
         <CustomCalendar
           value={date}
           showDoubleView={true}
-          minDate={new Date()}
+          minDate={tomorrow}
           onChange={handleDateChange}
           formatDay={(locale, date) => moment(date).format('D')}
           formatYear={(locale, date) => moment(date).format('YYYY')}

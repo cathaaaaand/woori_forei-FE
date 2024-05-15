@@ -1,13 +1,10 @@
 import axios, { AxiosError } from 'axios';
-import { Cookies } from 'react-cookie';
 
 axios.defaults.withCredentials = true;
 const url = process.env.REACT_APP_SERVER;
+const token = sessionStorage.getItem('login');
 export const imageGetApi = async () => {
   try {
-    const cookies = new Cookies();
-    const cookieLogin = cookies.get('login');
-    const token = cookieLogin ? cookieLogin : sessionStorage.getItem('login');
     const res = await axios.get(`${url}/api/images/profile`, {
       headers: {
         Authorization: token,
@@ -21,9 +18,6 @@ export const imageGetApi = async () => {
 };
 export const imageUploadApi = async (formData: FormData) => {
   try {
-    const cookies = new Cookies();
-    const cookieLogin = cookies.get('login');
-    const token = cookieLogin ? cookieLogin : sessionStorage.getItem('login');
     const res = await axios.post(`${url}/api/images/profile`, formData, {
       headers: {
         Authorization: token,
@@ -39,9 +33,6 @@ export const imageUploadApi = async (formData: FormData) => {
 
 export const imageDeleteApi = async () => {
   try {
-    const cookies = new Cookies();
-    const cookieLogin = cookies.get('login');
-    const token = cookieLogin ? cookieLogin : sessionStorage.getItem('login');
     const res = await axios.delete(`${url}/api/images/profile`, {
       headers: {
         Authorization: token,

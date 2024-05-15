@@ -37,19 +37,41 @@ export const WriteBtn = styled.button`
   height: 40px;
   font-size: 18px;
   color: white;
+  z-index: 100;
 `;
 export const ContentTitle = styled.div`
   margin: 90px 0 27px 60px;
+  .length {
+    font-size: 15pt;
+    margin-bottom: 12px;
+  }
+  .typeLabel {
+    width: 78px;
+    height: 35px;
+    background: #0084e3;
+    color: white;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    p {
+      font-size: 16pt;
+      font-weight: bold;
+    }
+  }
 `;
 export const BoardContentFrame = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-top: 1px solid #858585;
-  border-bottom: 1px solid #858585;
-  height: 170px;
+  height: 86px;
   padding: 0 60px 0 60px;
   font-size: 16pt;
+  div {
+    display: flex;
+    gap: 26px;
+  }
 `;
 export const BoardPageFrame = styled.div`
   display: flex;
@@ -63,4 +85,12 @@ export const Circle = styled.div`
   height: 16px;
   border: 1px solid transparent;
   border-radius: 50%;
+`;
+export const AccordionBtn = styled.button`
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border: 1px solid #b2b2b2;
+  display: flex;
+  align-items: center;
 `;

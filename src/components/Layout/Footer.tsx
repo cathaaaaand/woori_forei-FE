@@ -1,32 +1,26 @@
 import React from 'react';
-import { Cookies } from 'react-cookie';
 import { IoIosSearch } from 'react-icons/io';
 import { PiSignpostLight } from 'react-icons/pi';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
 import headerLock from '../../asset/headerLock.png';
 import mainLogo from '../../asset/mainLogo.png';
 import * as St from './style';
-import { loginState } from 'recoil/loginState';
 
 const Footer = () => {
   const navigate = useNavigate();
-  const cookies = new Cookies();
-  const cookieLogin = cookies.get('login');
-  const [isLogin] = useRecoilState(loginState);
+  const isLogin = () => {
+    const id = sessionStorage.getItem('userId');
+    return id ? true : false;
+  };
 
   const logOutHandler = () => {
-    if (cookieLogin) {
-      cookies.remove('userId');
-    } else {
-      sessionStorage.removeItem('userId');
-    }
+    sessionStorage.removeItem('userId');
     alert('로그아웃 되었습니다!');
     window.location.reload();
     navigate('/');
   };
   const myPageHandler = () => {
-    const userId = cookies.get('userId');
+    const userId = sessionStorage.getItem('userId');
     navigate(`/mypage/${userId}`);
   };
   return (
@@ -37,7 +31,7 @@ const Footer = () => {
             <img alt="로고" src={mainLogo} />
           </div>
           <div className="loginWrapper ">
-            {!isLogin ? (
+            {!isLogin() ? (
               <>
                 <St.logoWrapper
                   onClick={() => {

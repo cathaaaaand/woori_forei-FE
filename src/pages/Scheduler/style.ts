@@ -40,21 +40,22 @@ export const SearchInputFrame = styled.div`
 export const SearchInput = styled.input`
   position: relative;
   width: 940px;
-  height: 38px;
-  border: 1px solid black;
+  height: 54px;
+  border: none;
   border-radius: 30px;
   padding-left: 25px;
   font-size: 15pt;
+  background: #f1fbff;
 `;
 export const SearchInputBtn = styled.div`
   position: absolute;
   top: 10px;
   bottom: 0;
   right: 25px;
+  boder: none;
   height: 23px;
   font-size: 15pt;
 `;
-
 export const FinalTitle = styled.div`
   margin-top: 30px;
 `;
@@ -100,6 +101,8 @@ export const SInput = styled.input`
   height: 58px;
   border: 1px solid #4a4a4a;
   border-radius: 10px;
+  font-size: 20pt;
+  padding: 10px;
 `;
 export const InputBtn = styled.div`
   width: 356px;
@@ -133,4 +136,36 @@ export const StepBtn = styled.button`
   border: 1px solid #595959;
   border-radius: 10px;
   margin-top: 60px;
+`;
+export const Nemo = styled.div`
+  background: white;
+  width: 350px;
+  height: 500px;
+  border: 1px solid black;
+  border-radius: 5px;
+  transform: translate(0px, 80px);
+`;
+export const NemoFrame = styled.div`
+  display: flex;
+  gap: 50px;
+`;
+export const CheckFrame = styled.div`
+  display: flex;
+  align-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 53px;
+  margin: 10px;
+  .index {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #30a8ff;
+    color: white;
+    font-size: 16pt;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-content: center;
+  }
 `;

@@ -1,18 +1,14 @@
 import axios, { AxiosError } from 'axios';
-import { Cookies } from 'react-cookie';
 
 const url = process.env.REACT_APP_SERVER;
-
+const token = sessionStorage.getItem('login');
+const userId = sessionStorage.getItem('userId');
 export const commentCreateApi = async (Data: { commentContent: string }) => {
   try {
-    const cookies = new Cookies();
-    const cookieLogin = cookies.get('login');
-    const userId = cookieLogin
-      ? cookies.get('userId')
-      : sessionStorage.getItem('userId');
     const res = await axios.post(`${url}/api/comments/${userId}`, Data, {
       headers: {
         'Content-Type': 'application/json',
+        Authorization: token,
       },
     });
     return res.data;
@@ -25,11 +21,6 @@ export const commentCreateApi = async (Data: { commentContent: string }) => {
 
 export const commentTotalApi = async () => {
   try {
-    const cookies = new Cookies();
-    const cookieLogin = cookies.get('login');
-    const userId = cookieLogin
-      ? cookies.get('userId')
-      : sessionStorage.getItem('userId');
     const res = await axios.get(`${url}/api/comments/${userId}`, {
       headers: {
         'Content-Type': 'application/json',
@@ -47,14 +38,10 @@ interface CommentDataType {
 }
 export const commentPatchApi = async (Data: CommentDataType) => {
   try {
-    const cookies = new Cookies();
-    const cookieLogin = cookies.get('login');
-    const userId = cookieLogin
-      ? cookies.get('userId')
-      : sessionStorage.getItem('userId');
     const res = await axios.patch(`${url}/api/comments/${userId}`, Data, {
       headers: {
         'Content-Type': 'application/json',
+        Authorization: token,
       },
     });
     return res.data;
@@ -69,6 +56,7 @@ export const commentDeleteApi = async (id: number) => {
     const res = await axios.delete(`${url}/api/comments/${id}`, {
       headers: {
         'Content-Type': 'application/json',
+        Authorization: token,
       },
     });
     return res.data;

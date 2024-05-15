@@ -18,12 +18,16 @@ interface SchedulerPutType {
 }
 
 const url = process.env.REACT_APP_SERVER;
-
+const token = sessionStorage.getItem('login');
 export const schedulerCreateApi = async (
   schedulerData: SchedulerCreateType,
 ) => {
   try {
-    const res = await axios.post(`${url}/api/schedulers`, schedulerData);
+    const res = await axios.post(`${url}/api/schedulers`, schedulerData, {
+      headers: {
+        Authorization: token,
+      },
+    });
     return res.data;
   } catch (error) {
     console.log(error);
@@ -62,6 +66,7 @@ export const schedulerPutApi = async (Data: SchedulerPutType) => {
       {
         headers: {
           'Content-Type': 'application/json',
+          Authorization: token,
         },
       },
     );
@@ -75,7 +80,11 @@ export const schedulerPutApi = async (Data: SchedulerPutType) => {
 export const schedulerDeleteApi = async (schedulerId: number) => {
   try {
     if (schedulerId > 0) {
-      const res = await axios.delete(`${url}/api/schedulers/${schedulerId}`);
+      const res = await axios.delete(`${url}/api/schedulers/${schedulerId}`, {
+        headers: {
+          Authorization: token,
+        },
+      });
       return res.data;
     }
   } catch (error) {
@@ -119,6 +128,11 @@ export const schedulerHotelsApi = async (Data: HotelsType) => {
       const res = await axios.post(
         `${url}/api/schedulers/${Data.schedulerId}/hotels`,
         Data.Hotels,
+        {
+          headers: {
+            Authorization: token,
+          },
+        },
       );
       return res.data;
     }
@@ -137,6 +151,11 @@ export const schedulerInformationApi = async (Data: InformationType) => {
       const res = await axios.post(
         `${url}/api/schedulers/${Data.schedulerId}/information`,
         Data.Information,
+        {
+          headers: {
+            Authorization: token,
+          },
+        },
       );
       return res.data;
     }
@@ -155,6 +174,11 @@ export const schedulerLandmarksApi = async (Data: LandmarksType) => {
       const res = await axios.post(
         `${url}/api/schedulers/${Data.schedulerId}/landmarks`,
         Data.Landmarks,
+        {
+          headers: {
+            Authorization: token,
+          },
+        },
       );
       return res.data;
     }
@@ -173,6 +197,11 @@ export const schedulerRestaurantsApi = async (Data: RestaurantsType) => {
       const res = await axios.post(
         `${url}/api/schedulers/${Data.schedulerId}/restaurants`,
         Data.Restaurants,
+        {
+          headers: {
+            Authorization: token,
+          },
+        },
       );
       return res.data;
     }
@@ -191,6 +220,11 @@ export const schedulerSeoulgoodsApi = async (Data: SeoulgoodsType) => {
       const res = await axios.post(
         `${url}/api/schedulers/${Data.schedulerId}/seoul-goods`,
         Data.Seoulgoods,
+        {
+          headers: {
+            Authorization: token,
+          },
+        },
       );
       return res.data;
     }
