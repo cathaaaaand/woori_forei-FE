@@ -1,5 +1,4 @@
 import axios, { AxiosError } from 'axios';
-import { Cookies } from 'react-cookie';
 
 interface ProfilePatchType {
   username: string;
@@ -16,12 +15,11 @@ interface ProfilePatchType {
 }
 const url = process.env.REACT_APP_SERVER;
 
+const token = sessionStorage.getItem('login');
+const userId = sessionStorage.getItem('userId');
 export const userProfileApi = async () => {
   try {
-    const userId = localStorage.get('userId');
-    console.log(userId);
     const res = await axios.get(`${url}/api/users/${userId}`);
-
     return res.data.payload;
   } catch (error) {
     const axiosError = error as AxiosError;
@@ -31,10 +29,9 @@ export const userProfileApi = async () => {
 
 export const ProfileUpdataApi = async (PatchData: ProfilePatchType) => {
   try {
-    const cookies = new Cookies();
-    const userId = cookies.get('userId');
     const res = await axios.patch(`${url}/api/users/${userId}`, PatchData, {
       headers: {
+        Authorization: token,
         'Content-Type': 'application/json',
       },
     });

@@ -1,15 +1,14 @@
 import axios, { AxiosError } from 'axios';
-import { Cookies } from 'react-cookie';
+
 interface FaqType {
   faqTitle: string;
   faqContent: string;
 }
 const url = process.env.REACT_APP_SERVER;
+const token = sessionStorage.getItem('login');
+const userId = sessionStorage.getItem('userId');
 export const FaqPostApi = async (faqData: FaqType) => {
   try {
-    const cookies = new Cookies();
-    const cookieLogin = cookies.get('login');
-    const token = cookieLogin ? cookieLogin : sessionStorage.getItem('login');
     const res = await axios.post(`${url}/api/faqs`, faqData, {
       headers: {
         Authorization: token,
@@ -25,12 +24,6 @@ export const FaqPostApi = async (faqData: FaqType) => {
 };
 export const FaqPutApi = async (faqData: FaqType) => {
   try {
-    const cookies = new Cookies();
-    const cookieLogin = cookies.get('login');
-    const token = cookieLogin ? cookieLogin : sessionStorage.getItem('login');
-    const userId = cookieLogin
-      ? cookies.get('userId')
-      : sessionStorage.getItem('userId');
     const res = await axios.put(`${url}/api/faqs/${userId}`, faqData, {
       headers: {
         Authorization: token,
@@ -53,15 +46,9 @@ export const FaqGetApi = async () => {
     throw axiosError.response?.data;
   }
 };
-export const FaqDeleteApi = async () => {
+export const FaqDeleteApi = async (id: number) => {
   try {
-    const cookies = new Cookies();
-    const cookieLogin = cookies.get('login');
-    const token = cookieLogin ? cookieLogin : sessionStorage.getItem('login');
-    const userId = cookieLogin
-      ? cookies.get('userId')
-      : sessionStorage.getItem('userId');
-    const res = await axios.delete(`${url}/api/faqs/${userId}`, {
+    const res = await axios.delete(`${url}/api/faqs/${id}`, {
       headers: {
         Authorization: token,
         'Content-Type': 'application/json',

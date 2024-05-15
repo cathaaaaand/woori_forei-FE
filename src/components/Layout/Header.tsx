@@ -1,33 +1,27 @@
 import React from 'react';
-import { Cookies } from 'react-cookie';
 import { CiGlobe } from 'react-icons/ci';
 import { GoPerson } from 'react-icons/go';
 import { IoIosSearch } from 'react-icons/io';
 import { PiSignpostLight } from 'react-icons/pi';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
 import headerLock from '../../asset/headerLock.png';
 import mainLogo from '../../asset/mainLogo.png';
 import * as St from './style';
-import { loginState } from 'recoil/loginState';
 
 const Header = () => {
   const navigate = useNavigate();
-  const cookies = new Cookies();
-  const cookieLogin = cookies.get('login');
-  const [isLogin, setIsLogin] = useRecoilState(loginState);
-
+  const userId = sessionStorage.getItem('userId');
+  const isLogin = () => {
+    return userId ? true : false;
+  };
   const logOutHandler = () => {
-    if (cookieLogin) {
-      setIsLogin(false);
-      cookies.remove('userId');
-    }
+    sessionStorage.removeItem('login');
+    sessionStorage.removeItem('userId');
     alert('로그아웃 되었습니다!');
     window.location.reload();
     navigate('/');
   };
   const myPageHandler = () => {
-    const userId = cookies.get('userId');
     navigate(`/mypage/${userId}`);
   };
   return (
@@ -81,7 +75,7 @@ const Header = () => {
             <CiGlobe size="30px" />
             번역
           </St.logoWrapper>
-          {!isLogin ? (
+          {!isLogin() ? (
             <>
               <St.logoWrapper
                 onClick={() => {

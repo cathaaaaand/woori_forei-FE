@@ -1,10 +1,23 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import moment from 'moment';
 import React, { useRef, useState } from 'react';
 //import { useNavigate } from 'react-router-dom';
+import { IoIosSearch } from 'react-icons/io';
 import { LuPlus } from 'react-icons/lu';
 import { useRecoilState } from 'recoil';
-import Card from '../../components/Card/Card';
+import Step3 from './Components/Step3';
+import Step4 from './Components/Step4';
+import Step5 from './Components/Step5';
+import Step6 from './Components/Step6';
+import Step7 from './Components/Step7';
 import * as St from './style';
+import {
+  activitiesApi,
+  hotelsnApi,
+  landmarksnApi,
+  restaurantsApi,
+  seoulGoodsApi,
+} from 'api/openApi';
 import {
   schedulerActivitiesApi,
   schedulerCreateApi,
@@ -14,8 +27,8 @@ import {
   schedulerSeoulgoodsApi,
 } from 'api/schduler';
 import { ChooseCalendar } from 'components/Calendar/Calendar';
-import SearchCard from 'components/Card/SearchCard';
 import { dateState } from 'recoil/dataState';
+import { BestState } from 'recoil/openapiState';
 
 interface InputItem {
   id: number;
@@ -39,9 +52,7 @@ const Scheduler = () => {
     setInputItems([...inputItems, input]);
     nextId.current += 1;
   };
-  // const deleteInput = (index: number) => {
-  //   setInputItems(inputItems.filter((item) => item.id !== index));
-  // };
+  const [search, setSearch] = useState('');
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     index: number,
@@ -62,7 +73,7 @@ const Scheduler = () => {
     setNameForm((form) => ({ ...form, [name]: value }));
   };
 
-  const { schedulerName } = nameForm;
+  const { schedulerName, memberEmails } = nameForm;
   const [step, setStep] = useState(1);
   const [schedulerId, setSchedulerId] = useState(0);
   // const [isScheduler, setIsSchedulerId] = useState(false);
@@ -77,6 +88,87 @@ const Scheduler = () => {
   const hotelsCreateMutation = useMutation({
     mutationFn: schedulerHotelsApi,
   });
+  const { data: landmark } = useQuery({
+    queryKey: ['landmark'],
+    queryFn: landmarksnApi,
+  });
+  const { data: activities } = useQuery({
+    queryKey: ['activities'],
+    queryFn: activitiesApi,
+  });
+  const { data: restaurants } = useQuery({
+    queryKey: ['restaurants'],
+    queryFn: restaurantsApi,
+  });
+  const { data: hotels } = useQuery({
+    queryKey: ['hotels'],
+    queryFn: hotelsnApi,
+  });
+  const { data: goods } = useQuery({
+    queryKey: ['goods'],
+    queryFn: seoulGoodsApi,
+  });
+  const dateString = Array.isArray(dateSave)
+    ? dateSave.map((item) => moment(`${item}`).format('YYYY-MM-DD')).join(' ~ ')
+    : moment(`${new Date()}`).format('YYYY-MM-DD');
+  const filteredData = landmark?.filter(
+    (item: { postSj: string; address: string }) => {
+      if (item.postSj.includes(search) || item.address.includes(search)) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+  );
+  const filteredData4 = activities?.filter(
+    (item: { placenm: string; svcnm: string }) => {
+      if (item.svcnm.includes(search) || item.placenm.includes(search)) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+  );
+  const filteredData5 = restaurants?.filter(
+    (item: { fdReprsntMenu: string; address: string; postSj: string }) => {
+      if (
+        item.fdReprsntMenu.includes(search) ||
+        item.address.includes(search) ||
+        item.postSj.includes(search)
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+  );
+  const filteredData6 = hotels?.filter(
+    (item: {
+      nameKor: string;
+      hkorCity: string;
+      hkorGu: string;
+      hkorDong: string;
+    }) => {
+      if (
+        item.hkorCity.includes(search) ||
+        item.hkorGu.includes(search) ||
+        item.hkorDong.includes(search) ||
+        item.nameKor.includes(search)
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+  );
+  const filteredData7 = goods?.filter((item: { addr: string; nm: string }) => {
+    if (item.nm.includes(search) || item.addr.includes(search)) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+  const [btCheck] = useRecoilState(BestState);
   const landmarksMutation = useMutation({
     mutationFn: schedulerLandmarksApi,
   });
@@ -90,12 +182,11 @@ const Scheduler = () => {
   const schedulerCreateHandler = () => {
     if (schedulerName && Array.isArray(dateSave)) {
       const value = {
-        schedulerName: '다은이와의 여행',
-        startDate: new Date('2024-05-19T11:30:00').toISOString(),
-        endDate: new Date('2024-05-30T11:30:00').toISOString(),
-        memberEmails: ['niweci1387@facais.com'],
+        schedulerName,
+        startDate: dateSave[0].slice(0, -5),
+        endDate: dateSave[1].slice(0, -5),
+        memberEmails,
       };
-      console.log(value);
       schedulerCreateMutation.mutate(value, {
         onSuccess: async (data) => {
           alert(data.message);
@@ -103,68 +194,88 @@ const Scheduler = () => {
           setStep(3);
         },
         onError: (error) => {
-          console.log(dateSave[0]);
+          console.log(dateSave[0].slice(0, -5));
           alert(error);
         },
       });
+      console.log(value);
     }
   };
 
   const landmarkHandler = () => {
-    landmarksMutation.mutate({
-      Landmarks: {
-        landmarkId: 2,
-        visitStart: '2024-05-30T15:00:00',
-        visitEnd: '2024-05-30T11:00:00',
-      },
-      schedulerId,
-    });
-    setStep(4);
+    const targetItem = btCheck.find((item) => item.type === 'landmarkId');
+    if (targetItem) {
+      landmarksMutation.mutate({
+        Landmarks: {
+          landmarkId: targetItem.id,
+          visitStart: dateSave[0].slice(0, -5),
+          visitEnd: dateSave[1].slice(0, -5),
+        },
+        schedulerId,
+      });
+      setStep(4);
+    }
   };
   const activitiesHandler = () => {
-    activitiesMutation.mutate({
-      Activities: {
-        activityId: 1,
-        visitStart: '2024-06-26T10:00:00',
-        visitEnd: '2024-06-26T14:00:00',
-      },
-      schedulerId,
-    });
-    setStep(5);
+    const targetItem = btCheck.find((item) => item.type === 'activityId');
+    if (targetItem) {
+      activitiesMutation.mutate({
+        Activities: {
+          activityId: targetItem.id,
+          visitStart: dateSave[0].slice(0, -5),
+          visitEnd: dateSave[1].slice(0, -5),
+        },
+        schedulerId,
+      });
+      setSearch('');
+      setStep(5);
+    }
   };
 
   const restaurantsHandler = () => {
-    restaurantsCreateMutation.mutate({
-      Restaurants: {
-        restaurantId: 2,
-        visitStart: '2024-04-06T15:00:00',
-        visitEnd: '2024-04-07T11:00:00',
-      },
-      schedulerId: schedulerId,
-    });
-    setStep(6);
+    const targetItem = btCheck.find((item) => item.type === 'restaturantId');
+    if (targetItem) {
+      restaurantsCreateMutation.mutate({
+        Restaurants: {
+          restaurantId: targetItem.id,
+          visitStart: dateSave[0].slice(0, -5),
+          visitEnd: dateSave[1].slice(0, -5),
+        },
+        schedulerId: schedulerId,
+      });
+      setSearch('');
+      setStep(6);
+    }
   };
   const hotelsHandler = () => {
-    hotelsCreateMutation.mutate({
-      Hotels: {
-        hotelId: 2,
-        stayStart: '2024-06-03T15:00:00',
-        stayEnd: '2024-06-03T11:00:00',
-      },
-      schedulerId,
-    });
-    setStep(7);
+    const targetItem = btCheck.find((item) => item.type === 'hotelId');
+    if (targetItem) {
+      hotelsCreateMutation.mutate({
+        Hotels: {
+          hotelId: targetItem.id,
+          stayStart: dateSave[0].slice(0, -5),
+          stayEnd: dateSave[1].slice(0, -5),
+        },
+        schedulerId,
+      });
+      setSearch('');
+      setStep(7);
+    }
   };
   const seoulGoodsHandler = () => {
-    seoulGoodsMutation.mutate({
-      Seoulgoods: {
-        goodsId: 2,
-        visitStart: '2024-04-06T15:00:00',
-        visitEnd: '2024-04-07T11:00:00',
-      },
-      schedulerId,
-    });
-    setStep(8);
+    const targetItem = btCheck.find((item) => item.type === 'seoulGoodsId');
+    if (targetItem) {
+      seoulGoodsMutation.mutate({
+        Seoulgoods: {
+          goodsId: targetItem.id,
+          visitStart: dateSave[0].slice(0, -5),
+          visitEnd: dateSave[1].slice(0, -5),
+        },
+        schedulerId,
+      });
+      setSearch('');
+      setStep(8);
+    }
   };
 
   const nextIdStep = () => {
@@ -192,7 +303,7 @@ const Scheduler = () => {
                 />
               </div>
               <div>
-                <label>함께할 멤버 입력</label>
+                <label>함께할 멤버 이메일 입력</label>
 
                 {inputItems.map((item, index) => (
                   <St.SInput
@@ -219,76 +330,71 @@ const Scheduler = () => {
             <St.StepBtn onClick={schedulerCreateHandler}>다음</St.StepBtn>
           </>
         )}
-        {step === 3 && (
+        {step > 2 && (
           <>
-            <div className="Title">4/3에 방문할 명소를 선택해주세요.</div>
-            <St.SearchInputFrame>
-              <St.SearchInput placeholder="직접 검색하기" />
-              <St.SearchInputBtn>검색</St.SearchInputBtn>
-            </St.SearchInputFrame>
-            <div>
-              <Card />
-            </div>
-            <St.StepBtn onClick={landmarkHandler}>다음</St.StepBtn>
+            {step < 8 && (
+              <>
+                <div className="Title">
+                  <St.Circle />
+                  {dateString}
+                  {step === 3 && <p>에 방문할 명소를 선택해주세요.</p>}
+                  {step === 4 && <p>에 방문할 체험을 선택해주세요.</p>}
+                  {step === 5 && <p>에 방문할 맛집 선택해주세요.</p>}
+                  {step === 6 && <p>에 방문할 호텔를 선택해주세요.</p>}
+                  {step === 7 && <p>에 방문할 기념품판매소를 선택해주세요.</p>}
+                </div>
+              </>
+            )}
+            {step < 8 && (
+              <>
+                <St.SearchInputFrame>
+                  <St.SearchInput
+                    placeholder="직접 검색하기"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                  />
+                  <St.SearchInputBtn>
+                    <IoIosSearch size="30px" color="#636363" />
+                  </St.SearchInputBtn>
+                </St.SearchInputFrame>
+              </>
+            )}
+            <St.NemoFrame>
+              <St.Nemo>
+                <div style={{ margin: '30px' }}>{dateString}</div>
+                {btCheck.slice(1).map((value, index: number) => (
+                  <St.CheckFrame key={value.id}>
+                    <p className="index">{index + 1}</p>
+                    <p className="iTitle">{value.title}</p>
+                  </St.CheckFrame>
+                ))}
+              </St.Nemo>
+              {step === 3 && <Step3 data={filteredData} search={search} />}
+              {step === 4 && <Step4 data={filteredData4} search={search} />}
+              {step === 5 && <Step5 data={filteredData5} search={search} />}
+              {step === 6 && <Step6 data={filteredData6} search={search} />}
+              {step === 7 && <Step7 data={filteredData7} search={search} />}
+            </St.NemoFrame>
+
+            {step === 3 && (
+              <St.StepBtn onClick={landmarkHandler}>다음</St.StepBtn>
+            )}
+            {step === 4 && (
+              <St.StepBtn onClick={activitiesHandler}>다음</St.StepBtn>
+            )}
+            {step === 5 && (
+              <St.StepBtn onClick={restaurantsHandler}>다음</St.StepBtn>
+            )}
+            {step === 6 && (
+              <St.StepBtn onClick={hotelsHandler}>다음</St.StepBtn>
+            )}
+            {step === 7 && (
+              <St.StepBtn onClick={seoulGoodsHandler}>다음</St.StepBtn>
+            )}
           </>
         )}
-        {step === 4 && (
-          <>
-            <div className="Title">4/3에 즐길 체험을 선택해주세요.</div>
-            <St.SearchInputFrame>
-              <St.SearchInput placeholder="직접 검색하기" />
-              <St.SearchInputBtn>검색</St.SearchInputBtn>
-            </St.SearchInputFrame>
-            <div>
-              <SearchCard />
-            </div>
-            <St.StepBtn onClick={activitiesHandler}>다음</St.StepBtn>
-          </>
-        )}
-        {step === 5 && (
-          <>
-            <div className="Title">4/3에 방문할 맛집을 선택해주세요.</div>
-            <St.SearchInputFrame>
-              <St.SearchInput placeholder="직접 검색하기" />
-              <St.SearchInputBtn>검색</St.SearchInputBtn>
-            </St.SearchInputFrame>
-            <div>
-              <SearchCard />
-            </div>
-            <St.StepBtn onClick={restaurantsHandler}>다음</St.StepBtn>
-          </>
-        )}
-        {step === 6 && (
-          <>
-            <div className="Title">4/3에 방문할 호텔을 선택해주세요.</div>
-            <St.SearchInputFrame>
-              <St.SearchInput placeholder="직접 검색하기" />
-              <St.SearchInputBtn>검색</St.SearchInputBtn>
-            </St.SearchInputFrame>
-            <div>
-              <SearchCard />
-            </div>
-            <St.StepBtn onClick={hotelsHandler}>다음</St.StepBtn>
-          </>
-        )}
-        {step === 7 && (
-          <>
-            <div className="Title">
-              4/3에 방문할 기념품판매소를 선택해주세요.
-            </div>
-            <St.SearchInputFrame>
-              <St.SearchInput placeholder="직접 검색하기" />
-              <St.SearchInputBtn>검색</St.SearchInputBtn>
-            </St.SearchInputFrame>
-            <div>
-              <SearchCard />
-            </div>
-            <St.StepBtn onClick={seoulGoodsHandler}>다음</St.StepBtn>
-          </>
-        )}
-        {step === 8 && (
-          <St.FinalTitle className="Title">스케줄이 정해졌어요!</St.FinalTitle>
-        )}
+
+        {step >= 8 && <>스케줄이 정해졌어요!</>}
       </St.SchedulerWrapper>
     </St.SchedulerTotalWrapper>
   );

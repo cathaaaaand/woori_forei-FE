@@ -30,7 +30,6 @@ const Experience = () => {
     if (!search) {
       alert('검색어를 입력해주세요!');
     }
-    console.log(search);
     setMapState(1);
   };
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -42,7 +41,7 @@ const Experience = () => {
     <St.BestPlaceWrapper>
       <St.BPWrapper>
         <div className="BPTitle">
-          <IoArrowBack />홈 &gt; 관광 &gt;<p>명소</p>
+          <IoArrowBack />홈 &gt; 관광 &gt;<p>체험</p>
         </div>
         <div className="BPMainTitle">
           <St.Circle />

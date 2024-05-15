@@ -30,10 +30,9 @@ const url = process.env.REACT_APP_SERVER;
 export const loginApi = async (Login: LoginType) => {
   try {
     const res = await axios.post(`${url}/api/auth/login`, Login);
-    if (res.status === 200) {
-      localStorage.setItem('userId', res.data.payload);
-      return res.data;
-    }
+    sessionStorage.setItem('userId', res.data.payload.userId);
+    sessionStorage.setItem('login', res.data.payload.jwtToken);
+    return res.data;
   } catch (error) {
     const axiosError = error as AxiosError;
     throw axiosError.response?.data;

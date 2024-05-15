@@ -1,6 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
+import moment from 'moment';
 import React from 'react';
-import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
+import {
+  IoIosArrowForward,
+  IoIosArrowBack,
+  IoIosArrowDown,
+} from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 import * as St from './style';
 import { boardLikeGetApi, boardRecentApi } from 'api/board';
@@ -15,16 +20,25 @@ const Board = () => {
     queryKey: ['boardLikeGet'],
     queryFn: boardLikeGetApi,
   });
-  console.log(data, boardLikeData);
-  // const schedulerDeleteMutation = useMutation({
+  // const dataLength = () => {
+  //   if (!isLoading) {
+  //     return '총 ' + data.length + ' 건';
+  //   }
+  // };
+  // const boardLikeDataLength = () => {
+  //   if (!isLoading) {
+  //     return '총 ' + boardLikeData.length + ' 건';
+  //   }
+  // };
+  // const BoardDeleteMutation = useMutation({
   //   mutationFn: boardDeleteApi,
-  // });
-  // const schedulerLikeMutation = useMutation({
+  // }); {boardLikeData.length}
+  // const BoardLikeMutation = useMutation({
   //   mutationFn: boardLikeApi ,
   // });
 
   // const deleteHandler = (id: number) => {
-  //   schedulerDeleteMutation.mutate(id, {
+  //   BoardDeleteMutation.mutate(id, {
   //     onSuccess: (data) => {
   //       alert(data.message);
   //       refetch();
@@ -32,7 +46,7 @@ const Board = () => {
   //   });
   // };
   // const deleteHandler = (id: number) => {
-  //   schedulerLikeMutation.mutate(id, {
+  //   BoardLikeMutation.mutate(id, {
   //     onSuccess: (data) => {
   //       alert(data.message);
   //       refetch();
@@ -55,23 +69,66 @@ const Board = () => {
             글쓰기
           </St.WriteBtn>
         </St.BoardTitleFrame>
-        {/* <button onClick={() => deleteHandler(id)}>삭제</button> */}
-        <St.ContentTitle>인기글</St.ContentTitle>
-        <St.BoardContentFrame
-          onClick={() => {
-            navigate('/detail');
-          }}
-        >
-          <div>안녕하세요~</div>
-          <div>24.03.25</div>
-        </St.BoardContentFrame>
-
-        <St.ContentTitle>최신글</St.ContentTitle>
-        <St.BoardContentFrame>
-          <div>안녕하세요~</div>
-          <div>24.03.25</div>
-        </St.BoardContentFrame>
-
+        <div>
+          <St.ContentTitle>
+            {/* <p className="length">{dataLength()}</p> */}
+            <div className="typeLabel">
+              <p>인기글</p>
+            </div>
+          </St.ContentTitle>
+          {boardLikeData
+            ?.slice(0, 4)
+            .map(
+              (value: {
+                boardId: number;
+                title: string;
+                createdAt: string;
+              }) => (
+                <St.BoardContentFrame
+                  key={value.boardId}
+                  onClick={() => {
+                    navigate('/detail');
+                  }}
+                >
+                  <div>
+                    <p>{moment(value.createdAt).format('YYYY-MM-DD')}</p>
+                    <p>{value.title}</p>
+                  </div>
+                  <St.AccordionBtn>
+                    <IoIosArrowDown size="20px" />
+                  </St.AccordionBtn>
+                  {/* <button onClick={() => deleteHandler(id)}>삭제</button> */}
+                </St.BoardContentFrame>
+              ),
+            )}
+        </div>
+        <div>
+          <St.ContentTitle>
+            {/* <p className="length">{boardLikeDataLength()}</p> */}
+            <p className="typeLabel">최신글</p>
+          </St.ContentTitle>
+          {data
+            ?.slice(0, 4)
+            .map(
+              (value: {
+                boardId: number;
+                title: string;
+                createdAt: string;
+              }) => (
+                <div key={value.boardId}>
+                  <St.BoardContentFrame>
+                    <div>
+                      <p>{moment(value.createdAt).format('YYYY-MM-DD')}</p>
+                      <p>{value.title}</p>
+                    </div>
+                    <St.AccordionBtn>
+                      <IoIosArrowDown size="20px" />
+                    </St.AccordionBtn>
+                  </St.BoardContentFrame>
+                </div>
+              ),
+            )}
+        </div>
         <St.BoardPageFrame>
           <IoIosArrowBack size="20px" />
           <div>1 2 3 4</div>
