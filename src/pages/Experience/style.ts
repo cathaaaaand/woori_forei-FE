@@ -14,12 +14,12 @@ export const BPWrapper = styled.div`
   flex-direction: column;
 
   .BPMainTitle {
-    margin-bottom: 35px;
     display: flex;
     align-items: center;
     font-size: 24pt;
     color: black;
     gap: 15px;
+    margin-bottom: 35px;
     margin-left: 50px;
   }
   .BPTitle {
@@ -40,9 +40,9 @@ export const BPWrapper = styled.div`
     }
   }
 
-  .BPMap {
-    margin: 50px auto 50px auto;
-  }
+  // .BPMap {
+  //   margin: 50px auto 50px auto;
+  // }
 `;
 export const SearchInputFrame = styled.div`
   position: relative;
@@ -61,9 +61,9 @@ export const SearchInput = styled.input`
 `;
 export const SearchInputBtn = styled.div`
   position: absolute;
-  top: 10px;
+  top: 12px;
   bottom: 0;
-  right: 25px;
+  right: 60px;
   boder: none;
   height: 23px;
   font-size: 15pt;
@@ -75,20 +75,18 @@ export const SearchCardOuterWrapper = styled.div`
   gap: 30px;
 `;
 export const SearchCardWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 45px;
-  width: 1320px;
-  height: 660px;
-  margin-top: 20px;
+  // display: flex;
+  // align-content: flex-start;
+  // align-items: flex-start;
+  // flex-wrap: wrap;
+  // gap: 45px;
+  // height: 550px;
 `;
 export const SearchInnerWrapper = styled.div`
   display: grid;
-  grid-template-columns: 2fr 1fr;
   grid-gap: 50px;
   justify-content: center;
   font-size: 16pt;
-
   .BlueFocusBefore {
     display: flex;
     padding-top: 20px;
@@ -97,6 +95,7 @@ export const SearchInnerWrapper = styled.div`
     border-radius: 10px;
     background: white;
     color: black;
+    width: 1100px;
     gap: 70px;
     &:hover {
       background: #005391;
@@ -105,16 +104,13 @@ export const SearchInnerWrapper = styled.div`
   }
   .DataTitle {
     display: flex;
-    justify-content: center;
     text-align: center;
-    width: 250px;
+    width: 300px;
     padding-left: 45px;
   }
 
   .DataContent {
-    width: 450px;
     li {
-      width: 450px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;

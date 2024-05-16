@@ -18,10 +18,9 @@ export interface CardProps {
         minclassnm: string;
       }>
     | undefined;
-  search: string;
 }
 const Step4 = (props: CardProps) => {
-  const { data, search } = props;
+  const { data } = props;
   const [pageCount, setPageCount] = useState(0);
   const arrayLength = data ? data?.length : 20;
   const pageNavigationNum =
@@ -61,7 +60,6 @@ const Step4 = (props: CardProps) => {
   return (
     <St.SearchCardOuterWrapper>
       <St.SearchCardWrapper>
-        <div>{search ? '검색결과:' + search : '전체결과'}</div>
         {data?.slice(pageCount, pageCount + 3).map((value) => (
           <St.SearchInnerWrapper
             key={value.activityId}

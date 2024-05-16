@@ -39,27 +39,32 @@ const Main = () => {
               <div className="Flex">
                 <div className="ImgCardSquare">
                   <img src={tteokppoki} alt="분식" />
-                  <p style={{ marginLeft: '5px' }}>ⓒ한국관광공사 포토코리아</p>
+                  <p>ⓒ한국관광공사 포토코리아</p>
+                  <p> &emsp;한국관광공사 김지호</p>
                 </div>
                 <div className="ImgCardSquare">
                   <img src={chickenSoup} alt="삼계탕" />
                   <p>ⓒ한국관광공사 포토코리아</p>
+                  <p> &emsp;한국관광공사 프레임스튜디오</p>
                 </div>
               </div>
               <div className="Flex">
                 <div className="ImgCardSquare">
                   <img src={bibimbap} alt="비빔밥" />
                   <p>ⓒ한국관광공사 포토코리아</p>
+                  <p> &emsp;한국관광공사 김지호</p>
                 </div>
                 <div className="ImgCardSquare">
                   <img src={koreanFood} alt="한식" />
                   <p>ⓒ한국관광공사 포토코리아</p>
+                  <p> &emsp;한국관광공사 프레임스튜디오</p>
                 </div>
               </div>
             </div>
             <div className="ImgCardSquare4">
               <img src={porkbelly} alt="삼겹살" />
               <p>ⓒ한국관광공사 포토코리아</p>
+              <p> &emsp;알렉스 분도</p>
             </div>
           </div>
         </St.ImaCardFrame>

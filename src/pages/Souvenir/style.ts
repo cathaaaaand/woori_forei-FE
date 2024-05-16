@@ -40,9 +40,9 @@ export const BPWrapper = styled.div`
     }
   }
 
-  .BPMap {
-    margin: 50px auto 50px auto;
-  }
+  // .BPMap {
+  //   margin: 50px auto 50px auto;
+  // }
 `;
 export const SearchInputFrame = styled.div`
   position: relative;
@@ -79,12 +79,11 @@ export const SearchCardWrapper = styled.div`
   flex-direction: column;
   gap: 45px;
   width: 1320px;
-  height: 580px;
+  height: 480px;
   margin-top: 20px;
 `;
 export const SearchInnerWrapper = styled.div`
   display: grid;
-  grid-template-columns: 2fr 1fr;
   grid-gap: 50px;
   justify-content: center;
   font-size: 16pt;
@@ -97,6 +96,7 @@ export const SearchInnerWrapper = styled.div`
     border-radius: 10px;
     background: white;
     color: black;
+    width: 1100px;
     gap: 70px;
     &:hover {
       background: #005391;
@@ -105,21 +105,11 @@ export const SearchInnerWrapper = styled.div`
   }
   .DataTitle {
     display: flex;
-    justify-content: center;
-    text-align: center;
-    width: 250px;
+    width: 305px;
     padding-left: 45px;
   }
 
   .DataContent {
-    width: 450px;
-    li {
-      width: 450px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      margin-bottom: 5px;
-    }
   }
   .DataUrl {
     padding-top: 20px;

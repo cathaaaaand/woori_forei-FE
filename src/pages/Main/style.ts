@@ -54,7 +54,7 @@ export const ImaCardFrame = styled.div`
       color: white;
     }
     p {
-      transform: translate(10px, -30px);
+      transform: translate(10px, -40px);
     }
   }
   .ImgCardSquare {
@@ -73,18 +73,19 @@ export const ImaCardFrame = styled.div`
       color: white;
     }
     p {
+      transform: translate(10px, -40px);
       text-align: center;
     }
   }
   .ImgCardSquare4 {
-    width: 500px;
-    height: 500px;
+    width: 510px;
+    height: 510px;
     border-radius: 5px;
     background: #f7f7f7;
     color: transparent;
     img {
-      width: 500px;
-      height: 500px;
+      width: 510px;
+      height: 510px;
       background-position: center;
       border-radius: 5px;
     }
@@ -93,7 +94,7 @@ export const ImaCardFrame = styled.div`
     }
     p {
       text-align: center;
-      transform: translate(10px, -35px);
+      transform: translate(10px, -45px);
     }
   }
   .Flex {

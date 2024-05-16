@@ -5,11 +5,11 @@ import { IoArrowBack } from 'react-icons/io5';
 import ExSearchCard from './ExSearchCard';
 import * as St from './style';
 import { activitiesApi } from 'api/openApi';
-import Map from 'components/Map/KakaoMap';
+// import Map from 'components/Map/KakaoMap';
 
 const Experience = () => {
   const [search, setSearch] = useState('');
-  const [mapState, setMapState] = useState(0);
+  // const [mapState, setMapState] = useState(0);
   const { data } = useQuery({
     queryKey: ['activities'],
     queryFn: activitiesApi,
@@ -30,7 +30,7 @@ const Experience = () => {
     if (!search) {
       alert('검색어를 입력해주세요!');
     }
-    setMapState(1);
+    // setMapState(1);
   };
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
@@ -62,15 +62,15 @@ const Experience = () => {
           홈 &gt; 관광&gt; 서울 체험 &gt;
           <p className="highLight">검색 결과</p>
         </div>
-        <div>
+        {/* <div>
           <button onClick={() => setMapState(0)}>지도에서 검색하기</button>
           <button onClick={() => setMapState(1)}>검색결과</button>
-        </div>
+        </div> */}
         <div className="BPMap">
-          {mapState === 0 && <Map />}
-          {mapState === 1 && (
-            <ExSearchCard data={filteredData} search={search} />
-          )}
+          {/* {mapState === 0 && <Map />}
+          {mapState === 1 && ( */}
+          <ExSearchCard data={filteredData} />
+          {/* )} */}
         </div>
       </St.BPWrapper>
     </St.BestPlaceWrapper>
