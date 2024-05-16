@@ -14,12 +14,12 @@ export const TourWrapper = styled.div`
   flex-direction: column;
 
   .MainTitle {
-    margin-bottom: 35px;
     display: flex;
     align-items: center;
     font-size: 24pt;
     color: black;
     gap: 15px;
+    margin-bottom: 35px;
     margin-left: 50px;
   }
   .Title {
@@ -96,13 +96,14 @@ export const SearchCardOuterWrapper = styled.div`
 export const SearchCardWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  align-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: wrap;
   gap: 45px;
-  width: 1320px;
   height: 550px;
 `;
 export const SearchInnerWrapper = styled.div`
   display: grid;
-  grid-template-columns: 2fr 1fr;
   grid-gap: 50px;
   justify-content: center;
   font-size: 16pt;
@@ -114,6 +115,7 @@ export const SearchInnerWrapper = styled.div`
     border-radius: 10px;
     background: white;
     color: black;
+    width: 1100px;
     gap: 70px;
     &:hover {
       background: #005391;
@@ -122,9 +124,8 @@ export const SearchInnerWrapper = styled.div`
   }
   .DataTitle {
     display: flex;
-    justify-content: center;
     text-align: center;
-    width: 250px;
+    width: 300px;
     padding-left: 45px;
   }
 

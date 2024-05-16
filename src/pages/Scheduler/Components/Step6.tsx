@@ -14,10 +14,9 @@ export interface CardProps {
         nameKor: string;
       }>
     | undefined;
-  search: string;
 }
 const Step6 = (props: CardProps) => {
-  const { data, search } = props;
+  const { data } = props;
   const [pageCount, setPageCount] = useState(0);
   const arrayLength = data ? data?.length : 20;
   const pageNavigationNum =
@@ -37,7 +36,6 @@ const Step6 = (props: CardProps) => {
       }
     }
   };
-  console.log(btCheck);
   const pageBeforeBtnHandler = () => {
     if (pageCount < 3) {
       alert('첫 번째 페이지입니다!');
@@ -58,7 +56,6 @@ const Step6 = (props: CardProps) => {
   return (
     <St.SearchCardOuterWrapper>
       <St.SearchCardWrapper>
-        <div>{search ? '검색결과:' + search : '전체결과'}</div>
         {data?.slice(pageCount, pageCount + 3).map((value) => (
           <St.SearchInnerWrapper
             key={value.hotelId}

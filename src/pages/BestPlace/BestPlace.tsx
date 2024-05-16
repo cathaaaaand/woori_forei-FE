@@ -5,11 +5,11 @@ import { IoArrowBack } from 'react-icons/io5';
 import BtSearchCard from './BtSearchCard';
 import * as St from './style';
 import { landmarksnApi } from 'api/openApi';
-import Map from 'components/Map/KakaoMap';
+// import Map from 'components/Map/KakaoMap';
 
 const BestPlace = () => {
   const [search, setSearch] = useState('');
-  const [mapState, setMapState] = useState(0);
+  // const [mapState, setMapState] = useState(0);
   const { data } = useQuery({
     queryKey: ['landmark'],
     queryFn: landmarksnApi,
@@ -38,8 +38,7 @@ const BestPlace = () => {
       alert('검색어를 입력해주세요!');
       return;
     }
-    console.log(data);
-    setMapState(1);
+    // setMapState(1);
   };
 
   return (
@@ -66,15 +65,15 @@ const BestPlace = () => {
         <div className="BPTitle">
           홈 &gt; 관광 &gt;명소&gt;<p className="highLight">검색결과</p>
         </div>
-        <div>
+        {/* <div>
           <button onClick={() => setMapState(0)}>지도에서 검색하기</button>
           <button onClick={() => setMapState(1)}>검색결과</button>
-        </div>
+        </div> */}
         <div className="BPMap">
-          {mapState === 0 && <Map />}
-          {mapState === 1 && (
-            <BtSearchCard data={filteredData} search={search} />
-          )}
+          {/* {mapState === 0 && <Map />} */}
+          {/* {mapState === 1 && ( */}
+          <BtSearchCard data={filteredData} />
+          {/* )} */}
         </div>
       </St.BPWrapper>
     </St.BestPlaceWrapper>

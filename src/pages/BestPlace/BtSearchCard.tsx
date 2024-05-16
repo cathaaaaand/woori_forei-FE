@@ -13,10 +13,9 @@ export interface CardProps {
         cmmnHmpgUrl: string;
       }>
     | undefined;
-  search: string;
 }
 const BtSearchCard = (props: CardProps) => {
-  const { data, search } = props;
+  const { data } = props;
   const [pageCount, setPageCount] = useState(0);
   const arrayLength = data ? data?.length : 20;
   const pageNavigationNum =
@@ -45,24 +44,21 @@ const BtSearchCard = (props: CardProps) => {
   return (
     <St.SearchCardOuterWrapper>
       <St.SearchCardWrapper>
-        <div>{search ? '검색결과:' + search : '전체결과'}</div>
         {data?.slice(pageCount, pageCount + 3).map((value) => (
           <St.SearchInnerWrapper key={value.postSj}>
-            {value.cmmnHmpgUrl !== '' && (
-              <div>
-                <a href={value.cmmnHmpgUrl} style={{ textDecoration: 'none' }}>
-                  <div className="BlueFocusBefore">
-                    <p className="DataTitle">{value.postSj}</p>
-                    <p className="DataContent">
-                      <li>서비스시간 :{' ' + voidData(value.cmmnUseTime)}</li>
-                      <li>휴무일 :{' ' + voidData(value.cmmnRstde)}</li>
-                      <li>주소 : {voidData(value.address)}</li>
-                      <li>전화 : {voidData(value.cmmnTelno)}</li>
-                    </p>
-                  </div>
-                </a>
+            <div>
+              {/* <a href={value.cmmnHmpgUrl} style={{ textDecoration: 'none' }}> */}
+              <div className="BlueFocusBefore">
+                <p className="DataTitle">{value.postSj}</p>
+                <p className="DataContent">
+                  <li>서비스시간 :{' ' + voidData(value.cmmnUseTime)}</li>
+                  <li>휴무일 :{' ' + voidData(value.cmmnRstde)}</li>
+                  <li>주소 : {voidData(value.address)}</li>
+                  <li>전화 : {voidData(value.cmmnTelno)}</li>
+                </p>
               </div>
-            )}
+              {/* </a> */}
+            </div>
           </St.SearchInnerWrapper>
         ))}
       </St.SearchCardWrapper>

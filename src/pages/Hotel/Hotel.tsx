@@ -5,11 +5,11 @@ import { IoArrowBack } from 'react-icons/io5';
 import HoSearchCard from './HoSearchCard';
 import * as St from './style';
 import { hotelsnApi } from 'api/openApi';
-import Map from 'components/Map/KakaoMap';
+// import Map from 'components/Map/KakaoMap';
 
 const Hotel = () => {
   const [search, setSearch] = useState('');
-  const [mapState, setMapState] = useState(0);
+  // const [mapState, setMapState] = useState(0);
   const { data } = useQuery({
     queryKey: ['hotels'],
     queryFn: hotelsnApi,
@@ -40,8 +40,7 @@ const Hotel = () => {
     if (!search) {
       alert('검색어를 입력해주세요!');
     }
-    console.log(search);
-    setMapState(1);
+    // setMapState(1);
   };
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
@@ -72,15 +71,15 @@ const Hotel = () => {
         <div className="BPTitle">
           홈 &gt; 관광 &gt;호텔&gt;<p className="highLight">검색결과</p>
         </div>
-        <div>
+        {/* <div>
           <button onClick={() => setMapState(0)}>지도에서 검색하기</button>
           <button onClick={() => setMapState(1)}>검색결과</button>
-        </div>
+        </div> */}
         <div className="BPMap">
-          {mapState === 0 && <Map />}
-          {mapState === 1 && (
-            <HoSearchCard data={filteredData} search={search} />
-          )}
+          {/* {mapState === 0 && <Map />}
+          {mapState === 1 && ( */}
+          <HoSearchCard data={filteredData} />
+          {/* )} */}
         </div>
       </St.BPWrapper>
     </St.BestPlaceWrapper>

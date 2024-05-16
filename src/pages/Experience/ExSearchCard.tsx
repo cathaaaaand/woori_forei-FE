@@ -16,10 +16,9 @@ export interface CardProps {
         minclassnm: string;
       }>
     | undefined;
-  search: string;
 }
 const ExSearchCard = (props: CardProps) => {
-  const { data, search } = props;
+  const { data } = props;
   const [pageCount, setPageCount] = useState(0);
   const arrayLength = data ? data?.length : 20;
   const pageNavigationNum =
@@ -47,34 +46,31 @@ const ExSearchCard = (props: CardProps) => {
   };
   return (
     <St.SearchCardOuterWrapper>
-      <St.SearchCardWrapper>
-        <div>{search ? '검색결과:' + search : '전체결과'}</div>
-        {data?.slice(pageCount, pageCount + 3).map((value) => (
-          <St.SearchInnerWrapper key={value.activityId}>
-            <div className="BlueFocusBefore">
-              <p className="DataTitle">{value.svcnm}</p>
-              <p className="DataContent">
-                <li>
-                  전시기간 :{value.rcptbgndt}~{value.rcptenddt}
-                </li>
-                <li>가격:{value.payatnm}</li>
-                <li>분류:{value.minclassnm}</li>
-                <li>
-                  운영시간 :{value.vmin}~{value.vmax}
-                </li>
-                <li>장소 : {voidData(value.placenm)}</li>
-              </p>
-            </div>
-            {/* <div className="DataUrl">
+      {data?.slice(pageCount, pageCount + 3).map((value) => (
+        <St.SearchInnerWrapper key={value.activityId}>
+          <div className="BlueFocusBefore">
+            <p className="DataTitle">{value.svcnm}</p>
+            <p className="DataContent">
+              <li>
+                전시기간 :{value.rcptbgndt}~{value.rcptenddt}
+              </li>
+              <li>가격:{value.payatnm}</li>
+              <li>분류:{value.minclassnm}</li>
+              <li>
+                운영시간 :{value.vmin}~{value.vmax}
+              </li>
+              <li>장소 : {voidData(value.placenm)}</li>
+            </p>
+          </div>
+          {/* <div className="DataUrl">
               {value.svcurl === '' ? (
                 voidData(value.svcurl)
               ) : (
                 <a href={value.svcurl}>{voidData(value.svcurl)}</a>
               )}
             </div> */}
-          </St.SearchInnerWrapper>
-        ))}
-      </St.SearchCardWrapper>
+        </St.SearchInnerWrapper>
+      ))}
       <St.NavFrame>
         <St.NavTotalLine />
         <St.NavMovelLine $pagelinenum={pagelinenum} />

@@ -369,11 +369,11 @@ const Scheduler = () => {
                   </St.CheckFrame>
                 ))}
               </St.Nemo>
-              {step === 3 && <Step3 data={filteredData} search={search} />}
-              {step === 4 && <Step4 data={filteredData4} search={search} />}
-              {step === 5 && <Step5 data={filteredData5} search={search} />}
-              {step === 6 && <Step6 data={filteredData6} search={search} />}
-              {step === 7 && <Step7 data={filteredData7} search={search} />}
+              {step === 3 && <Step3 data={filteredData} />}
+              {step === 4 && <Step4 data={filteredData4} />}
+              {step === 5 && <Step5 data={filteredData5} />}
+              {step === 6 && <Step6 data={filteredData6} />}
+              {step === 7 && <Step7 data={filteredData7} />}
             </St.NemoFrame>
 
             {step === 3 && (

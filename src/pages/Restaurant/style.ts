@@ -40,12 +40,12 @@ export const BPWrapper = styled.div`
     }
   }
 
-  .BPMap {
-    display: flex;
-    flex-direction: column;
-    gap: 45px;
-    margin: 50px auto 50px auto;
-  }
+  // .BPMap {
+  //   display: flex;
+  //   flex-direction: column;
+  //   gap: 45px;
+  //   margin: 50px auto 50px auto;
+  // }
 `;
 export const SearchInputFrame = styled.div`
   position: relative;
@@ -64,9 +64,9 @@ export const SearchInput = styled.input`
 `;
 export const SearchInputBtn = styled.div`
   position: absolute;
-  top: 10px;
+  top: 12px;
   bottom: 0;
-  right: 25px;
+  right: 60px;
   boder: none;
   height: 23px;
   font-size: 15pt;
@@ -82,12 +82,11 @@ export const SearchCardWrapper = styled.div`
   flex-direction: column;
   gap: 45px;
   width: 1320px;
-  height: 660px;
+  height: 600px;
   margin-top: 20px;
 `;
 export const SearchInnerWrapper = styled.div`
   display: grid;
-  grid-template-columns: 2fr 1fr;
   grid-gap: 50px;
   justify-content: center;
   font-size: 16pt;
@@ -100,6 +99,7 @@ export const SearchInnerWrapper = styled.div`
     border-radius: 10px;
     background: white;
     color: black;
+    width: 1100px;
     gap: 70px;
     &:hover {
       background: #005391;
@@ -108,21 +108,11 @@ export const SearchInnerWrapper = styled.div`
   }
   .DataTitle {
     display: flex;
-    justify-content: center;
-    text-align: center;
-    width: 250px;
+    width: 300px;
     padding-left: 45px;
   }
 
   .DataContent {
-    width: 450px;
-    li {
-      width: 450px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      margin-bottom: 5px;
-    }
   }
   .DataUrl {
     padding-top: 20px;

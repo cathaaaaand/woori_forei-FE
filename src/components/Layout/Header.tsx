@@ -45,7 +45,13 @@ const Header = () => {
               관광
             </div>
 
-            <div>숙박</div>
+            <div
+              onClick={() => {
+                navigate('/hotel');
+              }}
+            >
+              숙박
+            </div>
 
             <div
               onClick={() => {

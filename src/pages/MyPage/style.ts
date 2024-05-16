@@ -5,6 +5,7 @@ export const MyPageFrame = styled.div`
   flex-direction: column;
   align-items: center;
   font-size: 20pt;
+  padding: 80px;
   #loading {
     display: inline-block;
     width: 50px;
@@ -114,7 +115,7 @@ export const InputFrame = styled.div`
 export const WithdrawalBtn = styled.button`
   position: absolute;
   left: 60px;
-  bottom: 50px;
+  bottom: -80px;
   border: none;
   background: transparent;
   font-size: 15pt;

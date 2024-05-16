@@ -4,15 +4,17 @@ export const BoardFrame = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  flex-wrap: wrap;
   align-content: center;
+  flex-wrap: wrap;
   font-size: 20pt;
 `;
 export const BoardInnerFrame = styled.div`
   display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-wrap: wrap;
+  padding: 50px;
   flex-direction: column;
-  width: 1440px;
-  padding: 60px;
 `;
 export const BoardTitleFrame = styled.div`
   display: flex;
@@ -30,14 +32,13 @@ export const BoardTitleFrame = styled.div`
   }
 `;
 export const WriteBtn = styled.button`
-  border: none;
-  background: #0084e3;
-  border-radius: 5px;
-  width: 100px;
-  height: 40px;
   font-size: 18px;
-  color: white;
-  z-index: 100;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border: 1px solid #b2b2b2;
+  display: flex;
+  align-items: center;
 `;
 export const ContentTitle = styled.div`
   margin: 90px 0 27px 60px;
@@ -60,19 +61,14 @@ export const ContentTitle = styled.div`
     }
   }
 `;
-export const BoardContentFrame = styled.div`
+export const WriteBtnFrame = styled.div`
   display: flex;
+  width: 1200px;
   align-items: center;
   justify-content: space-between;
-  border-top: 1px solid #858585;
-  height: 86px;
-  padding: 0 60px 0 60px;
-  font-size: 16pt;
-  div {
-    display: flex;
-    gap: 26px;
-  }
+  padding-right: 60px;
 `;
+export const BoardContentFrame = styled.div``;
 export const BoardPageFrame = styled.div`
   display: flex;
   align-items: center;
