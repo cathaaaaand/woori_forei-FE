@@ -15,10 +15,9 @@ interface ProfilePatchType {
 }
 const url = process.env.REACT_APP_SERVER;
 
-const token = sessionStorage.getItem('login');
-const userId = sessionStorage.getItem('userId');
 export const userProfileApi = async () => {
   try {
+    const userId = sessionStorage.getItem('userId');
     const res = await axios.get(`${url}/api/users/${userId}`);
     return res.data.payload;
   } catch (error) {
@@ -29,6 +28,8 @@ export const userProfileApi = async () => {
 
 export const ProfileUpdataApi = async (PatchData: ProfilePatchType) => {
   try {
+    const token = sessionStorage.getItem('login');
+    const userId = sessionStorage.getItem('userId');
     const res = await axios.patch(`${url}/api/users/${userId}`, PatchData, {
       headers: {
         Authorization: token,

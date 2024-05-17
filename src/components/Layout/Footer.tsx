@@ -1,5 +1,4 @@
 import React from 'react';
-import { IoIosSearch } from 'react-icons/io';
 import { PiSignpostLight } from 'react-icons/pi';
 import { useNavigate } from 'react-router-dom';
 import headerLock from '../../asset/headerLock.png';
@@ -53,9 +52,6 @@ const Footer = () => {
                 >
                   <PiSignpostLight size="30px" />
                   회원가입
-                </St.logoWrapper>
-                <St.logoWrapper>
-                  <IoIosSearch size="30px" />
                 </St.logoWrapper>
               </>
             ) : (

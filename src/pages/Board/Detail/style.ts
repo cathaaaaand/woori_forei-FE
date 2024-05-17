@@ -14,6 +14,16 @@ export const DetailInnerFrame = styled.div`
   width: 1440px;
   padding: 60px;
   padding: 70px 45px 100px 45px;
+  .FaTitle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 10px;
+    p {
+      font-weight: bold;
+      font-size: 35px;
+    }
+  }
 `;
 export const TitleIconFrame = styled.div`
   display: flex;
@@ -22,7 +32,6 @@ export const TitleIconFrame = styled.div`
 `;
 export const TitleFrame = styled.div`
   display: flex;
-  flex-direction: column;
   gap: 20px;
   align-items: center;
   width: 1350px;
@@ -41,12 +50,9 @@ export const ContentFrame = styled.div`
 `;
 export const DetailImgFrame = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
   width: 1350px;
   height: 200px;
-  border: 1px solid #d2d2d2;
-  border-radius: 10px;
   color: #888888;
 
   img {
@@ -131,4 +137,11 @@ export const CommentEvenFrame = styled.div`
 `;
 export const CommentCount = styled.div`
   text-align: center;
+`;
+export const Circle = styled.div`
+  background: #30a8ff;
+  width: 16px;
+  height: 16px;
+  border: 1px solid transparent;
+  border-radius: 50%;
 `;

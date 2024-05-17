@@ -69,6 +69,7 @@ const Board = () => {
             <p>게시판</p>
           </div>
         </St.BoardTitleFrame>
+
         <div>
           <St.ContentTitle>
             <p className="length">{boardLikeDataLength()}</p>
@@ -108,12 +109,28 @@ const Board = () => {
                       </SmartAccordionHeader>
                       <SmartAccordionBody>
                         <p>{value.content}</p>
+                        <St.BoardToDetailBtn
+                          onClick={() => navigate(`/detail/${value.boardId}`)}
+                        >
+                          <p>답글 달러 가기</p>
+                          <St.NextBeforeBtn>
+                            <IoIosArrowForward size="20px" />
+                          </St.NextBeforeBtn>
+                        </St.BoardToDetailBtn>
                       </SmartAccordionBody>
                       {/* <button onClick={() => deleteHandler(id)}>삭제</button> */}
                     </SmartAccordion>
                   </St.BoardContentFrame>
                 ),
               )}
+          <St.NextBeforeFrame>
+            <St.NextBeforeBtn>
+              <IoIosArrowBack size="20px" />
+            </St.NextBeforeBtn>
+            <St.NextBeforeBtn>
+              <IoIosArrowForward size="20px" />
+            </St.NextBeforeBtn>
+          </St.NextBeforeFrame>
         </div>
         <div>
           <St.ContentTitle>
@@ -124,7 +141,7 @@ const Board = () => {
               </div>
               <St.WriteBtn
                 onClick={() => {
-                  navigate('/detail/:boardId');
+                  navigate('/write');
                 }}
               >
                 <FiPlus />
@@ -154,18 +171,29 @@ const Board = () => {
                       </SmartAccordionHeader>
                       <SmartAccordionBody>
                         <p>{value.content}</p>
+                        <St.BoardToDetailBtn
+                          onClick={() => navigate('/detail/:boardId')}
+                        >
+                          <p>답글 달러 가기</p>
+                          <St.NextBeforeBtn>
+                            <IoIosArrowForward size="20px" />
+                          </St.NextBeforeBtn>
+                        </St.BoardToDetailBtn>
                       </SmartAccordionBody>
                       {/* <button onClick={() => deleteHandler(id)}>삭제</button> */}
                     </SmartAccordion>
                   </St.BoardContentFrame>
                 ),
               )}
+          <St.NextBeforeFrame>
+            <St.NextBeforeBtn>
+              <IoIosArrowBack size="20px" />
+            </St.NextBeforeBtn>
+            <St.NextBeforeBtn>
+              <IoIosArrowForward size="20px" />
+            </St.NextBeforeBtn>
+          </St.NextBeforeFrame>
         </div>
-        <St.BoardPageFrame>
-          <IoIosArrowBack size="20px" />
-          <div>1 2 3 4</div>
-          <IoIosArrowForward size="20px" />
-        </St.BoardPageFrame>
       </St.BoardInnerFrame>
     </St.BoardFrame>
   );

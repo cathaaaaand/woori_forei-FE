@@ -23,6 +23,10 @@ export const SmartAccordionBody = styled.div`
   width: 1200px;
   background: #f1f7ff;
   .inner {
-    height: 352px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 320px;
+    padding: 30px;
   }
 `;
