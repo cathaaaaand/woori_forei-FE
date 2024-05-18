@@ -1,34 +1,83 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import moment from 'moment';
 import React, { useState } from 'react';
+import { HiDotsVertical } from 'react-icons/hi';
+import { IoIosHeartEmpty, IoMdHeart } from 'react-icons/io';
 import { useParams } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import Dropdown from './Dropdown/Dropdown';
 import * as St from './style';
-import { boardSingleApi } from 'api/board';
+import { boardLikeApi, boardSingleApi } from 'api/board';
+import { commentApi, commentPatchMeApi } from 'api/comment';
 import {
-  commentApi,
-  // commentTotalApi,
-  //   commentDeleteApi,
-  //   commentPatchApi,
-} from 'api/comment';
+  beforeCommentState,
+  commentIdState,
+  detailState,
+} from 'recoil/detailState';
+
 const Detail = () => {
   const { boardId } = useParams();
   const vaildBoradId = boardId ? Number(boardId) : 0;
   const [commentContent, setCommentContent] = useState('');
-  // const { data: commentTotalData } = useQuery({
-  //   queryKey: ['commentTotal'],
-  //   queryFn: () => commentTotalApi(vaildBoradId),
-  // });
-  const { data: boardSingleData, isSuccess } = useQuery({
+  const [isUpdate, setIsUpdate] = useRecoilState(detailState);
+  const [singleCommentId] = useRecoilState(commentIdState);
+  const commentPatchApi = commentPatchMeApi(Number(singleCommentId));
+  const [beforeComment, setBeforeComment] = useRecoilState(beforeCommentState);
+  const [btnShow, setBtnShow] = useState<number | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [inputShow, setinputShow] = useState<number | null>(null);
+  const {
+    data: boardSingleData,
+    isSuccess,
+    refetch,
+  } = useQuery({
     queryKey: ['singContent'],
     queryFn: () => boardSingleApi(vaildBoradId),
   });
+  const [isLike, setIsLike] = useState(false);
   const commentCreateApi = commentApi(vaildBoradId);
   const commentCreateMutation = useMutation({ mutationFn: commentCreateApi });
 
   const commentCreateHandler = () => {
-    commentCreateMutation.mutate(
+    commentCreateMutation.mutate(commentContent, {
+      onSuccess: (data) => {
+        alert(data.message);
+        refetch();
+        setCommentContent('');
+      },
+      onError: (error) => {
+        alert(error);
+        return;
+      },
+    });
+  };
+  const likeMutation = useMutation({ mutationFn: boardLikeApi });
+  const likeHandler = () => {
+    likeMutation.mutate(vaildBoradId, {
+      onSuccess: (data) => {
+        alert(data.message);
+        setIsLike(!isLike);
+        sessionStorage.setItem('isLike', `${isLike}`);
+      },
+      onError: (error) => {
+        alert(error);
+        return;
+      },
+    });
+  };
+  const showDropdownHandler = (index: number) => {
+    setBtnShow((prevIndex) => (prevIndex === index ? null : index));
+    setinputShow((prevIndex) => (prevIndex === index ? null : index));
+  };
+  const cancelHandler = () => {
+    setIsUpdate(false);
+    setBeforeComment('');
+  };
+  const commentPatchMutation = useMutation({ mutationFn: commentPatchApi });
+  const UpdateCommentSubmitHandler = () => {
+    commentPatchMutation.mutate(
       {
-        commentContent,
+        commentContent: beforeComment,
       },
       {
         onSuccess: (data) => {
@@ -41,33 +90,7 @@ const Detail = () => {
       },
     );
   };
-  // const commentPatchMutation = useMutation({ mutationFn: commentPatchApi });
-  // commentPatchMutation.mutate(
-  //   {
-  //     commentContent,
-  //   },
-  //   {
-  //     onSuccess: (data) => {
-  //       alert(data.message);
-  //     },
-  //     onError: (error) => {
-  //       alert(error);
-  //       return;
-  //     },
-  //   },
-  // );
-  // const id = 3;
-  // const commentDeleteMutation = useMutation({ mutationFn: commentDeleteApi });
-  // commentDeleteMutation.mutate(id, {
-  //   onSuccess: (data) => {
-  //     alert(data.message);
-  //   },
-  //   onError: (error) => {
-  //     alert(error);
-  //     return;
-  //   },
-  // });
-  // console.log(commentTotalData);
+  console.log(isUpdate);
   return (
     <St.DetailFrame>
       <St.DetailInnerFrame>
@@ -76,16 +99,20 @@ const Detail = () => {
           <p>댓글달기</p>
         </div>
         {isSuccess && (
-          <div key={boardSingleData.boardId}>
+          <St.DetailContentFrame key={boardSingleData.boardId}>
             <St.TitleFrame>
               <div>{boardSingleData.title}</div>
-              <div>
+              <St.DateNickName>
                 <p>{boardSingleData.nickname}</p>
-                <p>{moment(boardSingleData.createdAt).format('YYYY-MM-DD')}</p>
-              </div>
+                {moment(boardSingleData.createdAt).format('YYYY.MM.DD')}
+              </St.DateNickName>
             </St.TitleFrame>
             <St.ContentFrame>
               <St.ContentTextFrame>
+                <div className="SubTitle">
+                  <St.Circle />
+                  {boardSingleData.title}
+                </div>
                 {boardSingleData.accessUrls && (
                   <St.DetailImgFrame>
                     <img src={boardSingleData.accessUrls[0]} />
@@ -93,49 +120,86 @@ const Detail = () => {
                 )}
                 {boardSingleData.content}
               </St.ContentTextFrame>
-              <St.BtnAlign>
-                <St.Commentbtn>좋아요</St.Commentbtn>
-              </St.BtnAlign>
+
+              <St.LikebtnFrame onClick={likeHandler}>
+                {isLike == false ? <IoIosHeartEmpty /> : <IoMdHeart />}
+              </St.LikebtnFrame>
             </St.ContentFrame>
-          </div>
+            <St.CommentFrame>
+              <div className="CommentTitle">댓글</div>
+              <St.CommentInputFrame
+                placeholder="댓글을 작성해주세요."
+                value={commentContent}
+                onChange={(e) => {
+                  setCommentContent(e.target.value);
+                }}
+              />
+              <St.BtnAlign onClick={commentCreateHandler}>
+                <St.Commentbtn>댓글쓰기</St.Commentbtn>
+              </St.BtnAlign>
+            </St.CommentFrame>
+            <St.CommentTotal>
+              {boardSingleData.comments.map(
+                (
+                  value: {
+                    commentId: string;
+                    createAt: string;
+                    username: string;
+                    commentContent: string;
+                  },
+                  idx: number,
+                ) => (
+                  <St.CommentListFrame key={value.commentId}>
+                    <div className="Comment">
+                      <div className="ListTitleFrame">
+                        <div className="ListTitle">
+                          <St.DateNickName>
+                            {moment(value.createAt).format('YYYY.MM.DD')}
+                          </St.DateNickName>
+                          <p>{value.username}</p>
+                          <p>
+                            {!isUpdate ? (
+                              <p>{value.commentContent}</p>
+                            ) : (
+                              <>
+                                <input
+                                  value={beforeComment}
+                                  onChange={(e) =>
+                                    setBeforeComment(e.target.value)
+                                  }
+                                />
+                                <button onClick={UpdateCommentSubmitHandler}>
+                                  등록
+                                </button>
+                                <button onClick={cancelHandler}>취소</button>
+                              </>
+                            )}
+                          </p>
+                        </div>
+                        <St.UpdateDeleteBtn
+                          onClick={() => showDropdownHandler(idx)}
+                        >
+                          <HiDotsVertical />
+                          {btnShow === idx && (
+                            <>
+                              <Dropdown
+                                commentId={value.commentId}
+                                refetch={refetch}
+                                beforeCommentValue={value.commentContent}
+                              />
+                            </>
+                          )}
+                        </St.UpdateDeleteBtn>
+                        {/* <St.CommenListtbtn>대댓글</St.CommenListtbtn> */}
+                      </div>
+                    </div>
+                  </St.CommentListFrame>
+                ),
+              )}
+            </St.CommentTotal>
+          </St.DetailContentFrame>
         )}
-        <St.CommentFrame>
-          <div className="CommentTitle">댓글</div>
-          <St.CommentInputFrame
-            placeholder="댓글을 작성해주세요."
-            value={commentContent}
-            onChange={(e) => {
-              setCommentContent(e.target.value);
-            }}
-          />
-          <St.BtnAlign onClick={commentCreateHandler}>
-            <St.Commentbtn>댓글쓰기</St.Commentbtn>
-          </St.BtnAlign>
-        </St.CommentFrame>
-        {/* {commentTotalData.payload.map(
-          (value: { commentId: number; username: string }) => (
-            <St.CommentListFrame key={value.commentId}>
-              <div className="Comment">
-                <div className="ListTitle">
-                  <p>{value.username}</p>
-                  <St.CommenListtbtn>답글쓰기</St.CommenListtbtn>
-                </div>
-                <p>몇 시 쯤 도착하실 예정인가요?</p>
-                <St.CommentLine />
-                <St.UserTitle>닉네임</St.UserTitle>
-                <div>3시 30분 쯤 도착할 것 같아요~</div>
-              </div>
-              {/* <St.CommentEvenFrame>
-            <div className="ListTitle">
-              <St.UserTitle>User2</St.UserTitle>
-              <St.CommenListtbtn>답글쓰기</St.CommenListtbtn>
-            </div>
-            <p>재미있겠네요~^^</p>
-          </St.CommentEvenFrame> */}
-        {/* </St.CommentListFrame>
-          ),
-        )} */}
-        <St.CommentCount>1/1</St.CommentCount>
+        {/* <St.CommentCount>1/1</St.CommentCount> */}
       </St.DetailInnerFrame>
     </St.DetailFrame>
   );

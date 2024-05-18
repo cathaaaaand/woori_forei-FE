@@ -2,16 +2,18 @@ import axios, { AxiosError } from 'axios';
 
 const url = process.env.REACT_APP_SERVER;
 export const commentApi = (id: number) => {
-  const commentCreateApi = async (Data: { commentContent: string }) => {
+  const commentCreateApi = async (commentContent: string) => {
     try {
       const token = sessionStorage.getItem('login');
-      const res = await axios.post(`${url}/api/comments/${id}`, Data, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: token,
-          Accept: 'application/json',
+      const res = await axios.post(
+        `${url}/api/comments/${id}`,
+        { commentContent },
+        {
+          headers: {
+            Authorization: token,
+          },
         },
-      });
+      );
       return res.data;
     } catch (error) {
       console.log(error);
@@ -24,8 +26,12 @@ export const commentApi = (id: number) => {
 
 export const commentTotalApi = async (id: number) => {
   try {
-    // const token = sessionStorage.getItem('login');
-    const res = await axios.get(`${url}/api/comments/${id}`);
+    const res = await axios.get(`${url}/api/comments/${id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    });
     return res.data;
   } catch (error) {
     console.log(error);
@@ -36,23 +42,26 @@ export const commentTotalApi = async (id: number) => {
 interface CommentDataType {
   commentContent: string;
 }
-export const commentPatchApi = async (Data: CommentDataType) => {
-  try {
-    const token = sessionStorage.getItem('login');
-    const userId = sessionStorage.getItem('userId');
-    const res = await axios.patch(`${url}/api/comments/${userId}`, Data, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: token,
-      },
-    });
-    return res.data;
-  } catch (error) {
-    console.log(error);
-    const axiosError = error as AxiosError;
-    throw axiosError.response?.data;
-  }
+export const commentPatchMeApi = (id: number) => {
+  const commentPatchApi = async (Data: CommentDataType) => {
+    try {
+      const token = sessionStorage.getItem('login');
+      const res = await axios.patch(`${url}/api/comments/${id}`, Data, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        },
+      });
+      return res.data;
+    } catch (error) {
+      console.log(error);
+      const axiosError = error as AxiosError;
+      throw axiosError.response?.data;
+    }
+  };
+  return commentPatchApi;
 };
+
 export const commentDeleteApi = async (id: number) => {
   try {
     const token = sessionStorage.getItem('login');

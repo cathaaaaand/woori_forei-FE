@@ -172,7 +172,7 @@ const Board = () => {
                       <SmartAccordionBody>
                         <p>{value.content}</p>
                         <St.BoardToDetailBtn
-                          onClick={() => navigate('/detail/:boardId')}
+                          onClick={() => navigate(`/detail/${value.boardId}`)}
                         >
                           <p>답글 달러 가기</p>
                           <St.NextBeforeBtn>

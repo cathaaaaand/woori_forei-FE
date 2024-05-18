@@ -78,14 +78,24 @@ export const boardMyWritingApi = async () => {
     throw axiosError.response?.data;
   }
 };
+// export const boardLikeApiGet = async (id: number) => {
+//   try {
+//     const res = await axios.get(`${url}/api/communities/${id}/like`);
+//     console.log(res);
+//     return res;
+//   } catch (error) {
+//     const axiosError = error as AxiosError;
+//     throw axiosError.response?.data;
+//   }
+// };
 export const boardLikeApi = async (id: number) => {
   try {
     const token = sessionStorage.getItem('login');
-    const res = await axios.post(`${url}/api/communities/${id}/like`, {
+    const res = await axios.post(`${url}/api/communities/${id}/like`, id, {
       headers: {
         Authorization: token,
-        'Content-Type': 'multipart/form-data',
-        withcredential: true,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
       },
     });
     return res.data;
