@@ -20,11 +20,11 @@ interface DropdownType {
     options?: RefetchOptions | undefined,
   ) => Promise<QueryObserverResult<any, Error>>;
   beforeCommentValue: string;
+  correctComment: number;
 }
 const Dropdown = (props: DropdownType) => {
   const { commentId, refetch, beforeCommentValue } = props;
   const commentDeleteMutation = useMutation({ mutationFn: commentDeleteApi });
-  const [isUpdate, setIsUpdate] = useRecoilState(detailState);
   const [singleCommentId, setSingleCommentId] = useRecoilState(commentIdState);
   const [beforeComment, setBeforeComment] = useRecoilState(beforeCommentState);
   const commentDeleteHandler = () => {
@@ -40,7 +40,6 @@ const Dropdown = (props: DropdownType) => {
     refetch();
   };
   const updateCommentInputHandler = () => {
-    setIsUpdate(!isUpdate);
     setBeforeComment(beforeCommentValue);
     setSingleCommentId(commentId);
   };

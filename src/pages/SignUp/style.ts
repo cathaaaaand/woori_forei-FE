@@ -9,7 +9,7 @@ export const SignUpWrapper = styled.div`
   text-align: center;
   font-size: 17pt;
   color: #444444;
-  padding: 60px;
+  padding: 30px;
   .LoginOuterWrapper {
     padding: 70px;
   }

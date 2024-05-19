@@ -9,18 +9,13 @@ import Dropdown from './Dropdown/Dropdown';
 import * as St from './style';
 import { boardLikeApi, boardSingleApi } from 'api/board';
 import { commentApi, commentPatchMeApi } from 'api/comment';
-import {
-  beforeCommentState,
-  commentIdState,
-  detailState,
-} from 'recoil/detailState';
+import { beforeCommentState, commentIdState } from 'recoil/detailState';
 
 const Detail = () => {
   const { boardId } = useParams();
   const vaildBoradId = boardId ? Number(boardId) : 0;
   const [commentContent, setCommentContent] = useState('');
-  const [isUpdate, setIsUpdate] = useRecoilState(detailState);
-  const [singleCommentId] = useRecoilState(commentIdState);
+  const [singleCommentId, setSingleCommentId] = useRecoilState(commentIdState);
   const commentPatchApi = commentPatchMeApi(Number(singleCommentId));
   const [beforeComment, setBeforeComment] = useRecoilState(beforeCommentState);
   const [btnShow, setBtnShow] = useState<number | null>(null);
@@ -70,27 +65,21 @@ const Detail = () => {
     setinputShow((prevIndex) => (prevIndex === index ? null : index));
   };
   const cancelHandler = () => {
-    setIsUpdate(false);
+    setSingleCommentId('0');
     setBeforeComment('');
   };
   const commentPatchMutation = useMutation({ mutationFn: commentPatchApi });
   const UpdateCommentSubmitHandler = () => {
-    commentPatchMutation.mutate(
-      {
-        commentContent: beforeComment,
+    commentPatchMutation.mutate(beforeComment, {
+      onSuccess: (data) => {
+        alert(data.message);
       },
-      {
-        onSuccess: (data) => {
-          alert(data.message);
-        },
-        onError: (error) => {
-          alert(error);
-          return;
-        },
+      onError: (error) => {
+        alert(error);
+        return;
       },
-    );
+    });
   };
-  console.log(isUpdate);
   return (
     <St.DetailFrame>
       <St.DetailInnerFrame>
@@ -113,12 +102,13 @@ const Detail = () => {
                   <St.Circle />
                   {boardSingleData.title}
                 </div>
-                {boardSingleData.accessUrls && (
+
+                <>
                   <St.DetailImgFrame>
                     <img src={boardSingleData.accessUrls[0]} />
                   </St.DetailImgFrame>
-                )}
-                {boardSingleData.content}
+                  {boardSingleData.content}
+                </>
               </St.ContentTextFrame>
 
               <St.LikebtnFrame onClick={likeHandler}>
@@ -157,8 +147,8 @@ const Detail = () => {
                             {moment(value.createAt).format('YYYY.MM.DD')}
                           </St.DateNickName>
                           <p>{value.username}</p>
-                          <p>
-                            {!isUpdate ? (
+                          <div>
+                            {value.commentId !== singleCommentId ? (
                               <p>{value.commentContent}</p>
                             ) : (
                               <>
@@ -174,7 +164,7 @@ const Detail = () => {
                                 <button onClick={cancelHandler}>취소</button>
                               </>
                             )}
-                          </p>
+                          </div>
                         </div>
                         <St.UpdateDeleteBtn
                           onClick={() => showDropdownHandler(idx)}
@@ -184,13 +174,13 @@ const Detail = () => {
                             <>
                               <Dropdown
                                 commentId={value.commentId}
+                                correctComment={idx}
                                 refetch={refetch}
                                 beforeCommentValue={value.commentContent}
                               />
                             </>
                           )}
                         </St.UpdateDeleteBtn>
-                        {/* <St.CommenListtbtn>대댓글</St.CommenListtbtn> */}
                       </div>
                     </div>
                   </St.CommentListFrame>
@@ -199,7 +189,6 @@ const Detail = () => {
             </St.CommentTotal>
           </St.DetailContentFrame>
         )}
-        {/* <St.CommentCount>1/1</St.CommentCount> */}
       </St.DetailInnerFrame>
     </St.DetailFrame>
   );

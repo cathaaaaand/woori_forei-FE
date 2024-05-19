@@ -39,19 +39,20 @@ export const commentTotalApi = async (id: number) => {
     throw axiosError.response?.data;
   }
 };
-interface CommentDataType {
-  commentContent: string;
-}
+//403 다시 확인
 export const commentPatchMeApi = (id: number) => {
-  const commentPatchApi = async (Data: CommentDataType) => {
+  const commentPatchApi = async (commentContent: string) => {
     try {
       const token = sessionStorage.getItem('login');
-      const res = await axios.patch(`${url}/api/comments/${id}`, Data, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: token,
+      const res = await axios.patch(
+        `${url}/api/comments/${id}`,
+        { commentContent },
+        {
+          headers: {
+            Authorization: token,
+          },
         },
-      });
+      );
       return res.data;
     } catch (error) {
       console.log(error);

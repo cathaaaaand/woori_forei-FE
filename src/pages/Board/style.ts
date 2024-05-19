@@ -107,3 +107,9 @@ export const BoardToDetailBtn = styled.div`
   gap: 7px;
   margin-left: 930px;
 `;
+
+export const PageNationBtn = styled.button`
+  border: none;
+  background: transparent;
+  font-size: 19pt;
+`;
