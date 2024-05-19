@@ -198,7 +198,7 @@ const Scheduler = () => {
           alert(error);
         },
       });
-      console.log(value);
+      //console.log(value);
     }
   };
 

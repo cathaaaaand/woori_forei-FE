@@ -67,7 +67,6 @@ const Board = () => {
   const pageLikeChangeHandler = (page: number) => {
     setLikePage(page);
   };
-  console.log(4 * (currentPage - 1), 4 * currentPage);
   return (
     <St.BoardFrame>
       <St.BoardInnerFrame>
