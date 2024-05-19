@@ -2,11 +2,9 @@ import axios, { AxiosError } from 'axios';
 
 const url = process.env.REACT_APP_SERVER;
 
-const token = sessionStorage.getItem('login');
-const userId = sessionStorage.getItem('userId');
-
 export const boardCreateApi = async (Data: FormData) => {
   try {
+    const token = sessionStorage.getItem('login');
     const res = await axios.post(`${url}/api/communities`, Data, {
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -30,14 +28,10 @@ export const boardRecentApi = async () => {
     throw axiosError.response?.data;
   }
 };
-export const boardSingleApi = async () => {
+export const boardSingleApi = async (id: number) => {
   try {
-    const res = await axios.get(`${url}/api/communities/${userId}`, {
-      headers: {
-        Authorization: token,
-      },
-    });
-    return res.data;
+    const res = await axios.get(`${url}/api/communities/${id}`);
+    return res.data.payload;
   } catch (error) {
     const axiosError = error as AxiosError;
     throw axiosError.response?.data;
@@ -46,6 +40,7 @@ export const boardSingleApi = async () => {
 
 export const boardPatchApi = async (Data: FormData, id: number) => {
   try {
+    const token = sessionStorage.getItem('login');
     const res = await axios.post(`${url}/api/communities/${id}`, Data, {
       headers: {
         Authorization: token,
@@ -83,13 +78,24 @@ export const boardMyWritingApi = async () => {
     throw axiosError.response?.data;
   }
 };
+// export const boardLikeApiGet = async (id: number) => {
+//   try {
+//     const res = await axios.get(`${url}/api/communities/${id}/like`);
+//     console.log(res);
+//     return res;
+//   } catch (error) {
+//     const axiosError = error as AxiosError;
+//     throw axiosError.response?.data;
+//   }
+// };
 export const boardLikeApi = async (id: number) => {
   try {
-    const res = await axios.post(`${url}/api/communities/${id}/like`, {
+    const token = sessionStorage.getItem('login');
+    const res = await axios.post(`${url}/api/communities/${id}/like`, id, {
       headers: {
         Authorization: token,
-        'Content-Type': 'multipart/form-data',
-        withcredential: true,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
       },
     });
     return res.data;

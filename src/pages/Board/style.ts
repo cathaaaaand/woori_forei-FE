@@ -90,3 +90,26 @@ export const AccordionBtn = styled.button`
   display: flex;
   align-items: center;
 `;
+export const NextBeforeBtn = styled.button`
+  width: 30px;
+  height: 30px;
+  background: white;
+  border: 1px solid #b2b2b2;
+  display: flex;
+  align-items: center;
+`;
+export const NextBeforeFrame = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+export const BoardToDetailBtn = styled.div`
+  display: flex;
+  gap: 7px;
+  margin-left: 930px;
+`;
+
+export const PageNationBtn = styled.button`
+  border: none;
+  background: transparent;
+  font-size: 19pt;
+`;

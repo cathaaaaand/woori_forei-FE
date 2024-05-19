@@ -5,7 +5,7 @@ export const MyPageFrame = styled.div`
   flex-direction: column;
   align-items: center;
   font-size: 20pt;
-  padding: 80px;
+  padding: 60px 100px 100px 150px;
   #loading {
     display: inline-block;
     width: 50px;
@@ -34,6 +34,38 @@ export const MyPageInnerFrame = styled.div`
   align-items: center;
   gap: 20px;
   width: 1440px;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  .BPTopLine {
+    position: absolute;
+    top: 150px;
+    left: 450px;
+    display: flex;
+    flex-direction: column;
+    gap: 23px;
+  }
+  .BPTitle {
+    display: flex;
+    gap: 10px;
+    font-size: 15pt;
+    color: #707070;
+    p {
+      font-weight: bold;
+      color: #707070;
+    }
+    .highLight {
+      font-size: 15pt;
+      font-weight: bold;
+      color: #707070;
+    }
+  }
+`;
+
+export const MyPageTitle = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 50px;
 `;
 export const MyPageBtnFrame = styled.div`
   width: 68px;
@@ -53,6 +85,10 @@ export const ImgUpdateFrame = styled.div`
   align-items: center;
   gap: 29px;
   margin-bottom: 20px;
+  p {
+    font-size: 20pt;
+    font-weight: bold;
+  }
 `;
 
 export const IconFrame = styled.div`
@@ -76,16 +112,16 @@ export const IconFrame = styled.div`
   }
 `;
 export const IntroduceFrame = styled.div`
-  height: 50px;
+  height: 30px;
   overflow-y: auto;
-  font-size: 20px;
+  font-size: 16pt;
 `;
 export const ContentListFrame = styled.div`
   display: flex;
-  gap: 88px;
+  gap: 18px;
   font-size: 15pt;
   .Border {
-    width: 475px;
+    width: 334px;
     height: 414px;
     border: 1px solid #b9b9b9;
     border-radius: 5px;
@@ -94,8 +130,13 @@ export const ContentListFrame = styled.div`
       0 6px 6px rgba(0, 0, 0, 0.15);
   }
   .ListPostsTitle {
-    margin-bottom: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 63px;
     color: #3e3e3e;
+    font-size: 20pt;
+    font-weight: bold;
   }
   .ListPosts {
     border-top: 0.5px solid #a5a5a5;
@@ -103,6 +144,9 @@ export const ContentListFrame = styled.div`
     display: flex;
     flex-direction: column;
     gap: 30px;
+    height: 295px;
+    align-items: center;
+    justify-content: center;
   }
 `;
 export const InputFrame = styled.div`
@@ -114,12 +158,21 @@ export const InputFrame = styled.div`
 `;
 export const WithdrawalBtn = styled.button`
   position: absolute;
-  left: 60px;
-  bottom: -80px;
+  left: 460px;
+  bottom: -60px;
   border: none;
   background: transparent;
   font-size: 15pt;
-  color: #838383;
+  color: #a5a5a5;
+`;
+export const pageUpdateBtn = styled.button`
+  position: absolute;
+  left: 510px;
+  bottom: -60px;
+  border: none;
+  background: transparent;
+  font-size: 15pt;
+  color: #a5a5a5;
 `;
 export const ImgFrame = styled.div`
   position: relative;
@@ -189,6 +242,12 @@ export const InputBtn = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 20px;
+`;
+export const MoreData = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
 `;
 export const ValueFrame = styled.div`
   position: relative;

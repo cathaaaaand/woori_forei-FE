@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useQuery } from '@tanstack/react-query';
 import moment from 'moment';
-import React from 'react';
+import React, { useState } from 'react';
 import { FiPlus } from 'react-icons/fi';
 import {
   IoIosArrowForward,
@@ -18,6 +19,9 @@ import { boardLikeGetApi, boardRecentApi } from 'api/board';
 
 const Board = () => {
   const navigate = useNavigate();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [likePage, setLikePage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   const { data, isLoading: isRecent } = useQuery({
     queryKey: ['boardRecent'],
     queryFn: boardRecentApi,
@@ -36,30 +40,34 @@ const Board = () => {
       return '총 ' + boardLikeData.length + ' 건';
     }
   };
-  // const BoardDeleteMutation = useMutation({
-  //   mutationFn: boardDeleteApi,
-  // }); {boardLikeData.length}
-  // const BoardLikeMutation = useMutation({
-  //   mutationFn: boardLikeApi ,
-  // });
+  const pageBeforeBtnHandler = () => {
+    alert('첫 번째 페이지입니다!');
+  };
+  const pageNextBtnHandler = () => {
+    alert('마지막 페이지입니다!');
+  };
+  const getPage = (data: any) => {
+    const arrayLength = data ? data?.length : 20;
+    const range = [];
+    const pages = [];
 
-  // const deleteHandler = (id: number) => {
-  //   BoardDeleteMutation.mutate(id, {
-  //     onSuccess: (data) => {
-  //       alert(data.message);
-  //       refetch();
-  //     },
-  //   });
-  // };
-  // const deleteHandler = (id: number) => {
-  //   BoardLikeMutation.mutate(id, {
-  //     onSuccess: (data) => {
-  //       alert(data.message);
-  //       refetch();
-  //     },
-  //   });
-  // };
+    for (let i = 1; i <= Math.floor(arrayLength / 4); i++) {
+      range.push(i);
+    }
 
+    for (const i of range) {
+      pages.push(i);
+    }
+
+    return pages;
+  };
+  const pageChangeHandler = (page: number) => {
+    setCurrentPage(page);
+  };
+  const pageLikeChangeHandler = (page: number) => {
+    setLikePage(page);
+  };
+  console.log(4 * (currentPage - 1), 4 * currentPage);
   return (
     <St.BoardFrame>
       <St.BoardInnerFrame>
@@ -69,6 +77,7 @@ const Board = () => {
             <p>게시판</p>
           </div>
         </St.BoardTitleFrame>
+
         <div>
           <St.ContentTitle>
             <p className="length">{boardLikeDataLength()}</p>
@@ -87,7 +96,7 @@ const Board = () => {
           </St.ContentTitle>
           {!isRecent &&
             boardLikeData
-              ?.slice(0, 4)
+              ?.slice(4 * (likePage - 1), 4 * likePage)
               .map(
                 (value: {
                   boardId: number;
@@ -108,12 +117,35 @@ const Board = () => {
                       </SmartAccordionHeader>
                       <SmartAccordionBody>
                         <p>{value.content}</p>
+                        <St.BoardToDetailBtn
+                          onClick={() => navigate(`/detail/${value.boardId}`)}
+                        >
+                          <p>답글 달러 가기</p>
+                          <St.NextBeforeBtn>
+                            <IoIosArrowForward size="20px" />
+                          </St.NextBeforeBtn>
+                        </St.BoardToDetailBtn>
                       </SmartAccordionBody>
-                      {/* <button onClick={() => deleteHandler(id)}>삭제</button> */}
                     </SmartAccordion>
                   </St.BoardContentFrame>
                 ),
               )}
+          <St.NextBeforeFrame>
+            <St.NextBeforeBtn onClick={pageBeforeBtnHandler}>
+              <IoIosArrowBack size="20px" />
+            </St.NextBeforeBtn>
+            {getPage(boardLikeData).map((page, index) => (
+              <St.PageNationBtn
+                key={index}
+                onClick={() => pageLikeChangeHandler(page)}
+              >
+                {page}
+              </St.PageNationBtn>
+            ))}
+            <St.NextBeforeBtn onClick={pageNextBtnHandler}>
+              <IoIosArrowForward size="20px" />
+            </St.NextBeforeBtn>
+          </St.NextBeforeFrame>
         </div>
         <div>
           <St.ContentTitle>
@@ -124,7 +156,7 @@ const Board = () => {
               </div>
               <St.WriteBtn
                 onClick={() => {
-                  navigate('/detail/:boardId');
+                  navigate('/write');
                 }}
               >
                 <FiPlus />
@@ -133,7 +165,7 @@ const Board = () => {
           </St.ContentTitle>
           {!isLike &&
             data
-              ?.slice(0, 4)
+              ?.slice(4 * (currentPage - 1), 4 * currentPage)
               .map(
                 (value: {
                   boardId: number;
@@ -154,18 +186,36 @@ const Board = () => {
                       </SmartAccordionHeader>
                       <SmartAccordionBody>
                         <p>{value.content}</p>
+                        <St.BoardToDetailBtn
+                          onClick={() => navigate(`/detail/${value.boardId}`)}
+                        >
+                          <p>답글 달러 가기</p>
+                          <St.NextBeforeBtn>
+                            <IoIosArrowForward size="20px" />
+                          </St.NextBeforeBtn>
+                        </St.BoardToDetailBtn>
                       </SmartAccordionBody>
-                      {/* <button onClick={() => deleteHandler(id)}>삭제</button> */}
                     </SmartAccordion>
                   </St.BoardContentFrame>
                 ),
               )}
+          <St.NextBeforeFrame>
+            <St.NextBeforeBtn onClick={pageBeforeBtnHandler}>
+              <IoIosArrowBack size="20px" />
+            </St.NextBeforeBtn>
+            {getPage(data).map((page, index) => (
+              <St.PageNationBtn
+                key={index}
+                onClick={() => pageChangeHandler(page)}
+              >
+                {page}
+              </St.PageNationBtn>
+            ))}
+            <St.NextBeforeBtn onClick={pageNextBtnHandler}>
+              <IoIosArrowForward size="20px" />
+            </St.NextBeforeBtn>
+          </St.NextBeforeFrame>
         </div>
-        <St.BoardPageFrame>
-          <IoIosArrowBack size="20px" />
-          <div>1 2 3 4</div>
-          <IoIosArrowForward size="20px" />
-        </St.BoardPageFrame>
       </St.BoardInnerFrame>
     </St.BoardFrame>
   );

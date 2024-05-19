@@ -1,5 +1,4 @@
 import axios, { AxiosError } from 'axios';
-import { Cookies } from 'react-cookie';
 
 interface SchedulerCreateType {
   schedulerName: string;
@@ -18,11 +17,12 @@ interface SchedulerPutType {
 }
 
 const url = process.env.REACT_APP_SERVER;
-const token = sessionStorage.getItem('login');
+
 export const schedulerCreateApi = async (
   schedulerData: SchedulerCreateType,
 ) => {
   try {
+    const token = sessionStorage.getItem('login');
     const res = await axios.post(`${url}/api/schedulers`, schedulerData, {
       headers: {
         Authorization: token,
@@ -60,6 +60,7 @@ export const schedulerGetTotalApi = async () => {
 export const schedulerPutApi = async (Data: SchedulerPutType) => {
   try {
     if (Data.schedulerId > 0) return;
+    const token = sessionStorage.getItem('login');
     const res = await axios.put(
       `${url}/api/schedulers/${Data.schedulerId}`,
       Data.schedulerData,
@@ -79,6 +80,7 @@ export const schedulerPutApi = async (Data: SchedulerPutType) => {
 };
 export const schedulerDeleteApi = async (schedulerId: number) => {
   try {
+    const token = sessionStorage.getItem('login');
     if (schedulerId > 0) {
       const res = await axios.delete(`${url}/api/schedulers/${schedulerId}`, {
         headers: {
@@ -98,9 +100,7 @@ interface ActivitiesType {
 }
 export const schedulerActivitiesApi = async (Data: ActivitiesType) => {
   try {
-    const cookies = new Cookies();
-    const cookieLogin = cookies.get('login');
-    const token = cookieLogin ? cookieLogin : sessionStorage.getItem('login');
+    const token = sessionStorage.getItem('login');
     if (Data.schedulerId > 0) {
       const res = await axios.post(
         `${url}/api/schedulers/${Data.schedulerId}/activities`,
@@ -124,6 +124,7 @@ interface HotelsType {
 }
 export const schedulerHotelsApi = async (Data: HotelsType) => {
   try {
+    const token = sessionStorage.getItem('login');
     if (Data.schedulerId > 0) {
       const res = await axios.post(
         `${url}/api/schedulers/${Data.schedulerId}/hotels`,
@@ -147,6 +148,7 @@ interface InformationType {
 }
 export const schedulerInformationApi = async (Data: InformationType) => {
   try {
+    const token = sessionStorage.getItem('login');
     if (Data.schedulerId > 0) {
       const res = await axios.post(
         `${url}/api/schedulers/${Data.schedulerId}/information`,
@@ -170,6 +172,7 @@ interface LandmarksType {
 }
 export const schedulerLandmarksApi = async (Data: LandmarksType) => {
   try {
+    const token = sessionStorage.getItem('login');
     if (Data.schedulerId > 0) {
       const res = await axios.post(
         `${url}/api/schedulers/${Data.schedulerId}/landmarks`,
@@ -193,6 +196,7 @@ interface RestaurantsType {
 }
 export const schedulerRestaurantsApi = async (Data: RestaurantsType) => {
   try {
+    const token = sessionStorage.getItem('login');
     if (Data.schedulerId > 0) {
       const res = await axios.post(
         `${url}/api/schedulers/${Data.schedulerId}/restaurants`,
@@ -216,6 +220,7 @@ interface SeoulgoodsType {
 }
 export const schedulerSeoulgoodsApi = async (Data: SeoulgoodsType) => {
   try {
+    const token = sessionStorage.getItem('login');
     if (Data.schedulerId > 0) {
       const res = await axios.post(
         `${url}/api/schedulers/${Data.schedulerId}/seoul-goods`,

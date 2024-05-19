@@ -17,7 +17,6 @@ const Step = (props: StepPropsStyle) => {
   const emailSendMutation = useMutation({ mutationFn: emailCodeSendApi });
   const emailConfirmMutation = useMutation({ mutationFn: emailCodeConfirmApi });
   const [step, setStep] = useState(0);
-  const [contentState, setContentState] = useState('');
   const [contentShow, setContentShow] = useState(false);
   const [verificationCode, setVerificationCode] = useState('');
   const [agree, setAgree] = useState({
@@ -112,9 +111,8 @@ const Step = (props: StepPropsStyle) => {
       }
     }
   };
-  const contentShowHandler = (state: string) => {
+  const contentShowHandler = () => {
     setContentShow(!contentShow);
-    setContentState(state);
   };
 
   const EmailCodeConfirmHandler = () => {
@@ -216,7 +214,7 @@ const Step = (props: StepPropsStyle) => {
                 onChange={checkOnChange}
               />
               <p>서비스 약관에 동의합니다.</p>
-              <St.LigntoText onClick={() => contentShowHandler('service')}>
+              <St.LigntoText onClick={contentShowHandler}>
                 내용보기
               </St.LigntoText>
             </St.CheckBoxFrame>
@@ -229,7 +227,7 @@ const Step = (props: StepPropsStyle) => {
                 onChange={checkOnChange}
               />
               <p>개인정보 수집 및 이용에 동의합니다.</p>
-              <St.LigntoText onClick={() => contentShowHandler('personal')}>
+              <St.LigntoText onClick={contentShowHandler}>
                 내용보기
               </St.LigntoText>
             </St.CheckBoxFrame>
@@ -242,17 +240,12 @@ const Step = (props: StepPropsStyle) => {
                 onChange={checkOnChange}
               />
               <p>위치기반서비스 이용약관에 동의합니다.</p>
-              <St.LigntoText onClick={() => contentShowHandler('location')}>
+              <St.LigntoText onClick={contentShowHandler}>
                 내용보기
               </St.LigntoText>
             </St.CheckBoxFrame>
           </St.CheckBoxGroup>
-          {contentShow && (
-            <Modal
-              contentShowHandler={contentShowHandler}
-              contentState={contentState}
-            />
-          )}
+          {contentShow && <Modal contentShowHandler={contentShowHandler} />}
         </div>
       )}
       {step === 1 && (

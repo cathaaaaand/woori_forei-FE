@@ -1,125 +1,194 @@
-// import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import moment from 'moment';
 import React, { useState } from 'react';
-import { IoPersonOutline } from 'react-icons/io5';
+import { HiDotsVertical } from 'react-icons/hi';
+import { IoIosHeartEmpty, IoMdHeart } from 'react-icons/io';
+import { useParams } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import Dropdown from './Dropdown/Dropdown';
 import * as St from './style';
-// import {
-//   commentCreateApi,
-//   commentDeleteApi,
-//   commentPatchApi,
-//   commentTotalApi,
-// } from 'api/comment';
+import { boardLikeApi, boardSingleApi } from 'api/board';
+import { commentApi, commentPatchMeApi } from 'api/comment';
+import { beforeCommentState, commentIdState } from 'recoil/detailState';
 
 const Detail = () => {
+  const { boardId } = useParams();
+  const vaildBoradId = boardId ? Number(boardId) : 0;
   const [commentContent, setCommentContent] = useState('');
-  // const { data: commentTotalData } = useQuery({
-  //   queryKey: ['commentTotal'],
-  //   queryFn: commentTotalApi,
-  // });
-  // const commentPatchMutation = useMutation({ mutationFn: commentPatchApi });
-  // commentPatchMutation.mutate(
-  //   {
-  //     commentContent,
-  //   },
-  //   {
-  //     onSuccess: (data) => {
-  //       alert(data.message);
-  //     },
-  //     onError: (error) => {
-  //       alert(error);
-  //       return;
-  //     },
-  //   },
-  // );
-  // const id = 3;
-  // const commentDeleteMutation = useMutation({ mutationFn: commentDeleteApi });
-  // commentDeleteMutation.mutate(id, {
-  //   onSuccess: (data) => {
-  //     alert(data.message);
-  //   },
-  //   onError: (error) => {
-  //     alert(error);
-  //     return;
-  //   },
-  // });
-  // const commentCreateMutation = useMutation({ mutationFn: commentCreateApi });
-  // commentCreateMutation.mutate(
-  //   {
-  //     commentContent,
-  //   },
-  //   {
-  //     onSuccess: (data) => {
-  //       alert(data.message);
-  //     },
-  //     onError: (error) => {
-  //       alert(error);
-  //       return;
-  //     },
-  //   },
-  // );
-  // console.log(commentTotalData);
+  const [singleCommentId, setSingleCommentId] = useRecoilState(commentIdState);
+  const commentPatchApi = commentPatchMeApi(Number(singleCommentId));
+  const [beforeComment, setBeforeComment] = useRecoilState(beforeCommentState);
+  const [btnShow, setBtnShow] = useState<number | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [inputShow, setinputShow] = useState<number | null>(null);
+  const {
+    data: boardSingleData,
+    isSuccess,
+    refetch,
+  } = useQuery({
+    queryKey: ['singContent'],
+    queryFn: () => boardSingleApi(vaildBoradId),
+  });
+  const [isLike, setIsLike] = useState(false);
+  const commentCreateApi = commentApi(vaildBoradId);
+  const commentCreateMutation = useMutation({ mutationFn: commentCreateApi });
+
+  const commentCreateHandler = () => {
+    commentCreateMutation.mutate(commentContent, {
+      onSuccess: (data) => {
+        alert(data.message);
+        refetch();
+        setCommentContent('');
+      },
+      onError: (error) => {
+        alert(error);
+        return;
+      },
+    });
+  };
+  const likeMutation = useMutation({ mutationFn: boardLikeApi });
+  const likeHandler = () => {
+    likeMutation.mutate(vaildBoradId, {
+      onSuccess: (data) => {
+        alert(data.message);
+        setIsLike(!isLike);
+        sessionStorage.setItem('isLike', `${isLike}`);
+      },
+      onError: (error) => {
+        alert(error);
+        return;
+      },
+    });
+  };
+  const showDropdownHandler = (index: number) => {
+    setBtnShow((prevIndex) => (prevIndex === index ? null : index));
+    setinputShow((prevIndex) => (prevIndex === index ? null : index));
+  };
+  const cancelHandler = () => {
+    setSingleCommentId('0');
+    setBeforeComment('');
+  };
+  const commentPatchMutation = useMutation({ mutationFn: commentPatchApi });
+  const UpdateCommentSubmitHandler = () => {
+    commentPatchMutation.mutate(beforeComment, {
+      onSuccess: (data) => {
+        alert(data.message);
+      },
+      onError: (error) => {
+        alert(error);
+        return;
+      },
+    });
+  };
   return (
     <St.DetailFrame>
       <St.DetailInnerFrame>
-        <div>게시판</div>
-        <St.TitleFrame>
-          <div>3/31에 경복궁 함께 가실 분~</div>
-          <St.TitleIconFrame>
-            <IoPersonOutline />
-            <div>닉네임</div>
-          </St.TitleIconFrame>
-        </St.TitleFrame>
-        <St.ContentFrame>
-          <St.ContentTextFrame>
-            <p>3/31에 경복궁 함께 가실 분 계신가요?</p>
-            <p>
-              저는 한국인이고, 역사에 관심이 많아 외국인분들의 가이드 역할을
-              해드리고 싶어요.
-            </p>
-            <p>참여를 원하시는 분들께서는 댓글을 달아주세요!</p>
-            <p>제가 답글로 저와 연락할 수 있는 링크를 달아드릴게요.</p>
-            <p>또, 많은 분들이 볼 수 있게 좋아요도 부탁드려요 ^_^ </p>
-            <p>오늘 날씨가 추운데 따뜻하게 입으세요~</p>
-          </St.ContentTextFrame>
-          <St.DetailImgFrame>
-            <p>이미지</p>
-          </St.DetailImgFrame>
-          <St.BtnAlign>
-            <St.Commentbtn>좋아요</St.Commentbtn>
-          </St.BtnAlign>
-        </St.ContentFrame>
-        <St.CommentFrame>
-          <div className="CommentTitle">댓글</div>
-          <St.CommentInputFrame
-            placeholder="댓글을 작성해주세요."
-            value={commentContent}
-            onChange={(e) => {
-              setCommentContent(e.target.value);
-            }}
-          />
-          <St.BtnAlign>
-            <St.Commentbtn>댓글쓰기</St.Commentbtn>
-          </St.BtnAlign>
-        </St.CommentFrame>
-        <St.CommentListFrame>
-          <div className="Comment">
-            <div className="ListTitle">
-              <p>User1</p>
-              <St.CommenListtbtn>답글쓰기</St.CommenListtbtn>
-            </div>
-            <p>몇 시 쯤 도착하실 예정인가요?</p>
-            <St.CommentLine />
-            <St.UserTitle>닉네임</St.UserTitle>
-            <div>3시 30분 쯤 도착할 것 같아요~</div>
-          </div>
-          <St.CommentEvenFrame>
-            <div className="ListTitle">
-              <St.UserTitle>User2</St.UserTitle>
-              <St.CommenListtbtn>답글쓰기</St.CommenListtbtn>
-            </div>
-            <p>재미있겠네요~^^</p>
-          </St.CommentEvenFrame>
-          <St.CommentCount>1/1</St.CommentCount>
-        </St.CommentListFrame>
+        <div className="FaTitle">
+          <St.Circle />
+          <p>댓글달기</p>
+        </div>
+        {isSuccess && (
+          <St.DetailContentFrame key={boardSingleData.boardId}>
+            <St.TitleFrame>
+              <div>{boardSingleData.title}</div>
+              <St.DateNickName>
+                <p>{boardSingleData.nickname}</p>
+                {moment(boardSingleData.createdAt).format('YYYY.MM.DD')}
+              </St.DateNickName>
+            </St.TitleFrame>
+            <St.ContentFrame>
+              <St.ContentTextFrame>
+                <div className="SubTitle">
+                  <St.Circle />
+                  {boardSingleData.title}
+                </div>
+
+                <>
+                  <St.DetailImgFrame>
+                    <img src={boardSingleData.accessUrls[0]} />
+                  </St.DetailImgFrame>
+                  {boardSingleData.content}
+                </>
+              </St.ContentTextFrame>
+
+              <St.LikebtnFrame onClick={likeHandler}>
+                {isLike == false ? <IoIosHeartEmpty /> : <IoMdHeart />}
+              </St.LikebtnFrame>
+            </St.ContentFrame>
+            <St.CommentFrame>
+              <div className="CommentTitle">댓글</div>
+              <St.CommentInputFrame
+                placeholder="댓글을 작성해주세요."
+                value={commentContent}
+                onChange={(e) => {
+                  setCommentContent(e.target.value);
+                }}
+              />
+              <St.BtnAlign onClick={commentCreateHandler}>
+                <St.Commentbtn>댓글쓰기</St.Commentbtn>
+              </St.BtnAlign>
+            </St.CommentFrame>
+            <St.CommentTotal>
+              {boardSingleData.comments.map(
+                (
+                  value: {
+                    commentId: string;
+                    createAt: string;
+                    username: string;
+                    commentContent: string;
+                  },
+                  idx: number,
+                ) => (
+                  <St.CommentListFrame key={value.commentId}>
+                    <div className="Comment">
+                      <div className="ListTitleFrame">
+                        <div className="ListTitle">
+                          <St.DateNickName>
+                            {moment(value.createAt).format('YYYY.MM.DD')}
+                          </St.DateNickName>
+                          <p>{value.username}</p>
+                          <div>
+                            {value.commentId !== singleCommentId ? (
+                              <p>{value.commentContent}</p>
+                            ) : (
+                              <>
+                                <input
+                                  value={beforeComment}
+                                  onChange={(e) =>
+                                    setBeforeComment(e.target.value)
+                                  }
+                                />
+                                <button onClick={UpdateCommentSubmitHandler}>
+                                  등록
+                                </button>
+                                <button onClick={cancelHandler}>취소</button>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                        <St.UpdateDeleteBtn
+                          onClick={() => showDropdownHandler(idx)}
+                        >
+                          <HiDotsVertical />
+                          {btnShow === idx && (
+                            <>
+                              <Dropdown
+                                commentId={value.commentId}
+                                correctComment={idx}
+                                refetch={refetch}
+                                beforeCommentValue={value.commentContent}
+                              />
+                            </>
+                          )}
+                        </St.UpdateDeleteBtn>
+                      </div>
+                    </div>
+                  </St.CommentListFrame>
+                ),
+              )}
+            </St.CommentTotal>
+          </St.DetailContentFrame>
+        )}
       </St.DetailInnerFrame>
     </St.DetailFrame>
   );

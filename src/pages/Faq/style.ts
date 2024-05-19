@@ -7,19 +7,16 @@ export const FaqFrame = styled.div`
   flex-wrap: wrap;
   align-content: center;
   font-size: 20pt;
-  padding: 30px;
 `;
 export const FaqInnerFrame = styled.div`
   display: flex;
   flex-direction: column;
-  width: 1440px;
-  padding-top: 60px;
+  width: 1004px;
+  padding: 50px;
 `;
-export const ContentFrame = styled.div`
-  margin: 50px 0 27px 0;
-`;
+export const ContentFrame = styled.div``;
 export const Line = styled.div`
-  border-top: 1px solid #858585;
+  border-top: 1px solid #808080;
 `;
 export const FaqTitleFrame = styled.div`
   display: flex;
@@ -38,20 +35,20 @@ export const FaqTitleFrame = styled.div`
   }
 `;
 export const WriteBtn = styled.button`
-  border: none;
-  background: #0084e3;
-  border-radius: 5px;
-  width: 100px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border: 1px solid #b2b2b2;
+  display: flex;
   font-size: 18px;
-  color: white;
+  align-items: center;
 `;
 export const FaqContentFrame = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid #858585;
-  height: 160px;
+  border-bottom: 1px solid #808080;
+  height: 86px;
   padding: 0 60px 0 60px;
   font-size: 16pt;
 `;
@@ -75,4 +72,44 @@ export const AccordionBtn = styled.button`
   border: 1px solid #b2b2b2;
   display: flex;
   align-items: center;
+`;
+export const ContentTitle = styled.div`
+  margin: 64px 0 27px 60px;
+  .length {
+    font-size: 15pt;
+    margin-bottom: 12px;
+  }
+  .typeLabel {
+    width: 78px;
+    height: 35px;
+    background: #0084e3;
+    color: white;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    p {
+      font-size: 16pt;
+      font-weight: bold;
+    }
+  }
+`;
+export const NextBeforeFrame = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 60px;
+`;
+export const NextBeforeBtn = styled.button`
+  width: 30px;
+  height: 30px;
+  background: white;
+  border: 1px solid #b2b2b2;
+  display: flex;
+  align-items: center;
+`;
+export const WriteBtnFrame = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 60px;
 `;

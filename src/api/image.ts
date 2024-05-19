@@ -2,9 +2,9 @@ import axios, { AxiosError } from 'axios';
 
 axios.defaults.withCredentials = true;
 const url = process.env.REACT_APP_SERVER;
-const token = sessionStorage.getItem('login');
 export const imageGetApi = async () => {
   try {
+    const token = sessionStorage.getItem('login');
     const res = await axios.get(`${url}/api/images/profile`, {
       headers: {
         Authorization: token,
@@ -18,6 +18,7 @@ export const imageGetApi = async () => {
 };
 export const imageUploadApi = async (formData: FormData) => {
   try {
+    const token = sessionStorage.getItem('login');
     const res = await axios.post(`${url}/api/images/profile`, formData, {
       headers: {
         Authorization: token,
@@ -33,6 +34,7 @@ export const imageUploadApi = async (formData: FormData) => {
 
 export const imageDeleteApi = async () => {
   try {
+    const token = sessionStorage.getItem('login');
     const res = await axios.delete(`${url}/api/images/profile`, {
       headers: {
         Authorization: token,
