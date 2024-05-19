@@ -11,7 +11,7 @@ export const FaqFrame = styled.div`
 export const FaqInnerFrame = styled.div`
   display: flex;
   flex-direction: column;
-  width: 1004px;
+  width: 1300px;
   padding: 50px;
 `;
 export const ContentFrame = styled.div``;
