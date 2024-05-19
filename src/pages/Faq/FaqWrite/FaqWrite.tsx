@@ -25,11 +25,11 @@ const FaqWrite = () => {
     faqPostMutation.mutate(form, {
       onSuccess: (data) => {
         console.log(data.message);
-        console.log(form);
+        //console.log(form);
       },
       onError: (error) => {
         console.log(error);
-        console.log(form);
+        //console.log(form);
       },
     });
     // } else {
