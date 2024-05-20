@@ -4,6 +4,7 @@ import React, { useRef, useState } from 'react';
 //import { useNavigate } from 'react-router-dom';
 import { IoIosSearch } from 'react-icons/io';
 import { LuPlus } from 'react-icons/lu';
+import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import Step3 from './Components/Step3';
 import Step4 from './Components/Step4';
@@ -39,7 +40,7 @@ interface stringArray {
   memberEmails: Array<string>;
 }
 const Scheduler = () => {
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
   const nextId = useRef<number>(1);
   const [inputItems, setInputItems] = useState<InputItem[]>([
     { id: 0, title: '' },
@@ -168,7 +169,7 @@ const Scheduler = () => {
       return false;
     }
   });
-  const [btCheck] = useRecoilState(BestState);
+  const [btCheck, setBtCheck] = useRecoilState(BestState);
   const landmarksMutation = useMutation({
     mutationFn: schedulerLandmarksApi,
   });
@@ -191,29 +192,65 @@ const Scheduler = () => {
         onSuccess: async (data) => {
           alert(data.message);
           setSchedulerId(data.payload.schedulerId);
-          setStep(3);
+          setStep(0);
         },
         onError: (error) => {
-          console.log(dateSave[0].slice(0, -5));
           alert(error);
         },
       });
-      //console.log(value);
     }
   };
-
+  const initialDate = dateSave[0] ? dateSave[0].slice(0, -5) : '';
+  const [schedulerDate, setSchedulerDate] = useState(initialDate);
+  const schedulerEl = ['명소', '체험', '맛집', '호텔', '기념품판매소'];
+  const [selectedElements, setSelectedElements] =
+    useState<Array<string>>(schedulerEl);
+  const ElHandler = (element: string) => {
+    setSelectedElements((prevSelectedElements) =>
+      prevSelectedElements.filter((item) => item !== element),
+    );
+    switch (element) {
+      case '명소':
+        setStep(3);
+        break;
+      case '체험':
+        setStep(4);
+        break;
+      case '맛집':
+        setStep(5);
+        break;
+      case '호텔':
+        setStep(6);
+        break;
+      case '기념품판매소':
+        setStep(7);
+        break;
+    }
+  };
+  const dateChange = (date: string) => {
+    const newDate = new Date(date);
+    newDate.setDate(newDate.getDate() + 1);
+    return newDate.toISOString().slice(0, -5);
+  };
   const landmarkHandler = () => {
     const targetItem = btCheck.find((item) => item.type === 'landmarkId');
     if (targetItem) {
       landmarksMutation.mutate({
         Landmarks: {
           landmarkId: targetItem.id,
-          visitStart: dateSave[0].slice(0, -5),
-          visitEnd: dateSave[1].slice(0, -5),
+          visitStart: schedulerDate,
+          visitEnd: schedulerDate,
         },
         schedulerId,
       });
-      setStep(4);
+    }
+    setSearch('');
+    console.log(selectedElements.length);
+    if (selectedElements.length > 0) {
+      setSchedulerDate(dateChange(schedulerDate));
+      setStep(0);
+    } else {
+      setStep(8);
     }
   };
   const activitiesHandler = () => {
@@ -222,13 +259,19 @@ const Scheduler = () => {
       activitiesMutation.mutate({
         Activities: {
           activityId: targetItem.id,
-          visitStart: dateSave[0].slice(0, -5),
-          visitEnd: dateSave[1].slice(0, -5),
+          visitStart: schedulerDate,
+          visitEnd: schedulerDate,
         },
         schedulerId,
       });
-      setSearch('');
-      setStep(5);
+      console.log(schedulerDate);
+    }
+    setSearch('');
+    if (selectedElements.length > 0) {
+      setSchedulerDate(dateChange(schedulerDate));
+      setStep(0);
+    } else {
+      setStep(8);
     }
   };
 
@@ -238,13 +281,18 @@ const Scheduler = () => {
       restaurantsCreateMutation.mutate({
         Restaurants: {
           restaurantId: targetItem.id,
-          visitStart: dateSave[0].slice(0, -5),
-          visitEnd: dateSave[1].slice(0, -5),
+          visitStart: schedulerDate,
+          visitEnd: schedulerDate,
         },
         schedulerId: schedulerId,
       });
-      setSearch('');
-      setStep(6);
+    }
+    setSearch('');
+    if (selectedElements.length > 0) {
+      setSchedulerDate(dateChange(schedulerDate));
+      setStep(0);
+    } else {
+      setStep(8);
     }
   };
   const hotelsHandler = () => {
@@ -253,13 +301,18 @@ const Scheduler = () => {
       hotelsCreateMutation.mutate({
         Hotels: {
           hotelId: targetItem.id,
-          stayStart: dateSave[0].slice(0, -5),
-          stayEnd: dateSave[1].slice(0, -5),
+          stayStart: schedulerDate,
+          stayEnd: schedulerDate,
         },
         schedulerId,
       });
-      setSearch('');
-      setStep(7);
+    }
+    setSearch('');
+    if (selectedElements.length > 0) {
+      setSchedulerDate(dateChange(schedulerDate));
+      setStep(0);
+    } else {
+      setStep(8);
     }
   };
   const seoulGoodsHandler = () => {
@@ -268,12 +321,17 @@ const Scheduler = () => {
       seoulGoodsMutation.mutate({
         Seoulgoods: {
           goodsId: targetItem.id,
-          visitStart: dateSave[0].slice(0, -5),
-          visitEnd: dateSave[1].slice(0, -5),
+          visitStart: schedulerDate,
+          visitEnd: schedulerDate,
         },
         schedulerId,
       });
-      setSearch('');
+    }
+    setSearch('');
+    if (selectedElements.length > 0) {
+      setSchedulerDate(dateChange(schedulerDate));
+      setStep(0);
+    } else {
       setStep(8);
     }
   };
@@ -281,12 +339,27 @@ const Scheduler = () => {
   const nextIdStep = () => {
     const member = inputItems.map((item) => item.title);
     setNameForm({ ...nameForm, memberEmails: member });
+    setBtCheck([]);
     setStep(2);
   };
 
   return (
     <St.SchedulerTotalWrapper>
       <St.SchedulerWrapper>
+        {step === 0 && (
+          <>
+            <div>
+              {schedulerDate?.slice(0, -9)} 에 진행할 프로그램을 선택해주세요
+            </div>
+            <div>
+              {selectedElements.map((element, index) => (
+                <button key={index} onClick={() => ElHandler(element)}>
+                  {element}
+                </button>
+              ))}
+            </div>
+          </>
+        )}
         {step === 1 && (
           <>
             <div className="STitle">
@@ -332,19 +405,19 @@ const Scheduler = () => {
         )}
         {step > 2 && (
           <>
-            {step < 8 && (
-              <>
-                <div className="Title">
-                  <St.Circle />
-                  {dateString}
-                  {step === 3 && <p>에 방문할 명소를 선택해주세요.</p>}
-                  {step === 4 && <p>에 방문할 체험을 선택해주세요.</p>}
-                  {step === 5 && <p>에 방문할 맛집 선택해주세요.</p>}
-                  {step === 6 && <p>에 방문할 호텔를 선택해주세요.</p>}
-                  {step === 7 && <p>에 방문할 기념품판매소를 선택해주세요.</p>}
-                </div>
-              </>
-            )}
+            <>
+              <div className="Title">
+                <St.Circle />
+                {step < 8 && schedulerDate.slice(0, -9)}
+                {step === 3 && <p>에 방문할 명소를 선택해주세요.</p>}
+                {step === 4 && <p>에 방문할 체험을 선택해주세요.</p>}
+                {step === 5 && <p>에 방문할 맛집 선택해주세요.</p>}
+                {step === 6 && <p>에 방문할 호텔를 선택해주세요.</p>}
+                {step === 7 && <p>에 방문할 기념품판매소를 선택해주세요.</p>}
+                {step === 8 && <p>스케줄이 정해졌어요!</p>}
+              </div>
+            </>
+
             {step < 8 && (
               <>
                 <St.SearchInputFrame>
@@ -391,10 +464,13 @@ const Scheduler = () => {
             {step === 7 && (
               <St.StepBtn onClick={seoulGoodsHandler}>다음</St.StepBtn>
             )}
+            {step === 8 && (
+              <St.StepBtn onClick={() => navigate('/schedulerlist')}>
+                스케줄러 목록 보러가기
+              </St.StepBtn>
+            )}
           </>
         )}
-
-        {step >= 8 && <>스케줄이 정해졌어요!</>}
       </St.SchedulerWrapper>
     </St.SchedulerTotalWrapper>
   );

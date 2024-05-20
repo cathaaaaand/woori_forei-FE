@@ -15,6 +15,7 @@ import Main from 'pages/Main/Main';
 import MyPage from 'pages/MyPage/MyPage';
 import Restaurant from 'pages/Restaurant/Restaurant';
 import Scheduler from 'pages/Scheduler/Scheduler';
+import SchedulerList from 'pages/Scheduler/SchedulerList';
 import SignUp from 'pages/SignUp/SignUp';
 import Souvenir from 'pages/Souvenir/Souvenir';
 import Tourism from 'pages/Tourism/Tourism';
@@ -34,6 +35,7 @@ const Router = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/scheduler" element={<Scheduler />} />
+          <Route path="/schedulerlist" element={<SchedulerList />} />
           <Route path="/board" element={<Board />} />
           <Route path="/write" element={<Write />} />
           <Route path="/detail/:boardId" element={<Detail />} />

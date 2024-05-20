@@ -143,7 +143,7 @@ export const Nemo = styled.div`
   height: 500px;
   border: 1px solid black;
   border-radius: 5px;
-  transform: translate(0px, 80px);
+  //transform: translate(0px, 80px);
 `;
 export const NemoFrame = styled.div`
   display: flex;

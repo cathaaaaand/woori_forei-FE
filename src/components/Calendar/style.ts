@@ -55,7 +55,6 @@ export const CalendarWrapper = styled.div`
     background: white;
     border: 5px solid white;
     border-radius: 10px;
-    color: black;
   }
   .react-calendar__tile--now:hover {
     background: white;
