@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import moment from 'moment';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 //import { useNavigate } from 'react-router-dom';
 import { IoIosSearch } from 'react-icons/io';
 import { LuPlus } from 'react-icons/lu';
@@ -262,7 +262,6 @@ const Scheduler = () => {
       });
     }
     setSearch('');
-    console.log(selectedElements.length);
     if (selectedElements.length > 0) {
       setSchedulerDate(dateChange(schedulerDate));
       setStep(0);
@@ -281,7 +280,6 @@ const Scheduler = () => {
         },
         schedulerId,
       });
-      console.log(schedulerDate);
     }
     setSearch('');
     if (selectedElements.length > 0) {
@@ -360,9 +358,6 @@ const Scheduler = () => {
     setDateSave([]);
     setStep(2);
   };
-  useEffect(() => {
-    console.log(btCheck);
-  }, [btCheck]);
   return (
     <St.SchedulerTotalWrapper>
       <St.SchedulerWrapper>
