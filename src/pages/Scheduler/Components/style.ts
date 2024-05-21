@@ -80,9 +80,8 @@ export const SearchCardOuterWrapper = styled.div`
 export const SearchCardWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 45px;
+  gap: 60px;
   width: 640px;
-  height: 660px;
   margin-top: 20px;
 `;
 export const SearchInnerWrapper = styled.div`
@@ -101,6 +100,7 @@ export const SearchInnerWrapper = styled.div`
     background: white;
     color: black;
     gap: 70px;
+    z-index: 999;
     &:hover {
       background: #005391;
       color: white;

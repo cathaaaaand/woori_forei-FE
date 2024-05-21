@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import moment from 'moment';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 //import { useNavigate } from 'react-router-dom';
 import { IoIosSearch } from 'react-icons/io';
 import { LuPlus } from 'react-icons/lu';
@@ -64,7 +64,10 @@ const Scheduler = () => {
     setInputItems(inputItemsCopy);
   };
 
-  const [dateSave] = useRecoilState(dateState);
+  const [dateSave, setDateSave] = useRecoilState(dateState);
+  const initialDate = dateSave[0] ? dateSave[0].slice(0, -5) : '';
+  const [schedulerDate, setSchedulerDate] = useState(initialDate);
+
   const [nameForm, setNameForm] = useState<stringArray>({
     schedulerName: '',
     memberEmails: [],
@@ -181,27 +184,41 @@ const Scheduler = () => {
   });
 
   const schedulerCreateHandler = () => {
+    if (!dateSave[1]) {
+      alert('2일 이상 선택해주세요');
+      return;
+    }
     if (schedulerName && Array.isArray(dateSave)) {
-      const value = {
-        schedulerName,
-        startDate: dateSave[0].slice(0, -5),
-        endDate: dateSave[1].slice(0, -5),
-        memberEmails,
-      };
-      schedulerCreateMutation.mutate(value, {
-        onSuccess: async (data) => {
-          alert(data.message);
-          setSchedulerId(data.payload.schedulerId);
-          setStep(0);
-        },
-        onError: (error) => {
-          alert(error);
-        },
-      });
+      const fisrt0Date = new Date(dateSave[1]).setDate(
+        new Date(dateSave[1]).getDate(),
+      );
+      const second6Date = new Date(dateSave[0]).setDate(
+        new Date(dateSave[0]).getDate() + 6,
+      );
+      if (second6Date < fisrt0Date) {
+        alert('최대 6일간의 스케줄을 만들 수 있습니다!');
+      } else {
+        const value = {
+          schedulerName,
+          startDate: dateSave[0].slice(0, -5),
+          endDate: dateSave[1].slice(0, -5),
+          memberEmails,
+        };
+        schedulerCreateMutation.mutate(value, {
+          onSuccess: async (data) => {
+            alert(data.message);
+            setSchedulerId(data.payload.schedulerId);
+            setSchedulerDate(dateSave[0].slice(0, -5));
+            setStep(0);
+          },
+          onError: (error) => {
+            alert(error);
+          },
+        });
+      }
     }
   };
-  const initialDate = dateSave[0] ? dateSave[0].slice(0, -5) : '';
-  const [schedulerDate, setSchedulerDate] = useState(initialDate);
+
   const schedulerEl = ['명소', '체험', '맛집', '호텔', '기념품판매소'];
   const [selectedElements, setSelectedElements] =
     useState<Array<string>>(schedulerEl);
@@ -340,9 +357,12 @@ const Scheduler = () => {
     const member = inputItems.map((item) => item.title);
     setNameForm({ ...nameForm, memberEmails: member });
     setBtCheck([]);
+    setDateSave([]);
     setStep(2);
   };
-
+  useEffect(() => {
+    console.log(btCheck);
+  }, [btCheck]);
   return (
     <St.SchedulerTotalWrapper>
       <St.SchedulerWrapper>
@@ -435,7 +455,7 @@ const Scheduler = () => {
             <St.NemoFrame>
               <St.Nemo>
                 <div style={{ margin: '30px' }}>{dateString}</div>
-                {btCheck.slice(1).map((value, index: number) => (
+                {btCheck.map((value, index: number) => (
                   <St.CheckFrame key={value.id}>
                     <p className="index">{index + 1}</p>
                     <p className="iTitle">{value.title}</p>
