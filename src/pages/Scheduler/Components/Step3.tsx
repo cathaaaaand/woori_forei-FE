@@ -29,14 +29,16 @@ const Step3 = (props: CardProps) => {
   const [btCheck, setBtCheck] = useRecoilState(BestState);
   const [clickCount, setClickCount] = useState(0);
   const getData = (id: number, title: string) => {
-    if (!btCheck.some((item) => item.id === id)) {
-      setBtCheck((prev) => [...prev, { id, title, type: 'landmarkId' }]);
-      setClickCount(clickCount + 1);
-      if (clickCount >= 1) {
-        alert('1가지만 선택 가능합니다.');
-        return;
+    if (clickCount < 1) {
+      if (!btCheck.some((item) => item.title === title)) {
+        setBtCheck((prev) => [...prev, { id, title, type: 'activityId' }]); // 상태 업데이트 함수 안에서 업데이트된 상태를 이용합니다.
+        setClickCount(clickCount + 1); // clickCount를 업데이트합니다.
       }
+    } else {
+      alert('1가지만 선택 가능합니다.');
+      return;
     }
+    console.log(clickCount);
   };
   const pageBeforeBtnHandler = () => {
     if (pageCount < 3) {

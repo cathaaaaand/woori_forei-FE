@@ -9,14 +9,9 @@ import { dateState } from 'recoil/dataState';
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
-// view로 확인한 버전과 날짜 선택 버전으로.
-// const initialValue = { startDate: '', endDate: '' };
-// const { startDate, endDate } = value;
-
 export const ChooseCalendar = () => {
   const today = new Date();
-  const tomorrow = new Date(today);
-  tomorrow.setDate(tomorrow.getDate() + 1);
+  const tomorrow = new Date(today.setDate(today.getDate() + 1));
   const [date, setDate] = useState<Value>(today);
   const [dateSave, setDateSave] = useRecoilState<string[]>(dateState);
   const handleDateChange = (newDate: Value) => {

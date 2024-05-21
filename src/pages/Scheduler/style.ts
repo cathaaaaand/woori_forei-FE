@@ -62,6 +62,27 @@ export const FinalTitle = styled.div`
 export const ListWrapper = styled.div`
   display: flex;
   gap: 21px;
+  #loading {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: black;
+    animation: spin 1s ease-in-out infinite;
+    -webkit-animation: spin 1s ease-in-out infinite;
+  }
+
+  @keyframes spin {
+    to {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+  @-webkit-keyframes spin {
+    to {
+      -webkit-transform: rotate(360deg);
+    }
+  }
 `;
 export const CardWrapper = styled.div`
   display: flex;
@@ -69,6 +90,9 @@ export const CardWrapper = styled.div`
   gap: 26px;
 
   .Card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 334px;
     height: 435px;
     border: 1px solid #b9b9b9;
@@ -143,7 +167,6 @@ export const Nemo = styled.div`
   height: 500px;
   border: 1px solid black;
   border-radius: 5px;
-  transform: translate(0px, 80px);
 `;
 export const NemoFrame = styled.div`
   display: flex;
@@ -167,5 +190,26 @@ export const CheckFrame = styled.div`
     justify-content: center;
     flex-wrap: wrap;
     align-content: center;
+  }
+`;
+export const schedulerName = styled.div`
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 46px;
+  margin-left: 20px;
+`;
+export const schedulerTotalFrame = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 100px 100px 150px;
+  .Title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    p {
+      font-size: 24px;
+      font-weight: bold;
+    }
   }
 `;
