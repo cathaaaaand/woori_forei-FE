@@ -1,12 +1,16 @@
 import React from 'react';
 import { styled } from 'styled-components';
+import signUpImage from '../../asset/signUpImage.png';
 
 const Complete = () => {
   return (
     <ModalFrame>
       <ModalInnerFrame>
-        <div className="first">회원가입이 완료되었습니다!</div>
-        <div className="second">회원가입 후 함께 서울시를 즐겨봐요!</div>
+        <div className="first">회원가입이 완료되었어요!</div>
+        <div className="second">회원가입 후 함께 서울시를 즐겨봐요</div>
+        <div>
+          <img alt="회원가입 이미지" src={signUpImage} />
+        </div>
       </ModalInnerFrame>
     </ModalFrame>
   );
@@ -37,7 +41,8 @@ const ModalInnerFrame = styled.div`
   }
 
   .second {
-    font-size: 23pt;
+    font-size: 16pt;
     color: #888888;
+    margin-bottom: 131px;
   }
 `;
