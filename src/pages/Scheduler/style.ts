@@ -213,3 +213,31 @@ export const schedulerTotalFrame = styled.div`
     }
   }
 `;
+export const scheduler0Frame = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 24pt;
+  font-weight: bold;
+`;
+export const scheduler0BtnFrame = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 50px;
+`;
+export const scheduler0Btn = styled.button`
+  width: 100px;
+  height: 100px;
+  background: #30a8ff;
+  border: none;
+  color: white;
+  border-radius: 50%;
+  font-size: 20pt;
+`;
+export const scheduler0TotalFrame = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translate(0px, 150px);
+`;
