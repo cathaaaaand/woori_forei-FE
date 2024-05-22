@@ -17,15 +17,26 @@ export const ChooseCalendar = () => {
   const handleDateChange = (newDate: Value) => {
     setDate(newDate);
     if (newDate && Array.isArray(newDate)) {
+      const newDate0 =
+        newDate[0] !== null
+          ? new Date(
+              newDate[0].getTime() - newDate[0].getTimezoneOffset() * 90000,
+            )
+          : null;
+      const newDate1 =
+        newDate[1] !== null
+          ? new Date(newDate[1].getTime() - newDate[1].getTimezoneOffset())
+          : null;
       const dateTrans = [
-        `${newDate[0]?.toISOString()}`,
-        `${newDate[1]?.toISOString()}`,
+        `${newDate0?.toISOString()}`,
+        `${newDate1?.toISOString()}`,
       ];
       setDateSave(dateTrans);
     }
   };
+  console.log(dateSave);
   const dateString = Array.isArray(date)
-    ? dateSave.map((item) => moment(`${item}`).format('YYYY-MM-DD')).join(' ~ ')
+    ? dateSave[0].slice(0, 10) + '~' + dateSave[1].slice(0, 10)
     : moment(`${today}`).format('YYYY-MM-DD');
   return (
     <>

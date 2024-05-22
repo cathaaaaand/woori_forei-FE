@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import moment from 'moment';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 //import { useNavigate } from 'react-router-dom';
 import { IoIosSearch } from 'react-icons/io';
 import { LuPlus } from 'react-icons/lu';
@@ -80,7 +80,6 @@ const Scheduler = () => {
   const { schedulerName, memberEmails } = nameForm;
   const [step, setStep] = useState(1);
   const [schedulerId, setSchedulerId] = useState(0);
-  // const [isScheduler, setIsSchedulerId] = useState(false);
 
   const schedulerCreateMutation = useMutation({
     mutationFn: schedulerCreateApi,
@@ -173,6 +172,10 @@ const Scheduler = () => {
     }
   });
   const [btCheck, setBtCheck] = useRecoilState(BestState);
+  const [countS, setCountS] = useState(0);
+  useEffect(() => {
+    console.log(countS);
+  }, [countS]);
   const landmarksMutation = useMutation({
     mutationFn: schedulerLandmarksApi,
   });
@@ -207,6 +210,9 @@ const Scheduler = () => {
         schedulerCreateMutation.mutate(value, {
           onSuccess: async (data) => {
             alert(data.message);
+            setCountS(
+              new Date(dateSave[1]).getDate() - new Date(dateSave[0]).getDate(),
+            );
             setSchedulerId(data.payload.schedulerId);
             setSchedulerDate(dateSave[0].slice(0, -5));
             setStep(0);
@@ -218,8 +224,9 @@ const Scheduler = () => {
       }
     }
   };
-
+  // console.log(countS);
   const schedulerEl = ['명소', '체험', '맛집', '호텔', '기념품판매소'];
+
   const [selectedElements, setSelectedElements] =
     useState<Array<string>>(schedulerEl);
   const ElHandler = (element: string) => {
@@ -362,18 +369,22 @@ const Scheduler = () => {
     <St.SchedulerTotalWrapper>
       <St.SchedulerWrapper>
         {step === 0 && (
-          <>
-            <div>
+          <St.scheduler0TotalFrame>
+            <St.scheduler0Frame>
+              <St.Circle />
               {schedulerDate?.slice(0, -9)} 에 진행할 프로그램을 선택해주세요
-            </div>
-            <div>
+            </St.scheduler0Frame>
+            <St.scheduler0BtnFrame>
               {selectedElements.map((element, index) => (
-                <button key={index} onClick={() => ElHandler(element)}>
+                <St.scheduler0Btn
+                  key={index}
+                  onClick={() => ElHandler(element)}
+                >
                   {element}
-                </button>
+                </St.scheduler0Btn>
               ))}
-            </div>
-          </>
+            </St.scheduler0BtnFrame>
+          </St.scheduler0TotalFrame>
         )}
         {step === 1 && (
           <>
