@@ -89,6 +89,7 @@ export const EmailNPasswordFrame = styled.div`
     border: 1px solid #d2d2d2;
     border-radius: 10px;
     padding-left: 80px;
+    font-size: 16pt;
   }
 
   .SignUpIputNIcon {
