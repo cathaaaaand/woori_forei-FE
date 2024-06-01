@@ -34,7 +34,6 @@ export const ChooseCalendar = () => {
       setDateSave(dateTrans);
     }
   };
-  console.log(dateSave);
   const dateString = Array.isArray(date)
     ? dateSave[0].slice(0, 10) + '~' + dateSave[1].slice(0, 10)
     : moment(`${today}`).format('YYYY-MM-DD');

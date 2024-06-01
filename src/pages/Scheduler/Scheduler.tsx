@@ -112,7 +112,7 @@ const Scheduler = () => {
     queryFn: seoulGoodsApi,
   });
   const dateString = Array.isArray(dateSave)
-    ? dateSave.map((item) => moment(`${item}`).format('YYYY-MM-DD')).join(' ~ ')
+    ? dateSave.map((item) => `${item}`.slice(0, -14)).join(' ~ ')
     : moment(`${new Date()}`).format('YYYY-MM-DD');
   const filteredData = landmark?.filter(
     (item: { postSj: string; address: string }) => {
@@ -224,7 +224,6 @@ const Scheduler = () => {
       }
     }
   };
-  // console.log(countS);
   const schedulerEl = ['명소', '체험', '맛집', '호텔', '기념품판매소'];
 
   const [selectedElements, setSelectedElements] =
@@ -253,15 +252,19 @@ const Scheduler = () => {
   };
   const dateChange = (date: string) => {
     const newDate = new Date(date);
+    const offset = 1000 * 60 * 60 * 9;
     newDate.setDate(newDate.getDate() + 1);
+    newDate.setTime(newDate.getTime() + offset);
     return newDate.toISOString().slice(0, -5);
   };
+
+  const targetItem1 = btCheck.find((item) => item.type === 'randmarkId');
   const landmarkHandler = () => {
-    const targetItem = btCheck.find((item) => item.type === 'landmarkId');
-    if (targetItem) {
+    console.log(btCheck, targetItem1);
+    if (targetItem1) {
       landmarksMutation.mutate({
         Landmarks: {
-          landmarkId: targetItem.id,
+          landmarkId: targetItem1.id,
           visitStart: schedulerDate,
           visitEnd: schedulerDate,
         },
@@ -276,12 +279,12 @@ const Scheduler = () => {
       setStep(8);
     }
   };
+  const targetItem2 = btCheck.find((item) => item.type === 'activityId');
   const activitiesHandler = () => {
-    const targetItem = btCheck.find((item) => item.type === 'activityId');
-    if (targetItem) {
+    if (targetItem2) {
       activitiesMutation.mutate({
         Activities: {
-          activityId: targetItem.id,
+          activityId: targetItem2.id,
           visitStart: schedulerDate,
           visitEnd: schedulerDate,
         },
@@ -297,12 +300,12 @@ const Scheduler = () => {
     }
   };
 
+  const targetItem3 = btCheck.find((item) => item.type === 'restaurantId');
   const restaurantsHandler = () => {
-    const targetItem = btCheck.find((item) => item.type === 'restaturantId');
-    if (targetItem) {
+    if (targetItem3) {
       restaurantsCreateMutation.mutate({
         Restaurants: {
-          restaurantId: targetItem.id,
+          restaurantId: targetItem3.id,
           visitStart: schedulerDate,
           visitEnd: schedulerDate,
         },
@@ -317,12 +320,12 @@ const Scheduler = () => {
       setStep(8);
     }
   };
+  const targetItem4 = btCheck.find((item) => item.type === 'hotelId');
   const hotelsHandler = () => {
-    const targetItem = btCheck.find((item) => item.type === 'hotelId');
-    if (targetItem) {
+    if (targetItem4) {
       hotelsCreateMutation.mutate({
         Hotels: {
-          hotelId: targetItem.id,
+          hotelId: targetItem4.id,
           stayStart: schedulerDate,
           stayEnd: schedulerDate,
         },
@@ -337,17 +340,18 @@ const Scheduler = () => {
       setStep(8);
     }
   };
+  const targetItem5 = btCheck.find((item) => item.type === 'seoulGoodsId');
   const seoulGoodsHandler = () => {
-    const targetItem = btCheck.find((item) => item.type === 'seoulGoodsId');
-    if (targetItem) {
+    if (targetItem5) {
       seoulGoodsMutation.mutate({
         Seoulgoods: {
-          goodsId: targetItem.id,
+          goodsId: targetItem5.id,
           visitStart: schedulerDate,
           visitEnd: schedulerDate,
         },
         schedulerId,
       });
+      console.log(1);
     }
     setSearch('');
     if (selectedElements.length > 0) {
@@ -359,6 +363,11 @@ const Scheduler = () => {
   };
 
   const nextIdStep = () => {
+    const userId = sessionStorage.getItem('userId');
+    if (!userId) {
+      alert('로그인 후 진행할 수 있습니다.');
+      navigate('/login');
+    }
     const member = inputItems.map((item) => item.title);
     setNameForm({ ...nameForm, memberEmails: member });
     setBtCheck([]);
@@ -462,7 +471,7 @@ const Scheduler = () => {
               <St.Nemo>
                 <div style={{ margin: '30px' }}>{dateString}</div>
                 {btCheck.map((value, index: number) => (
-                  <St.CheckFrame key={value.id}>
+                  <St.CheckFrame key={value.title}>
                     <p className="index">{index + 1}</p>
                     <p className="iTitle">{value.title}</p>
                   </St.CheckFrame>

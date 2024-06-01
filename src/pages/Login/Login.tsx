@@ -1,4 +1,3 @@
-import { GoogleLogin } from '@react-oauth/google';
 import { useMutation } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
 import { AiOutlineMail, AiOutlineUnlock } from 'react-icons/ai';
@@ -103,14 +102,6 @@ const Login = () => {
                 <img alt="구글로고" src={google} />
                 구글로 로그인하기
               </button>
-              <GoogleLogin
-                onSuccess={(credentialResponse) => {
-                  console.log(credentialResponse);
-                }}
-                onError={() => {
-                  console.log('Login Failed');
-                }}
-              />
             </>
           )}
           {!emailCpShow && (

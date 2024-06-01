@@ -56,6 +56,7 @@ const Header = () => {
             <div
               onClick={() => {
                 navigate('/scheduler');
+                window.location.reload();
               }}
             >
               스케줄러

@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
+import React, { useState } from 'react';
+import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import * as St from './style';
 import {
   // schedulerDeleteApi,useMutation,
@@ -34,6 +35,28 @@ const SchedulerList = () => {
     queryKey: ['schedulerGetTotal'],
     queryFn: schedulerGetTotalApi,
   });
+  const [pageCount, setPageCount] = useState(0);
+  const arrayLength = TotalData ? TotalData.payload?.length : 20;
+  const pageNavigationNum =
+    pageCount + 3 > arrayLength
+      ? `${arrayLength} / ${arrayLength}`
+      : `${pageCount + 3} / ${arrayLength}`;
+  const pagelinenum = (pageCount + 3) / arrayLength;
+
+  const pageBeforeBtnHandler = () => {
+    if (pageCount < 3) {
+      alert('첫 번째 페이지입니다!');
+      return;
+    }
+    setPageCount(pageCount - 3);
+  };
+  const pageNextBtnHandler = () => {
+    if (pageCount >= arrayLength - 3) {
+      alert('마지막 페이지입니다!');
+      return;
+    }
+    setPageCount(pageCount + 3);
+  };
   // const schedulerPutMutation = useMutation({
   //   mutationFn: schedulerPutApi,
   // });
@@ -65,6 +88,7 @@ const SchedulerList = () => {
   //     },
   //   );
   // };
+  console.log(TotalData);
   return (
     <St.schedulerTotalFrame>
       <div className="Title">
@@ -79,41 +103,65 @@ const SchedulerList = () => {
           </>
         ) : (
           <>
-            {TotalData.payload.slice(0, 3).map((value: SchedulerCreateType) => (
-              <St.CardWrapper key={value.schedulerId}>
-                <St.schedulerName>{value.schedulerName}</St.schedulerName>
-                <div className="Card">
-                  {/* <button
+            {TotalData.payload
+              .slice(pageCount, pageCount + 3)
+              .map((value: SchedulerCreateType) => (
+                <St.CardWrapper key={value.schedulerId}>
+                  <St.schedulerName>{value.schedulerName}</St.schedulerName>
+                  <St.Nemo>
+                    {/* <button
                     onClick={() => schedulerDeleteHandler(value.schedulerId)}
                   >
                     스케줄러 삭제
                   </button> */}
-                  {/* <button onClick={() => schedulerPutHandler(value.schedulerId)}>
+                    {/* <button onClick={() => schedulerPutHandler(value.schedulerId)}>
                   스케줄러 수정
                 </button> */}
-                  {/* <div>
+                    {/* <div>
                     {value.members.map((member) => (
                       <div key={member.userEmail}>{member.userEmail}</div>
                     ))}
                   </div> */}
-                  <div>
-                    {value.startDate.slice(0, -9)}~{value.endDate.slice(0, -9)}
-                  </div>
-                  <div>
-                    {value?.openAPIs?.map((api, idx: number) => (
-                      <div key={idx}>
-                        <St.CardNumber>{idx}</St.CardNumber>
-                        <div>{api.name}</div>
-                        <div>{api.type}</div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </St.CardWrapper>
-            ))}
+                    <St.schedulerDay>
+                      {value.startDate.slice(0, -9)}~
+                      {value.endDate.slice(0, -9)}
+                    </St.schedulerDay>
+                    <St.schedulerMembers>
+                      <div>여행할 멤버:</div>
+                      {value.members.map((item, index) => (
+                        <div key={item.userId}>
+                          {item.username}
+                          {index % 2 === 0 && ','}
+                        </div>
+                      ))}
+                    </St.schedulerMembers>
+                    <div>
+                      {value?.openAPIs?.map((api, idx: number) => (
+                        <St.CheckFrame key={idx}>
+                          <div className="index">{idx}</div>
+                          <div className="iTitle">{api.name}</div>
+                        </St.CheckFrame>
+                      ))}
+                    </div>
+                  </St.Nemo>
+                </St.CardWrapper>
+              ))}
           </>
         )}
       </St.ListWrapper>
+      <St.NavFrame>
+        <St.NavTotalLine />
+        <St.NavMovelLine $pagelinenum={pagelinenum} />
+        <div>{pageNavigationNum}</div>
+        <St.NextBeforeFrame>
+          <St.NextBeforeBtn>
+            <IoIosArrowBack onClick={pageBeforeBtnHandler} size="20px" />
+          </St.NextBeforeBtn>
+          <St.NextBeforeBtn>
+            <IoIosArrowForward onClick={pageNextBtnHandler} size="20px" />
+          </St.NextBeforeBtn>
+        </St.NextBeforeFrame>
+      </St.NavFrame>
     </St.schedulerTotalFrame>
   );
 };
