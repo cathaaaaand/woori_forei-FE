@@ -143,10 +143,11 @@ export const ContentListFrame = styled.div`
     border-bottom: 0.5px solid #a5a5a5;
     display: flex;
     flex-direction: column;
-    gap: 30px;
     height: 295px;
     align-items: center;
-    justify-content: center;
+    div {
+      margin: 10px;
+    }
   }
 `;
 export const InputFrame = styled.div`

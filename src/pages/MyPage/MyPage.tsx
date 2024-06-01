@@ -7,11 +7,25 @@ import { useNavigate } from 'react-router-dom';
 import blueArrow from '../../asset/blueArrow.png';
 import * as St from './style';
 import UpdateProfile from './UpdateProfile';
-// import { boardMyWritingApi } from 'api/board';
-// import { commentMineApi } from 'api/comment';
+import { boardMyWritingApi } from 'api/board';
+import { commentMineApi } from 'api/comment';
+import { schedulerGetTotalApi } from 'api/schduler';
 import { userProfileApi } from 'api/user';
 import { useModal } from 'components/Common/Modal/Modal.hooks';
 
+interface BoardType {
+  boardId: number;
+  content: string;
+}
+interface CommentType {
+  commentId: number;
+  boardId: number;
+  commentContent: string;
+}
+interface SchedulerType {
+  schedulerId: number;
+  schedulerName: string;
+}
 const MyPage = () => {
   const navigate = useNavigate();
   const { mount } = useModal();
@@ -19,16 +33,18 @@ const MyPage = () => {
     queryKey: ['myPage'],
     queryFn: userProfileApi,
   });
-  // const { data: boardData } = useQuery({
-  //   queryKey: ['myboard'],
-  //   queryFn: boardMyWritingApi,
-  // });
-  // const { data: commentData } = useQuery({
-  //   queryKey: ['mycomment'],
-  //   queryFn: commentMineApi,
-  // });
-  // console.log(boardData);
-  // console.log(commentData);
+  const { data: boardData } = useQuery<BoardType[]>({
+    queryKey: ['myboard'],
+    queryFn: boardMyWritingApi,
+  });
+  const { data: commentData } = useQuery<CommentType[]>({
+    queryKey: ['mycomment'],
+    queryFn: commentMineApi,
+  });
+  const { data: schedulerData } = useQuery<SchedulerType[]>({
+    queryKey: ['myscheduler'],
+    queryFn: schedulerGetTotalApi,
+  });
   const updateProfileHandler = () => {
     mount('updateProfile', <UpdateProfile data={data} />);
   };
@@ -71,11 +87,14 @@ const MyPage = () => {
             <div className="Border">
               <p className="ListPostsTitle">작성한 글</p>
               <div className="ListPosts">
-                <p>뉴진스 팬미팅 동행 구합니다!</p>
-                <p>뉴진스 팬미팅 동행 구합니다!</p>
-                <p>뉴진스 팬미팅 동행 구합니다!</p>
-                <p>뉴진스 팬미팅 동행 구합니다!</p>
-                <p>뉴진스 팬미팅 동행 구합니다!</p>
+                {boardData?.map((item) => (
+                  <div
+                    key={item.boardId}
+                    onClick={() => navigate(`/detail/${item.boardId}`)}
+                  >
+                    {item.content}
+                  </div>
+                ))}
               </div>
               <St.MoreData>
                 <img src={blueArrow} alt="blueArrow" />
@@ -84,11 +103,14 @@ const MyPage = () => {
             <div className="Border">
               <p className="ListPostsTitle">작성한 댓글</p>
               <div className="ListPosts">
-                <p>뉴진스 팬미팅 동행 구합니다!</p>
-                <p>뉴진스 팬미팅 동행 구합니다!</p>
-                <p>뉴진스 팬미팅 동행 구합니다!</p>
-                <p>뉴진스 팬미팅 동행 구합니다!</p>
-                <p>뉴진스 팬미팅 동행 구합니다!</p>
+                {commentData?.slice(0, 5).map((item) => (
+                  <div
+                    key={item.commentId}
+                    onClick={() => navigate(`/detail/${item.boardId}`)}
+                  >
+                    {item.commentContent}
+                  </div>
+                ))}
               </div>
               <St.MoreData>
                 <img src={blueArrow} alt="blueArrow" />
@@ -97,11 +119,14 @@ const MyPage = () => {
             <div className="Border">
               <p className="ListPostsTitle">만든 일정</p>
               <div className="ListPosts">
-                <p>뉴진스 팬미팅 동행 구합니다!</p>
-                <p>뉴진스 팬미팅 동행 구합니다!</p>
-                <p>뉴진스 팬미팅 동행 구합니다!</p>
-                <p>뉴진스 팬미팅 동행 구합니다!</p>
-                <p>뉴진스 팬미팅 동행 구합니다!</p>
+                {schedulerData?.slice(0, 5).map((item) => (
+                  <div
+                    key={item.schedulerId}
+                    onClick={() => navigate('/schedulerlist')}
+                  >
+                    {item.schedulerName}
+                  </div>
+                ))}
               </div>
               <St.MoreData>
                 <img src={blueArrow} alt="blueArrow" />

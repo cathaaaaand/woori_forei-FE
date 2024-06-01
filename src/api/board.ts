@@ -71,8 +71,13 @@ export const boardDeleteApi = async (id: number) => {
 
 export const boardMyWritingApi = async () => {
   try {
-    const res = await axios.get(`${url}/api/communities/myboard`);
-    return res.data;
+    const token = sessionStorage.getItem('login');
+    const res = await axios.get(`${url}/api/communities/myboard`, {
+      headers: {
+        Authorization: token,
+      },
+    });
+    return res.data.payload;
   } catch (error) {
     const axiosError = error as AxiosError;
     throw axiosError.response?.data;

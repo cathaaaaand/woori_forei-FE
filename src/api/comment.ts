@@ -81,8 +81,13 @@ export const commentDeleteApi = async (id: number) => {
 };
 export const commentMineApi = async () => {
   try {
-    const res = await axios.get(`${url}/api/comments/mycomment`);
-    return res.data;
+    const token = sessionStorage.getItem('login');
+    const res = await axios.get(`${url}/api/comments/mycomment`, {
+      headers: {
+        Authorization: token,
+      },
+    });
+    return res.data.payload;
   } catch (error) {
     console.log(error);
     const axiosError = error as AxiosError;
