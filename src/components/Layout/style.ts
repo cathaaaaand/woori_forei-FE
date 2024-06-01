@@ -38,10 +38,6 @@ export const HeaderWrapper = styled.div`
     }
   }
 `;
-// export const  = styled.div`
-//   background: #f1fbff;
-//   height: 228px;
-// `;
 export const HeaderContents = styled.header`
   position: relative;
   left: 0;
@@ -68,7 +64,6 @@ export const NavContents = styled.ul`
   justify-content: center;
   gap: 41px;
   color: #363636;
-  transform: translate(0px, 0px);
 
   div {
     font-size: 19px;
@@ -86,7 +81,7 @@ export const NavBottomWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 24px;
-  transform: translate(-257px, 0px);
+  transform: translate(-266px, 0px);
   div {
     font-size: 19px;
     color: #505050;
