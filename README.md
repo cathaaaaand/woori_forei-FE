@@ -2,14 +2,14 @@
 
 ### 1. wooriforei
 
-![alt text](wooriforeiPImg.png)<br/>
+![alt text](./src/asset/wooriforeiPImg.png)<br/>
 서울 관광 정보를 제공하고, 관광 스케줄을 만들 수 있는 페이지
 
 ---
 
 ### 2. 서비스 아키텍처
 
-![alt text](tech.png)
+![alt text](./src/asset/tech.png)
 
 ---
 
@@ -38,14 +38,14 @@
 서울 관광정보 제공 및 여행 스케줄러 생성
 
 - <b>메인 페이지</b><br/>
-  ![alt text](ezgif.com-video-to-gif-converter.gif)<br/><br/>
+  ![alt text](./src/asset/mainGif.gif)<br/><br/>
 - <b>서울 명소 및 체험, 맛집, 기념품,숙박 업소 조회 및 검색</b>
-  ![alt text](api-ezgif.com-video-to-gif-converter.gif)<br/><br/>
+  ![alt text](./src/asset/openApiGif.gif)<br/><br/>
 - <b>스케줄러</b><br/>
-  ![alt text](<ezgif.com-video-to-gif-converter (1).gif>)<br/><br/>
+  ![alt text](./src/asset/schedulerGif.gif)<br/><br/>
 - <b>게시판 & FAQ</b><br/>
-  ![alt text](faq-ezgif.com-video-to-gif-converter.gif)<br/><br/>
+  ![alt text](./src/asset/boardFaq.gif)<br/><br/>
 - <b>로그인</b><br/>
-  ![alt text](<ezgif.com-video-to-gif-converter (2).gif>)<br/><br/>
+  ![alt text](./src/asset/loginGif.gif)<br/><br/>
 - <b>회원가입</b><br/>
-  ![alt text](2024-06-01_18_09_14-ezgif.com-video-to-gif-converter.gif)
+  ![alt text](./src/asset/signUpGif.gif)
