@@ -50,8 +50,13 @@ export const schedulerGet1Api = async (schedulerId: number) => {
 };
 export const schedulerGetTotalApi = async () => {
   try {
-    const res = await axios.get(`${url}/api/schedulers`);
-    return res.data;
+    const token = sessionStorage.getItem('login');
+    const res = await axios.get(`${url}/api/schedulers`, {
+      headers: {
+        Authorization: token,
+      },
+    });
+    return res.data.payload;
   } catch (error) {
     const axiosError = error as AxiosError;
     throw axiosError.response?.data;
