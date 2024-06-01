@@ -28,14 +28,13 @@ const Step7 = (props: CardProps) => {
   const getData = (id: number, title: string) => {
     if (clickCount < 1) {
       if (!btCheck.some((item) => item.title === title)) {
-        setBtCheck((prev) => [...prev, { id, title, type: 'activityId' }]); // 상태 업데이트 함수 안에서 업데이트된 상태를 이용합니다.
+        setBtCheck((prev) => [...prev, { id, title, type: 'seoulGoodsId' }]); // 상태 업데이트 함수 안에서 업데이트된 상태를 이용합니다.
         setClickCount(clickCount + 1); // clickCount를 업데이트합니다.
       }
     } else {
       alert('1가지만 선택 가능합니다.');
       return;
     }
-    console.log(clickCount);
   };
 
   const pageBeforeBtnHandler = () => {

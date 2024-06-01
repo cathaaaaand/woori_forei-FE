@@ -177,7 +177,7 @@ export const CheckFrame = styled.div`
   align-content: center;
   align-items: center;
   flex-wrap: wrap;
-  gap: 53px;
+  gap: 10px;
   margin: 10px;
   .index {
     width: 32px;
@@ -190,6 +190,11 @@ export const CheckFrame = styled.div`
     justify-content: center;
     flex-wrap: wrap;
     align-content: center;
+  }
+  .iTitle {
+    width: max-content;
+    max-width: 275px;
+    word-break: break-all;
   }
 `;
 export const schedulerName = styled.div`
@@ -240,4 +245,46 @@ export const scheduler0TotalFrame = styled.div`
   flex-direction: column;
   align-items: center;
   transform: translate(0px, 150px);
+`;
+export const schedulerMembers = styled.div`
+  display: flex;
+  gap: 8px;
+  margin: 10px;
+`;
+export const schedulerDay = styled.div`
+  margin: 10px;
+`;
+
+export const NavTotalLine = styled.div`
+  width: 960px;
+  height: 0.5px;
+  border: 0.5px solid #cecece;
+  border-radius: 0.5px;
+`;
+export const NavMovelLine = styled.div<{ $pagelinenum: number }>`
+  width: ${({ $pagelinenum }) =>
+    $pagelinenum < 1 ? `${960 * $pagelinenum}px` : '960px'};
+  transition: width 0.3s ease;
+  height: 0.5px;
+  border: 0.5px solid black;
+  border-radius: 0.5px;
+  position: absolute;
+`;
+export const NextBeforeBtn = styled.button`
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border: 1px solid #b2b2b2;
+  display: flex;
+  align-items: center;
+`;
+export const NextBeforeFrame = styled.div`
+  display: flex;
+`;
+export const NavFrame = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 50px;
+  margin-top: 50px;
+  transform: translate(40px, 0px);
 `;

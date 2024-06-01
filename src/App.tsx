@@ -7,6 +7,7 @@ import Router from 'shared/Router';
 function App() {
   const queryClient = new QueryClient();
   RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
+
   return (
     <RecoilRoot>
       <QueryClientProvider client={queryClient}>
