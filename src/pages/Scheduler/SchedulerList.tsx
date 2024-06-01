@@ -31,12 +31,12 @@ interface SchedulerCreateType {
   ];
 }
 const SchedulerList = () => {
-  const { data: TotalData, isSuccess } = useQuery({
+  const { data: TotalData, isSuccess } = useQuery<SchedulerCreateType[]>({
     queryKey: ['schedulerGetTotal'],
     queryFn: schedulerGetTotalApi,
   });
   const [pageCount, setPageCount] = useState(0);
-  const arrayLength = TotalData ? TotalData.payload?.length : 20;
+  const arrayLength = TotalData ? TotalData?.length : 20;
   const pageNavigationNum =
     pageCount + 3 > arrayLength
       ? `${arrayLength} / ${arrayLength}`
@@ -102,49 +102,46 @@ const SchedulerList = () => {
           </>
         ) : (
           <>
-            {TotalData.payload
-              .slice(pageCount, pageCount + 3)
-              .map((value: SchedulerCreateType) => (
-                <St.CardWrapper key={value.schedulerId}>
-                  <St.schedulerName>{value.schedulerName}</St.schedulerName>
-                  <St.Nemo>
-                    {/* <button
+            {TotalData.slice(pageCount, pageCount + 3).map((value) => (
+              <St.CardWrapper key={value.schedulerId}>
+                <St.schedulerName>{value.schedulerName}</St.schedulerName>
+                <St.Nemo>
+                  {/* <button
                     onClick={() => schedulerDeleteHandler(value.schedulerId)}
                   >
                     스케줄러 삭제
                   </button> */}
-                    {/* <button onClick={() => schedulerPutHandler(value.schedulerId)}>
+                  {/* <button onClick={() => schedulerPutHandler(value.schedulerId)}>
                   스케줄러 수정
                 </button> */}
-                    {/* <div>
+                  {/* <div>
                     {value.members.map((member) => (
                       <div key={member.userEmail}>{member.userEmail}</div>
                     ))}
                   </div> */}
-                    <St.schedulerDay>
-                      {value.startDate.slice(0, -9)}~
-                      {value.endDate.slice(0, -9)}
-                    </St.schedulerDay>
-                    <St.schedulerMembers>
-                      <div>여행할 멤버:</div>
-                      {value.members.map((item, index) => (
-                        <div key={item.userId}>
-                          {item.username}
-                          {index % 2 === 0 && ','}
-                        </div>
-                      ))}
-                    </St.schedulerMembers>
-                    <div>
-                      {value?.openAPIs?.map((api, idx: number) => (
-                        <St.CheckFrame key={idx}>
-                          <div className="index">{idx}</div>
-                          <div className="iTitle">{api.name}</div>
-                        </St.CheckFrame>
-                      ))}
-                    </div>
-                  </St.Nemo>
-                </St.CardWrapper>
-              ))}
+                  <St.schedulerDay>
+                    {value.startDate.slice(0, -9)}~{value.endDate.slice(0, -9)}
+                  </St.schedulerDay>
+                  <St.schedulerMembers>
+                    <div>여행할 멤버:</div>
+                    {value.members.map((item, index) => (
+                      <div key={item.userId}>
+                        {item.username}
+                        {index % 2 === 0 && ','}
+                      </div>
+                    ))}
+                  </St.schedulerMembers>
+                  <div>
+                    {value?.openAPIs?.map((api, idx: number) => (
+                      <St.CheckFrame key={idx}>
+                        <div className="index">{idx}</div>
+                        <div className="iTitle">{api.name}</div>
+                      </St.CheckFrame>
+                    ))}
+                  </div>
+                </St.Nemo>
+              </St.CardWrapper>
+            ))}
           </>
         )}
       </St.ListWrapper>
