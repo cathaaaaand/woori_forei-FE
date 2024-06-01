@@ -9,7 +9,7 @@
 
 ### 2. 서비스 아키텍처
 
-![alt text](tech.png){width="600px" height="450px"}
+![alt text](tech.png)
 
 ---
 
