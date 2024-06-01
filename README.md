@@ -37,15 +37,15 @@
 
 서울 관광정보 제공 및 여행 스케줄러 생성
 
-- <b>메인 페이지</b><br/>
+- <b>메인 페이지</b><br/><br/>
   ![alt text](./src/asset/mainGif.gif)<br/><br/>
-- <b>서울 명소 및 체험, 맛집, 기념품,숙박 업소 조회 및 검색</b>
-  ![alt text](./src/asset/openApiGif.gif)<br/><br/>
-- <b>스케줄러</b><br/>
+- <b>서울 명소 및 체험, 맛집, 기념품,숙박 업소 조회 및 검색</b><br/><br/>
+  ![alt text](./src/asset/openApiGif.gif)<br/><br/><br/>
+- <b>스케줄러</b><br/><br/>
   ![alt text](./src/asset/schedulerGif.gif)<br/><br/>
-- <b>게시판 & FAQ</b><br/>
+- <b>게시판 & FAQ</b><br/><br/>
   ![alt text](./src/asset/boardFaq.gif)<br/><br/>
-- <b>로그인</b><br/>
+- <b>로그인</b><br/><br/>
   ![alt text](./src/asset/loginGif.gif)<br/><br/>
-- <b>회원가입</b><br/>
+- <b>회원가입</b><br/><br/>
   ![alt text](./src/asset/signUpGif.gif)
