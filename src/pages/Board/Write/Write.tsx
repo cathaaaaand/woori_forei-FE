@@ -66,7 +66,6 @@ const Write = () => {
       const transfrom = JSON.stringify(form);
       const blob1 = new Blob([transfrom], { type: 'application/json' });
       formData.append('request', blob1);
-      console.log(...formData);
 
       boardCreateMutation.mutate(formData, {
         onSuccess: (data) => {

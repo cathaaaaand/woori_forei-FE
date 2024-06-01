@@ -38,7 +38,6 @@ const Step3 = (props: CardProps) => {
       alert('1가지만 선택 가능합니다.');
       return;
     }
-    console.log(clickCount);
   };
   const pageBeforeBtnHandler = () => {
     if (pageCount < 3) {

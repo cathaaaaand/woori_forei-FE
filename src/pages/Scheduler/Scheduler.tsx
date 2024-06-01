@@ -260,7 +260,6 @@ const Scheduler = () => {
 
   const targetItem1 = btCheck.find((item) => item.type === 'randmarkId');
   const landmarkHandler = () => {
-    console.log(btCheck, targetItem1);
     if (targetItem1) {
       landmarksMutation.mutate({
         Landmarks: {
@@ -351,7 +350,6 @@ const Scheduler = () => {
         },
         schedulerId,
       });
-      console.log(1);
     }
     setSearch('');
     if (selectedElements.length > 0) {

@@ -88,7 +88,6 @@ const SchedulerList = () => {
   //     },
   //   );
   // };
-  console.log(TotalData);
   return (
     <St.schedulerTotalFrame>
       <div className="Title">
