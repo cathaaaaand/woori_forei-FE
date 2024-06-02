@@ -10,7 +10,11 @@ export const imageGetApi = async () => {
         Authorization: token,
       },
     });
-    return res.data;
+    if (res.status === 404) {
+      console.log('사진이 없습니다.');
+      return null;
+    }
+    return res.data.payload;
   } catch (error) {
     const axiosError = error as AxiosError;
     throw axiosError.response?.data;

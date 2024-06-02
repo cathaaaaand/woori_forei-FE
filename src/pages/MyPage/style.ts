@@ -39,7 +39,8 @@ export const MyPageInnerFrame = styled.div`
   .BPTopLine {
     position: absolute;
     top: 150px;
-    left: 450px;
+    // left: 450px;
+    transform: translate(-450px, 0);
     display: flex;
     flex-direction: column;
     gap: 23px;
@@ -84,7 +85,6 @@ export const ImgUpdateFrame = styled.div`
   justify-content: center;
   align-items: center;
   gap: 29px;
-  margin-bottom: 20px;
   p {
     font-size: 20pt;
     font-weight: bold;
@@ -122,7 +122,7 @@ export const ContentListFrame = styled.div`
   font-size: 15pt;
   .Border {
     width: 334px;
-    height: 414px;
+    height: 370px;
     border: 1px solid #b9b9b9;
     border-radius: 5px;
     box-shadow:
@@ -143,8 +143,9 @@ export const ContentListFrame = styled.div`
     border-bottom: 0.5px solid #a5a5a5;
     display: flex;
     flex-direction: column;
-    height: 295px;
+    height: 240px;
     align-items: center;
+    padding: 20px;
     div {
       margin: 10px;
     }
@@ -159,21 +160,21 @@ export const InputFrame = styled.div`
 `;
 export const WithdrawalBtn = styled.button`
   position: absolute;
-  left: 460px;
-  bottom: -60px;
+  transform: translate(-460px, 0);
   border: none;
   background: transparent;
   font-size: 15pt;
   color: #a5a5a5;
+  margin-top: 10px;
 `;
 export const pageUpdateBtn = styled.button`
   position: absolute;
-  left: 510px;
-  bottom: -60px;
+  transform: translate(-510px, 0);
   border: none;
   background: transparent;
   font-size: 15pt;
   color: #a5a5a5;
+  margin-top: 10px;
 `;
 export const ImgFrame = styled.div`
   position: relative;

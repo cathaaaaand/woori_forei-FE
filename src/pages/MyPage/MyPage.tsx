@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { BsPersonFill } from 'react-icons/bs';
 import { GiPlainCircle } from 'react-icons/gi';
@@ -9,6 +9,7 @@ import * as St from './style';
 import UpdateProfile from './UpdateProfile';
 import { boardMyWritingApi } from 'api/board';
 import { commentMineApi } from 'api/comment';
+import { imageGetApi, imageUploadApi } from 'api/image';
 import { schedulerGetTotalApi } from 'api/schduler';
 import { userProfileApi } from 'api/user';
 import { useModal } from 'components/Common/Modal/Modal.hooks';
@@ -29,6 +30,7 @@ interface SchedulerType {
 const MyPage = () => {
   const navigate = useNavigate();
   const { mount } = useModal();
+  // const [imgGet, setImgGet] = useState(null);
   const { data, isLoading } = useQuery({
     queryKey: ['myPage'],
     queryFn: userProfileApi,
@@ -45,6 +47,30 @@ const MyPage = () => {
     queryKey: ['myscheduler'],
     queryFn: schedulerGetTotalApi,
   });
+  const { data: imgGetData } = useQuery({
+    queryKey: ['myImg'],
+    queryFn: imageGetApi,
+  });
+  // console.log(imgGetData);
+  const imageUploadMutation = useMutation({
+    mutationFn: imageUploadApi,
+  });
+  const imageUploadHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) {
+      alert('유효한 파일이 아닙니다');
+      return;
+    }
+    const formData = new FormData();
+    formData.append('images', e.target.files[0]);
+    imageUploadMutation.mutate(formData, {
+      onSuccess: (data) => {
+        alert(data.message);
+      },
+      onError: (error) => {
+        alert(error.message);
+      },
+    });
+  };
   const updateProfileHandler = () => {
     mount('updateProfile', <UpdateProfile data={data} />);
   };
@@ -64,17 +90,25 @@ const MyPage = () => {
             </St.MyPageTitle>
           </div>
           <St.IconFrame>
-            {/* {imgFile ? (
-              <img src={imgFile} alt="프로필사진" />
-            ) : ( */}
-            <BsPersonFill color="white" size="65px" />
-            {/* )} */}
+            {imgGetData ? (
+              <img src={imgGetData} alt="프로필사진" />
+            ) : (
+              <BsPersonFill color="white" size="65px" />
+            )}
           </St.IconFrame>
           <St.ImgUpdateFrame>
             <p>{data.nickname}</p>
-            <St.MyPageBtnFrame onClick={updateProfileHandler}>
-              수정
-            </St.MyPageBtnFrame>
+            <label htmlFor="inputImg">
+              <St.MyPageBtnFrame>수정</St.MyPageBtnFrame>
+            </label>
+            <St.ImgChangeFrame>
+              <input
+                id="inputImg"
+                type="file"
+                accept="image/png, image/jpeg, image/jpg"
+                onChange={imageUploadHandler}
+              />
+            </St.ImgChangeFrame>
           </St.ImgUpdateFrame>
           <St.IntroduceFrame>
             <div>
@@ -87,6 +121,9 @@ const MyPage = () => {
             <div className="Border">
               <p className="ListPostsTitle">작성한 글</p>
               <div className="ListPosts">
+                {boardData && boardData.length <= 0 && (
+                  <p>작성한 글이 없습니다.</p>
+                )}
                 {boardData?.map((item) => (
                   <div
                     key={item.boardId}
@@ -103,6 +140,9 @@ const MyPage = () => {
             <div className="Border">
               <p className="ListPostsTitle">작성한 댓글</p>
               <div className="ListPosts">
+                {commentData && commentData.length <= 0 && (
+                  <p>작성한 댓글이 없습니다.</p>
+                )}
                 {commentData?.slice(0, 5).map((item) => (
                   <div
                     key={item.commentId}
@@ -119,6 +159,9 @@ const MyPage = () => {
             <div className="Border">
               <p className="ListPostsTitle">만든 일정</p>
               <div className="ListPosts">
+                {schedulerData && schedulerData.length <= 0 && (
+                  <p>만든 일정이 없습니다.</p>
+                )}
                 {schedulerData?.slice(0, 5).map((item) => (
                   <div
                     key={item.schedulerId}
@@ -135,7 +178,9 @@ const MyPage = () => {
           </St.ContentListFrame>
           <div>
             <St.WithdrawalBtn>탈퇴</St.WithdrawalBtn>
-            <St.pageUpdateBtn>수정</St.pageUpdateBtn>
+            <St.pageUpdateBtn onClick={updateProfileHandler}>
+              수정
+            </St.pageUpdateBtn>
           </div>
         </St.MyPageInnerFrame>
       )}
