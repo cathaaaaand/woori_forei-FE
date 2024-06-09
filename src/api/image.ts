@@ -10,11 +10,7 @@ export const imageGetApi = async () => {
         Authorization: token,
       },
     });
-    if (res.status === 404) {
-      console.log('사진이 없습니다.');
-      return null;
-    }
-    return res.data.payload;
+    return res;
   } catch (error) {
     const axiosError = error as AxiosError;
     throw axiosError.response?.data;
@@ -36,7 +32,7 @@ export const imageUploadApi = async (formData: FormData) => {
   }
 };
 
-export const imageDeleteApi = async () => {
+export const imageDeleteApi = async (string: string) => {
   try {
     const token = sessionStorage.getItem('login');
     const res = await axios.delete(`${url}/api/images/profile`, {
@@ -44,7 +40,9 @@ export const imageDeleteApi = async () => {
         Authorization: token,
       },
     });
-    return res.data;
+    if (string) {
+      return res.data;
+    }
   } catch (error) {
     const axiosError = error as AxiosError;
     throw axiosError.response?.data;

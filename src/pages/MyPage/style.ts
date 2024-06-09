@@ -65,6 +65,7 @@ export const MyPageInnerFrame = styled.div`
 export const MyPageTitle = styled.div`
   display: flex;
   align-items: center;
+  font-weight: bold;
   gap: 10px;
   margin-left: 50px;
 `;
@@ -160,7 +161,7 @@ export const InputFrame = styled.div`
 `;
 export const WithdrawalBtn = styled.button`
   position: absolute;
-  transform: translate(-460px, 0);
+  transform: translate(-510px, 0);
   border: none;
   background: transparent;
   font-size: 15pt;
@@ -169,7 +170,7 @@ export const WithdrawalBtn = styled.button`
 `;
 export const pageUpdateBtn = styled.button`
   position: absolute;
-  transform: translate(-510px, 0);
+  transform: translate(-460px, 0);
   border: none;
   background: transparent;
   font-size: 15pt;
@@ -217,8 +218,8 @@ export const ImgChangeFrame = styled.div`
   align-items: center;
   width: 45px;
   height: 45px;
-  border: 1px solid black;
-  border-radius: 50%;
+  // border: 1px solid black;
+  // border-radius: 50%;
   background: white;
   z-index: 98;
   label {
@@ -268,7 +269,7 @@ export const ValueFrame = styled.div`
   }
 
   .ValueIput {
-    width: 356px;
+    width: 465px;
     height: 58px;
     border: 1px solid #d2d2d2;
     border-radius: 10px;
@@ -280,4 +281,11 @@ export const deleteBtn = styled.button`
   background: transparent;
   border: none;
   transform: translate(0px, 2px);
+`;
+export const UpdateProfileTitle = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 26pt;
+  font-weight: bold;
 `;

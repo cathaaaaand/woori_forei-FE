@@ -4,14 +4,10 @@ interface ProfilePatchType {
   username: string;
   nickname: string;
   email: string;
-  description: null;
+  description: string;
   mbti: string;
   birthday: string;
   nation: string;
-  schedulerId: null;
-  boardId: null;
-  commentId: null;
-  image: null;
 }
 const url = process.env.REACT_APP_SERVER;
 
@@ -25,6 +21,23 @@ export const userProfileApi = async () => {
     throw axiosError.response?.data;
   }
 };
+export const userDeleteApi = async (string: string) => {
+  try {
+    const token = sessionStorage.getItem('login');
+    const userId = sessionStorage.getItem('userId');
+    const res = await axios.get(`${url}/api/users/${userId}`, {
+      headers: {
+        Authorization: token,
+      },
+    });
+    if (string) {
+      return res.data.payload;
+    }
+  } catch (error) {
+    const axiosError = error as AxiosError;
+    throw axiosError.response?.data;
+  }
+};
 
 export const ProfileUpdataApi = async (PatchData: ProfilePatchType) => {
   try {
@@ -33,7 +46,6 @@ export const ProfileUpdataApi = async (PatchData: ProfilePatchType) => {
     const res = await axios.patch(`${url}/api/users/${userId}`, PatchData, {
       headers: {
         Authorization: token,
-        'Content-Type': 'application/json',
       },
     });
     return res.data;
