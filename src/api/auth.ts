@@ -31,6 +31,7 @@ export const loginApi = async (Login: LoginType) => {
   try {
     const res = await axios.post(`${url}/api/auth/login`, Login);
     sessionStorage.setItem('userId', res.data.payload.userId);
+    sessionStorage.setItem('email', res.data.payload.email);
     sessionStorage.setItem('login', res.data.payload.jwtToken);
     return res.data;
   } catch (error) {

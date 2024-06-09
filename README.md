@@ -47,5 +47,3 @@
   ![alt text](./src/asset/boardFaq.gif)<br/><br/>
 - <b>로그인</b><br/><br/>
   ![alt text](./src/asset/loginGif.gif)<br/><br/>
-- <b>회원가입</b><br/><br/>
-  ![alt text](./src/asset/signUpGif.gif)

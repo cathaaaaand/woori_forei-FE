@@ -2,6 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import React, { useState } from 'react';
 // import { BsPerson } from 'react-icons/bs';
 // import { FaCamera } from 'react-icons/fa';
+import { GiPlainCircle } from 'react-icons/gi';
 import { IoClose } from 'react-icons/io5';
 import * as St from './style';
 // import { imageUploadApi } from 'api/image';
@@ -21,9 +22,7 @@ interface UpdatePropsType {
 const UpdateProfile = (props: UpdatePropsType) => {
   const { data } = props;
   const { unmount } = useModal();
-  // const imageUploadMutation = useMutation({
-  //   mutationFn: imageUploadApi,
-  // });
+
   const updateDataMutation = useMutation({
     mutationFn: ProfileUpdataApi,
   });
@@ -31,7 +30,7 @@ const UpdateProfile = (props: UpdatePropsType) => {
     username: data.username,
     nickname: data.nickname,
     email: data.email,
-    description: data.description,
+    description: '',
     mbti: data.mbti,
     birthday: data.birthday,
     nation: data.nation,
@@ -47,52 +46,16 @@ const UpdateProfile = (props: UpdatePropsType) => {
   };
   const updateDataHandler = () => {
     //console.log(updateForm);
-    updateDataMutation.mutate(
-      {
-        username: '김말이',
-        nickname: '김말이',
-        email: 'a57659b0e81b@drmail.in',
-        description: null,
-        mbti: 'intp',
-        birthday: '10-11',
-        nation: 'japan',
-        schedulerId: null,
-        boardId: null,
-        commentId: null,
-        image: null,
+    updateDataMutation.mutate(updateForm, {
+      onSuccess: (form) => {
+        alert(form);
       },
-      {
-        onSuccess: (form) => {
-          alert(form);
-        },
-        onError: (error) => {
-          alert(error);
-        },
+      onError: (error) => {
+        alert(error);
       },
-    );
+    });
   };
-  // const imageUploadHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   if (!e.target.files) {
-  //     alert('유효한 파일이 아닙니다');
-  //     return;
-  //   }
-  //   const formData = new FormData();
 
-  //   formData.append('images', e.target.files[0]);
-  //   imageUploadMutation.mutate(formData, {
-  //     onSuccess: (data) => {
-  //       alert(data.message);
-  //       setUpdateForm((prev) => ({ ...prev, image: data.payload }));
-  //     },
-  //     onError: (error) => {
-  //       alert(error.message);
-  //     },
-  //   });
-  // };
-
-  // const deleteHandler = () => {
-  //   //setUpdateForm((prev) => ({ ...prev, image: '' }));
-  // };
   return (
     <St.UpdateProfileFrame>
       <St.UpdateBtn onClick={updateDataHandler}>수정하기</St.UpdateBtn>
@@ -100,35 +63,10 @@ const UpdateProfile = (props: UpdatePropsType) => {
         <IoClose />
       </St.CloseBtn>
 
-      {/* <St.ImgFrame>
-        <St.IconFrame> */}
-      {/* {image ? (
-            <img src={image} alt="프로필사진" />
-          ) : ( */}
-      {/* <BsPerson size="65px" /> */}
-      {/* )} */}
-      {/* </St.IconFrame>
-        <St.ImgChangeFrame> */}
-      {/* {!image ? ( */}
-      {/* <> */}
-      {/* <label htmlFor="inputImg">
-            <FaCamera size="25px" />
-          </label>
-          <input
-            id="inputImg"
-            type="file"
-            accept="image/png, image/jpeg, image/jpg"
-            onChange={imageUploadHandler} */}
-      {/* /> */}
-      {/* </>
-          ) : ( */}
-      {/* <St.deleteBtn onClick={deleteHandler}>
-            <IoClose size="30px" />
-          </St.deleteBtn>
-          {/* )} */}
-      {/* </St.ImgChangeFrame>
-      </St.ImgFrame> */}
-
+      <St.UpdateProfileTitle>
+        <GiPlainCircle size="16px" color="30A8FF" />
+        프로필 수정
+      </St.UpdateProfileTitle>
       <St.InputFrame>
         <div style={{ display: 'flex', gap: '25px' }}>
           <div>
